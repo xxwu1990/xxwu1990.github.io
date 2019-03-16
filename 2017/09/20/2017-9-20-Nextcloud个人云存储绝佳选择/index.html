@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="文章出自：挖站否 https://wzfou.com/nextcloud/ 搭建个人云存储一般会想到ownCloud，堪称是自建云存储服务的经典。而Nextcloud是ownCloud原开发团队打造的号称是“下一代”存储。初一看觉得“口气”不小，刚推出来就重新“定义”了Cloud，真正试用过后就由衷地赞同这个Nextcloud：它是个人云存储服务的绝佳选择。 与ownCloud相比，Nextclo">
+<meta name="keywords" content="nextcloud">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nextcloud个人云存储绝佳选择">
+<meta property="og:url" content="http://yoursite.com/2017/09/20/2017-9-20-Nextcloud个人云存储绝佳选择/index.html">
+<meta property="og:site_name" content="小蘑菇熊漫游星球">
+<meta property="og:description" content="文章出自：挖站否 https://wzfou.com/nextcloud/ 搭建个人云存储一般会想到ownCloud，堪称是自建云存储服务的经典。而Nextcloud是ownCloud原开发团队打造的号称是“下一代”存储。初一看觉得“口气”不小，刚推出来就重新“定义”了Cloud，真正试用过后就由衷地赞同这个Nextcloud：它是个人云存储服务的绝佳选择。 与ownCloud相比，Nextclo">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_00.jpg">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_01.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_02.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_04.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_05.jpg">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_06.jpg">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_07.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_08.jpg">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_09.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_09_1.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_03.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_10.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_11.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_12.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_13.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_14.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_15.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_22.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_23.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_24.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_25.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_26.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_20.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_21.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_16.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_17.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_18.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_19.gif">
+<meta property="og:updated_time" content="2019-03-15T14:53:24.124Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nextcloud个人云存储绝佳选择">
+<meta name="twitter:description" content="文章出自：挖站否 https://wzfou.com/nextcloud/ 搭建个人云存储一般会想到ownCloud，堪称是自建云存储服务的经典。而Nextcloud是ownCloud原开发团队打造的号称是“下一代”存储。初一看觉得“口气”不小，刚推出来就重新“定义”了Cloud，真正试用过后就由衷地赞同这个Nextcloud：它是个人云存储服务的绝佳选择。 与ownCloud相比，Nextclo">
+<meta name="twitter:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_00.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/20/2017-9-20-Nextcloud个人云存储绝佳选择/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Nextcloud个人云存储绝佳选择 | 小蘑菇熊漫游星球</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">小蘑菇熊漫游星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">little bear star</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/20/2017-9-20-Nextcloud个人云存储绝佳选择/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+      <meta itemprop="image" content="/img/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小蘑菇熊漫游星球">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nextcloud个人云存储绝佳选择
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2017-09-20 00:00:00" itemprop="dateCreated datePublished" datetime="2017-09-20T00:00:00+08:00">2017-09-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-15 22:53:24" itemprop="dateModified" datetime="2019-03-15T22:53:24+08:00">2019-03-15</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>文章出自：<a href="https://wzfou.com/" target="_blank" rel="noopener">挖站否</a> <a href="https://wzfou.com/nextcloud/" target="_blank" rel="noopener">https://wzfou.com/nextcloud/</a></p>
+<p>搭建个人云存储一般会想到ownCloud，堪称是自建云存储服务的经典。而<a href="https://wzfou.com/tag/nextcloud/" target="_blank" rel="noopener">Nextcloud</a>是ownCloud原开发团队打造的号称是“下一代”存储。初一看觉得“口气”不小，刚推出来就重新“定义”了Cloud，真正试用过后就由衷地赞同这个Nextcloud：它是个人云存储服务的绝佳选择。</p>
+<p>与ownCloud相比，Nextcloud的功能丝毫没有减弱，甚至由于可以安装云存储服务应用，自制性更强，也更符合用户的需求。Nextcloud官网的帮助文档写得相当地详细，几乎任何关于Nextcloud的问题都可以找到答案，这说明Nextcloud开发团队确实比ownCloud更加优秀。</p>
+<p>一开始以为Nextcloud只是一个网盘<a href="https://wzfou.com/tag/siyou-yuncunchu/" target="_blank" rel="noopener">云存储</a>，后来看到Nextcloud内置了Office文档、图片相册、日历联系人、两步验证、文件管理、RSS阅读等丰富的应用，我发现Nextcloud已经仅仅可以用作个人或者团队存储与共享，还可以打造成为一个个人办公平台，几乎相当于一个个人的Dropbox了。</p>
+<p>Nextcloud运行环境与平常我们常用的程序差不多，LAMP是官方首选，不过LNMP也照样可以运行，只不过需要自己写URL重写规则。当然，官方还提供了SNAP一键安装包，一分钟内就可以在VPS上部署好Nextcloud，非常地方便。本篇文章就来分享SNAP安装Nextcloud的方法。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_00.jpg" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_00.jpg" alt="Nextcloud个人云存储绝佳选择:一键安装自带免费客户端内置文档\相册\日历丰富应用"></a></p>
+<p>更多的关于邮件分发、CDN加速和<a href="https://wzfou.com/tag/vps-tongbu/" target="_blank" rel="noopener">VPS同步</a>等工具，你还可以看看：</p>
+<ol>
+<li><a href="https://wzfou.com/mailchimp/" target="_blank" rel="noopener">利用MailChimp建立RSS邮件订阅平台-每月免费12000封邮件可加2000用户</a></li>
+<li><a href="https://wzfou.com/fikker/" target="_blank" rel="noopener">用Fikker自建CDN-支持Https,页面缓存,实时监控,流量统计,防CC攻击</a></li>
+<li><a href="https://wzfou.com/lsyncd/" target="_blank" rel="noopener">Lsyncd搭建同步镜像-用Lsyncd实现本地和远程服务器之间实时同步</a></li>
+</ol>
+<p><strong>PS：2017年9月27日更新，</strong>想要利用Nextcloud实现离线下载可以看这里：<a href="https://wzfou.com/nextcloud-aria2/" target="_blank" rel="noopener">Nextcloud离线下载搭建方法-整合Aria2和AriaNg、Aria2 WebUI实现离线下载</a>。</p>
+<h2 id="一、Nextcloud一键安装"><a href="#一、Nextcloud一键安装" class="headerlink" title="一、Nextcloud一键安装"></a>一、Nextcloud一键安装</h2><p>Nextcloud官网：</p>
+<ol>
+<li><a href="https://nextcloud.com/" target="_blank" rel="noopener">https://nextcloud.com/</a></li>
+<li>nextcloud snap：<a href="https://github.com/nextcloud/nextcloud-snap" target="_blank" rel="noopener">https://github.com/nextcloud/nextcloud-snap</a></li>
+</ol>
+<p><a href="https://wzfou.com/tag/nextcloud-snap/" target="_blank" rel="noopener">nextcloud snap</a>目前包含以下组件（会自动更新升级，请及时关注）：</p>
+<blockquote>
+<p>Nextcloud 11.0.3</p>
+<p>Apache 2.4</p>
+<p>PHP 7</p>
+<p>MySQL 5.7</p>
+<p>Redis 3.2</p>
+<p>mDNS for network discovery</p>
+</blockquote>
+<p><strong>安装前修改好hostname。</strong>在终端窗口中输入命令：hostname或uname –n，均可以查看到当前主机的主机名，修改参考如下（Ubuntu修改可参考我之前的一篇文章：<a href="https://wzfou.com/ispconfig-3-1/#ISPConfig_31" target="_blank" rel="noopener">ISPConfig 3.1 安装方法</a>）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hosts</span><br><span class="line">150.95.150.57 pan.wzfou.net pan  </span><br><span class="line"></span><br><span class="line">vim /etc/hostname</span><br><span class="line">pan.wzfou.net</span><br><span class="line">hostname -F /etc/hostname #重启</span><br><span class="line">hostname #再次查看</span><br></pre></td></tr></table></figure>
+<p><strong>一键安装方法：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt install snapd</span><br><span class="line">sudo snap install nextcloud</span><br></pre></td></tr></table></figure>
+<p>如下图表示安装成功了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_01.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_01.gif" alt="Nextcloud一键安装成功"></a></p>
+<p>接着，打开你的域名或者IP地址，然后会让你设置好管理员账号与密码，确定，完成安装。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_02.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_02.gif" alt="Nextcloud打开域名"></a></p>
+<p>可能有的人不想使用Snap安装方法，可以看看手动在VPS上部署LNMP/LAMP安装Nextcloud方法：<a href="https://wzfou.com/nextcloud-install/" target="_blank" rel="noopener">手动安装NextCloud教程</a>。</p>
+<p><strong>选择Snap还是VPS手动？</strong>不用纠结，以下官方的回答：</p>
+<blockquote>
+<p><strong>snap优点</strong>：The snap is nice for getting up and running quickly with minimal space, and will work great if you’re happy not messing with it. Since it’s a snap you also get the benefit of automatic updates and the ability to rollback without worrying about needing to take a snapshot, etc.</p>
+<p>#翻译：snap安装快捷，傻瓜式一键安装，几分钟内搞定。同时，snap支持自动升级、回滚等，你无需使用复杂的命令工具。</p>
+<p><strong>snap缺点：</strong>However, the snap is very opinionated. Don’t want to use Apache? Sorry, the snap uses it. Don’t want to use MySQL? Sorry, MariaDB does not run on ARM. Something other than PHP 7.0.15? We picked the version we feel gives the best results. In other words, it’s not very tinker-friendly. We don’t do this to be mean, <strong>we do this so that we can reliably update it without your needing to worry about it</strong>.</p>
+<p>#翻译：snap不能自定义，只能使用snap既定的MysqL、apache、PHP等。不过，这样的好处就是经过官方测试过的运行稳定且有利于后期自动升级。</p>
+<p><strong>VPS手动安装优缺点：</strong>The VM is much more flexible. It’s a full version of Ubuntu server edition, allowing you to tweak whatever you need and it comes with many apps which are not that easy to configure for inexperienced administrators. This of course makes it larger. You’ll also need to make sure you maintain it and keep the OS up-to-date. Since it’s virtualized you can assign disk, CPU, memory, and network quotas to it (you’d need to install the snap in an lxc container or a VM to get the same abilities).</p>
+<p>#翻译：VPS手动则比较灵活，你可以自已配置磁盘、CPU、内存和网络，但是同时你需要懂得如何维护好VPS操作系统。</p>
+</blockquote>
+<h2 id="二、Nextcloud管理使用"><a href="#二、Nextcloud管理使用" class="headerlink" title="二、Nextcloud管理使用"></a>二、Nextcloud管理使用</h2><p>以下就是Nextcloud的管理中心面板，是不是与我们用过的Dropbox有点类似-简洁。左边就是分享的链接、收藏、WebDav地址，中间就是我们上传的图片、文档、程序等了，点击可以查看详情。右边有管理、个人、用户等。（点击放大）</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_04.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_04.gif" alt="Nextcloud用户中心"></a></p>
+<p>Nextcloud上传的视频支持在线播放。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_05.jpg" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_05.jpg" alt="Nextcloud视频播放"></a></p>
+<p>Nextcloud上传的图片可以像幻灯片一样浏览。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_06.jpg" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_06.jpg" alt="Nextcloud浏览图片"></a></p>
+<p>Nextcloud支持给分享的文档、图片等设置有效期、密码保护等，有点类似于百度网盘了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_07.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_07.gif" alt="Nextcloud分享文档"></a></p>
+<p>别人打开你的共享链接后就可以预览到图片或者视频了，也可以直接点击下载了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_08.jpg" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_08.jpg" alt="Nextcloud下载文件"></a></p>
+<p>在Nextcloud的个人中心页面，可以修改个人信息、应用密码、同步客户端等。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_09.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_09.gif" alt="Nextcloud个人中心"></a></p>
+<p>Nextcloud在服务器管理页面，则可以查看CPU、内存等使用情况、切换Nextcloud主题、是否对存储在Nextcloud的文件进行加密、激活插件等。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_09_1.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_09_1.gif" alt="Nextcloud服务器设置"></a></p>
+<h2 id="三、Nextcloud同步客户端"><a href="#三、Nextcloud同步客户端" class="headerlink" title="三、Nextcloud同步客户端"></a>三、Nextcloud同步客户端</h2><p>Nextcloud提供了免费的同步客户端供大家下载使用，支持PC和手机。下载地址：<a href="https://nextcloud.com/install/#install-clients" target="_blank" rel="noopener">https://nextcloud.com/install/#install-clients</a></p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_03.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_03.gif" alt="Nextcloud客户端"></a></p>
+<p>在电脑上运行Nextcloud同步客户端，先填入你的Nextcloud地址。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_10.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_10.gif" alt="Nextcloud运行客户端"></a></p>
+<p>然后就是输入Nextcloud的用户名以及客户端专用密码，这个专用密码需要到Nextcloud的个人中心页面生成。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_11.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_11.gif" alt="Nextcloud填入专用密码"></a></p>
+<p>Nextcloud允许你选择同步某一个文件夹，还是同步整个Nextcloud账户。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_12.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_12.gif" alt="Nextcloud同步文件夹设置"></a></p>
+<p>连接好了后，你就可以在本地看到Nextcloud同步过来的文件了，你在本地的操作都会影响到Nextcloud云端的文件存储，自动实现同步。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_13.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_13.gif" alt="Nextcloud本地同步"></a></p>
+<p>以下是Nextcloud的手机同步客户端，功能差不多。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_14.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_14.gif" alt="Nextcloud手机端"></a></p>
+<p>Nextcloud手机客户端支持自动上传文件，还有设置下载路径等等。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_15.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_15.gif" alt="Nextcloud备份手机文件"></a></p>
+<h2 id="四、Nextcloud添加应用"><a href="#四、Nextcloud添加应用" class="headerlink" title="四、Nextcloud添加应用"></a>四、Nextcloud添加应用</h2><p>Nextcloud官方提供了非常多的应用：<a href="https://apps.nextcloud.com/，Office文档、图片相册、日历联系人、两步验证、文件管理、RSS阅读等丰富的应用。这些应用你可以手动下载安装，也可以直接在Nextcloud后台一键激活。" target="_blank" rel="noopener">https://apps.nextcloud.com/，Office文档、图片相册、日历联系人、两步验证、文件管理、RSS阅读等丰富的应用。这些应用你可以手动下载安装，也可以直接在Nextcloud后台一键激活。</a></p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_22.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_22.gif" alt="Nextcloud添加应用"></a></p>
+<p><strong>Office文档插件</strong>：<a href="https://apps.nextcloud.com/apps/documents" target="_blank" rel="noopener">Documents</a>。有Collabora Online、Markdown Editor、Calendar、Onlyoffice、Documents等，其中Documents安装比较简单，直接启用即可。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_23.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_23.gif" alt="Nextcloud查看Office文档"></a></p>
+<p>如果不支持打开Doc（X），你需要在你的Ubuntu安装以下包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install libreoffice-writer</span><br><span class="line">apt-get install libreoffice-common</span><br><span class="line">apt-get install unoconv</span><br></pre></td></tr></table></figure>
+<p>Documents插件安装好了后就可以在线查看和编辑Office文档了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_24.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_24.gif" alt="Nextcloud在线编辑文档"></a></p>
+<p><strong>安全类插件</strong>：<a href="https://apps.nextcloud.com/apps/twofactor_totp" target="_blank" rel="noopener">Two Factor TOTP Provider</a>。这个插件可以让你的Nextcloud账号支持开启登录两步验证。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_25.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_25.gif" alt="Nextcloud两步验证"></a></p>
+<p><strong>RSS阅读器插件</strong>：<a href="https://apps.nextcloud.com/apps/news" target="_blank" rel="noopener">News</a>。这个插件真的让我感觉眼前一亮，有了它我们可以将Nextcloud变身为一个RSS在线阅读器了。这个比之前我们<a href="https://wzfou.com/huginn-rss/" target="_blank" rel="noopener">利用Huginn抓取任意网站RSS</a>的方法可以简单了。（点击放大）</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_26.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_26.gif" alt="Nextcloud阅读器"></a></p>
+<h2 id="五、Nextcloud高级设置"><a href="#五、Nextcloud高级设置" class="headerlink" title="五、Nextcloud高级设置"></a>五、Nextcloud高级设置</h2><p>Nextcloud支持使用PHP发送邮件，但是自带的邮局发出去的邮件基本上是被各大邮箱判定为垃圾邮件，所以我们需要利用好Nextcloud提供的SMTP发信功能。</p>
+<h3 id="4-1-Nextcloud用SMTP发信"><a href="#4-1-Nextcloud用SMTP发信" class="headerlink" title="4.1  Nextcloud用SMTP发信"></a>4.1  Nextcloud用SMTP发信</h3><p>在Nextcloud的管理页面，找到“其他设置”，然后选择发信方式为SMTP，填写你的SMTP信息，这里我用的是腾讯企业邮箱的，你也可以使用Gmail、163等免费SMTP发信功能。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_20.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_20.gif" alt="Nextcloud设置发信"></a></p>
+<p>填写完成后，点击测试看看是不是可以成功发出邮件。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_21.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_21.gif" alt="Nextcloud成功发出邮件"></a></p>
+<h3 id="4-2-Nextcloud安装SSL证书"><a href="#4-2-Nextcloud安装SSL证书" class="headerlink" title="4.2  Nextcloud安装SSL证书"></a>4.2  Nextcloud安装SSL证书</h3><p>如果你使用Snap安装的Nextcloud，那么添加SSL加密访问将是一件非常简单的事情。先确保你的域名已经成功解析到你的VPS主机上，然后执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo nextcloud.enable-https lets-encrypt #安装Let&apos;s Encrypt SSL</span><br><span class="line">#如果你想使用自己的证书，请执行：</span><br><span class="line">sudo nextcloud.enable-https self-signed</span><br></pre></td></tr></table></figure>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_16.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_16.gif" alt="Nextcloud添加SSL证书"></a></p>
+<p>如果你是使用自已的证书，请在执行命令后找到SSL证书的路径，将自己的证书上传替换生成的自签名证书文件即可。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_17.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_17.gif" alt="Nextcloud自己的证书"></a></p>
+<h3 id="4-3-Nextcloud备份与恢复"><a href="#4-3-Nextcloud备份与恢复" class="headerlink" title="4.3  Nextcloud备份与恢复"></a>4.3  Nextcloud备份与恢复</h3><p><strong>备份MysqL数据库</strong>。使用Snap安装的Nextcloud，数据库文件在以下路径中，你直接将Nextcloud这个数据库全部备份即可。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_18.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_18.gif" alt="Nextcloud备份数据库"></a></p>
+<p><strong>备份文件。</strong>Nextcloud上传的文件存储在以下路径中，将里面的Data文件全部备份即可。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_19.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/nextcloud_19.gif" alt="Nextcloud备份存储文件"></a></p>
+<p><strong>Nextcloud恢复。</strong>重装安装了Nextcloud后，将上面的数据库文件与文件数据全部导入到新的服务器，保持原来的路径即可。对于大量的文件迁移，推荐使用远程搬家方法：<a href="https://wzfou.com/rsync-scp-tar/" target="_blank" rel="noopener">三个命令工具Rsync,SCP,Tar-快速解决Linux VPS远程网站搬家数据同步烦恼</a>。</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><p>Nextcloud采用Snap的安装方法简单方便，适合不想折腾的朋友，并且官方打包的<a href="https://wzfou.com/tag/nextcloud-install/" target="_blank" rel="noopener">Nextcloud Snap自动部署</a>好了LAMP，如果你想迁移服务器，只需要将新的服务器按照同样的方法安装Nextcloud，然后导入之前的数据库与存储文件即可。</p>
+<p>Nextcloud如果用来存储一些私人的照片或者文件的话，最让人担心的恐怕是安全问题了。目前来看，Nextcloud本身的安全措施已经做得非常到位，例如账号两步验证、程序与存储文件分开、数据加密等。可能唯一需要我们自己做的就是保证服务器不要出现漏洞。</p>
+<p>文章出自：<a href="https://wzfou.com/" target="_blank" rel="noopener">挖站否</a> <a href="https://wzfou.com/nextcloud/" target="_blank" rel="noopener">https://wzfou.com/nextcloud/</a>，版权所有。本站文章除注明出处外，皆为作者原创文章，可自由引用，但请注明来源。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nextcloud/" rel="tag"># nextcloud</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/03/科学上网的终极姿势/" rel="next" title="科学上网的终极姿势——在Vultr上搭建shadowsocks">
+                <i class="fa fa-chevron-left"></i> 科学上网的终极姿势——在Vultr上搭建shadowsocks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/26/2017-9-26-Nextcloud离线下载搭建方法/" rel="prev" title="Nextcloud离线下载搭建方法">
+                Nextcloud离线下载搭建方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/img/avatar.jpg" alt="蘑菇熊">
+            
+              <p class="site-author-name" itemprop="name">蘑菇熊</p>
+              <div class="site-description motion-element" itemprop="description">我们的征途是星辰大海</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/xxwu1990" title="GitHub &rarr; https://github.com/xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail &rarr; mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/1903262065" title="Weibo &rarr; https://weibo.com/1903262065" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="http://www.zhihu.com/people/xiao-xiao-xiong-67-99" title="知乎 &rarr; http://www.zhihu.com/people/xiao-xiao-xiong-67-99" rel="noopener" target="_blank"><i class="fa fa-fw fa-quora"></i>知乎</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.douban.com/" title="https://www.douban.com/" rel="noopener" target="_blank">豆瓣</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.google.com/" title="https://www.google.com/" rel="noopener" target="_blank">Google</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.nwpu.edu.cn/" title="http://www.nwpu.edu.cn/" rel="noopener" target="_blank">NPU</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Nextcloud一键安装"><span class="nav-number">1.</span> <span class="nav-text">一、Nextcloud一键安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Nextcloud管理使用"><span class="nav-number">2.</span> <span class="nav-text">二、Nextcloud管理使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Nextcloud同步客户端"><span class="nav-number">3.</span> <span class="nav-text">三、Nextcloud同步客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、Nextcloud添加应用"><span class="nav-number">4.</span> <span class="nav-text">四、Nextcloud添加应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、Nextcloud高级设置"><span class="nav-number">5.</span> <span class="nav-text">五、Nextcloud高级设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-Nextcloud用SMTP发信"><span class="nav-number">5.1.</span> <span class="nav-text">4.1  Nextcloud用SMTP发信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Nextcloud安装SSL证书"><span class="nav-number">5.2.</span> <span class="nav-text">4.2  Nextcloud安装SSL证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Nextcloud备份与恢复"><span class="nav-number">5.3.</span> <span class="nav-text">4.3  Nextcloud备份与恢复</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、总结"><span class="nav-number">6.</span> <span class="nav-text">六、总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
