@@ -98,35 +98,47 @@
 
 
 
-  <meta name="description" content="转自少数派  Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。  认识 Markdown在刚">
-<meta name="keywords" content="MARKDOWN">
+  <meta name="description" content="转自挖站否 Nextcloud是一个非常优秀的私有云存储服务，利用官网提供的Snap安装Nextcloud方法，几乎可以几分钟内就可以搭建好Nextcloud云存储平台。Nextcloud提供了丰富的应用接口，不仅仅可以将Nextcloud当成是网盘使用，还可以在线查看文档、图片和播放视频音乐等。 因为Nextcloud的强大功能，不少的朋友可能想到能不能利用Nextcloud来搭建一个离线下载平">
+<meta name="keywords" content="离线下载,私有云盘">
 <meta property="og:type" content="article">
-<meta property="og:title" content="认识与入门 Markdown">
-<meta property="og:url" content="http://yoursite.com/2019/03/16/2019-3-16-认识与入门-Markdown/index.html">
+<meta property="og:title" content="Nextcloud离线下载搭建方法">
+<meta property="og:url" content="http://yoursite.com/2017/09/26/Nextcloud离线下载搭建方法/index.html">
 <meta property="og:site_name" content="蘑菇熊星球">
-<meta property="og:description" content="转自少数派  Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。  认识 Markdown在刚">
+<meta property="og:description" content="转自挖站否 Nextcloud是一个非常优秀的私有云存储服务，利用官网提供的Snap安装Nextcloud方法，几乎可以几分钟内就可以搭建好Nextcloud云存储平台。Nextcloud提供了丰富的应用接口，不仅仅可以将Nextcloud当成是网盘使用，还可以在线查看文档、图片和播放视频音乐等。 因为Nextcloud的强大功能，不少的朋友可能想到能不能利用Nextcloud来搭建一个离线下载平">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69489.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69490.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69491.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69492.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69493.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69494.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69495.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69496.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69497.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
-<meta property="og:updated_time" content="2019-03-16T16:02:20.759Z">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_00.jpg">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_01.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_03.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_02.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_04.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_05.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_05_1.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_07.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_08.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_10.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_11.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_18.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_19.jpg">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_08_1.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_09.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_19.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_13.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_14.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_15.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_16.gif">
+<meta property="og:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_17.gif">
+<meta property="og:updated_time" content="2019-04-05T01:48:53.277Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="认识与入门 Markdown">
-<meta name="twitter:description" content="转自少数派  Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。  认识 Markdown在刚">
-<meta name="twitter:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69489.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta name="twitter:title" content="Nextcloud离线下载搭建方法">
+<meta name="twitter:description" content="转自挖站否 Nextcloud是一个非常优秀的私有云存储服务，利用官网提供的Snap安装Nextcloud方法，几乎可以几分钟内就可以搭建好Nextcloud云存储平台。Nextcloud提供了丰富的应用接口，不仅仅可以将Nextcloud当成是网盘使用，还可以在线查看文档、图片和播放视频音乐等。 因为Nextcloud的强大功能，不少的朋友可能想到能不能利用Nextcloud来搭建一个离线下载平">
+<meta name="twitter:image" content="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_00.jpg">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/16/2019-3-16-认识与入门-Markdown/">
+  <link rel="canonical" href="http://yoursite.com/2017/09/26/Nextcloud离线下载搭建方法/">
 
 
 
@@ -136,7 +148,7 @@
   };
 </script>
 
-  <title>认识与入门 Markdown | 蘑菇熊星球</title>
+  <title>Nextcloud离线下载搭建方法 | 蘑菇熊星球</title>
   
 
 
@@ -402,7 +414,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/2019-3-16-认识与入门-Markdown/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/26/Nextcloud离线下载搭建方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="蘑菇熊">
@@ -419,7 +431,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">认识与入门 Markdown
+          <h1 class="post-title" itemprop="name headline">Nextcloud离线下载搭建方法
 
               
             
@@ -445,7 +457,7 @@
                 
               
 
-              <time title="创建时间：2019-03-16 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-16T00:00:00+08:00">2019-03-16</time>
+              <time title="创建时间：2017-09-26 00:00:00" itemprop="dateCreated datePublished" datetime="2017-09-26T00:00:00+08:00">2017-09-26</time>
             
 
             
@@ -462,7 +474,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-17 00:02:20" itemprop="dateModified" datetime="2019-03-17T00:02:20+08:00">2019-03-17</time>
+                <time title="修改时间：2019-04-05 09:48:53" itemprop="dateModified" datetime="2019-04-05T09:48:53+08:00">2019-04-05</time>
               
             
           </span>
@@ -479,7 +491,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MARKDOWN/" itemprop="url" rel="index"><span itemprop="name">MARKDOWN</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/VPS/" itemprop="url" rel="index"><span itemprop="name">VPS</span></a></span>
 
                 
                 
@@ -521,110 +533,83 @@
       
 
       
-        <p>转自<a href="https://sspai.com/post/25137" target="_blank" rel="noopener">少数派</a></p>
-<blockquote>
-<p><a href="http://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="noopener">Markdown</a> 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。</p>
-</blockquote>
-<h2 id="认识-Markdown"><a href="#认识-Markdown" class="headerlink" title="认识 Markdown"></a>认识 Markdown</h2><p>在刚才的导语里提到，Markdown 是一种用来写作的轻量级「标记语言」，它用简洁的语法代替排版，而不像一般我们用的字处理软件 Word 或 Pages 有大量的排版、字体设置。它使我们专心于码字，用「标记」语法，来代替常见的排版格式。例如此文从内容到格式，甚至插图，键盘就可以通通搞定了。</p>
-<p>目前来看，支持 Markdown 语法的编辑器有很多，包括很多网站（例如 <a href="http://jianshu.io/" target="_blank" rel="noopener">简书</a>）也支持了 Markdown 的文字录入。Markdown 从写作到完成，导出格式随心所欲，你可以导出 HTML 格式的文件用来网站发布，也可以十分方便的导出 PDF 格式，这种格式写出的简历更能得到 HR 的好感，甚至可以利用 <a href="http://www.getcloudapp.com/" target="_blank" rel="noopener">CloudApp</a> 这种云服务工具直接上传至网页用来分享你的文章，全球最大的轻博客平台 Tumblr，也支持使用 Mou 这类 Markdown 工具进行编辑并直接上传。</p>
-<h3 id="Markdown-官方文档"><a href="#Markdown-官方文档" class="headerlink" title="Markdown 官方文档"></a>Markdown 官方文档</h3><p>这里可以看到官方的 Markdown 语法规则文档，当然，后文我也会用自己的方式，阐述这些语法在实际使用中的用法。</p>
-<ul>
-<li><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="noopener">创始人 John Gruber 的 Markdown 语法说明</a></li>
-<li><a href="http://wowubuntu.com/markdown/#list" target="_blank" rel="noopener">Markdown 中文版语法说明</a></li>
-</ul>
-<h3 id="使用-Markdown-的优点"><a href="#使用-Markdown-的优点" class="headerlink" title="使用 Markdown 的优点"></a>使用 Markdown 的优点</h3><ul>
-<li>专注你的文字内容而不是排版样式，安心写作。</li>
-<li>轻松的导出 HTML、PDF 和本身的 .md 文件。</li>
-<li>纯文本内容，兼容所有的文本编辑器与字处理软件。</li>
-<li>随时修改你的文章版本，不必像字处理软件生成若干文件版本导致混乱。</li>
-<li>可读、直观、学习成本低。</li>
-</ul>
-<h3 id="使用-Markdown-的误区"><a href="#使用-Markdown-的误区" class="headerlink" title="使用 Markdown 的误区"></a>使用 Markdown 的误区</h3><blockquote>
-<p>We believe that writing is about content, about what you want to say – not about fancy formatting.</p>
-<p>我们坚信写作写的是内容，所思所想，而不是花样格式。<br>— <em>Ulysses for Mac</em></p>
-</blockquote>
-<p>Markdown 旨在简洁、高效，也由于 Markdown 的易读易写，人们用不同的编程语言实现了多个版本的解析器和生成器。这就导致了目前不同的 Markdown 工具集成了不同的功能（基础功能大致相同），例如流程图与时序图，复杂表格与复杂公式的呈现。</p>
-<p>虽然功能的丰富并没有什么本质的缺点，但终归有些背离初衷，何况在编写的过程中很费神，不如使用专业的工具撰写来的更有效率，所以如果你需实现复杂功能，专业的图形界面工具会更加方便。</p>
-<p>当然，如果你对折腾这些不同客户端对 Markdown 的定制所带来高阶功能感到愉悦的话，那也是无可厚非的。</p>
-<h2 id="我该用什么工具？"><a href="#我该用什么工具？" class="headerlink" title="我该用什么工具？"></a>我该用什么工具？</h2><h3 id="macOS-平台"><a href="#macOS-平台" class="headerlink" title="macOS 平台"></a>macOS 平台</h3><p>在 macOS 上可以使用 <a href="http://mouapp.com/" target="_blank" rel="noopener">Mou</a>，它支持实时预览，既左边是你编辑 Markdown 语言，右边会实时的生成预览效果，笔者文章就是 Mou 这款应用写出来的。</p>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69489.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<p>其次还有很多同类选择。如果你是个编辑作者，我强烈建议你购买 <a href="http://www.ulyssesapp.com/" target="_blank" rel="noopener">Ulysses</a>，这款应用入围了 Mac App Store 的 The Best of 2013，相比 Mou 它支持更多的写作格式、多文档的支持。Mou、iA Writer 这些应用都是基于单文档的管理方式，而 Ulysses 支持 Folder、Filter 的管理，一个 Folder 里面可以创建多个 Sheet，Sheet 之间还可以进行 Combine 处理。</p>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69490.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<h4 id="Windows、iOS、Web-平台"><a href="#Windows、iOS、Web-平台" class="headerlink" title="Windows、iOS、Web 平台"></a>Windows、iOS、Web 平台</h4><ul>
-<li>笔者并未使用过 Windows 下的 Markdown 工具，但经朋友介绍，有两款还算不错，一款叫 <a href="http://www.markdownpad.com/" target="_blank" rel="noopener">MarkdownPad</a> ，另一款叫 <a href="http://code52.org/DownmarkerWPF/" target="_blank" rel="noopener">MarkPad</a>。</li>
-<li>iOS 端已有相当多的 app 支持 Markdown 语法编辑，例如 Drafts、Day One、iA Writer 等。</li>
-<li>Web 端上，我强烈推荐 <a href="http://jianshu.io/" target="_blank" rel="noopener">简书</a> 这款产品，上面有无数热爱文字的人在不停的创造、分享。在 Web 端使用 Markdown 没有比简书更舒服的地方了，它同样支持左右两栏的实时预览，字体优雅、简洁。</li>
-</ul>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69491.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<ul>
-<li>同样是 Web 端，<a href="https://draftin.com/" target="_blank" rel="noopener">Draftin</a> 这款在线 MD 编辑器也近乎完美。</li>
-</ul>
-<h2 id="Markdown-语法的简要规则"><a href="#Markdown-语法的简要规则" class="headerlink" title="Markdown 语法的简要规则"></a>Markdown 语法的简要规则</h2><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69492.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<p>标题是每篇文章都需要也是最常用的格式，在 Markdown 中，如果一段文字被定义为标题，只要在这段文字前加 <code>#</code> 号即可。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 一级标题</span><br><span class="line">## 二级标题</span><br><span class="line">### 三级标题</span><br></pre></td></tr></table></figure>
-<p>以此类推，总共六级标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。</p>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>熟悉 HTML 的同学肯定知道有序列表与无序列表的区别，在 Markdown 下，列表的显示只需要在文字前加上 <code>-</code> 或 <code>*</code> 即可变为无序列表，有序列表则直接在文字前加 <code>1.`</code>2.<code></code>3.` 符号要和文字之间加上一个字符的空格。</p>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69493.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>如果你需要引用一小段别处的句子，那么就要用引用的格式。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; 例如这样</span><br></pre></td></tr></table></figure>
-<p>只需要在文本前加入 <code>&gt;</code> 这种尖括号（大于号）即可</p>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69494.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<h3 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a>图片与链接</h3><p>插入链接与插入图片的语法很像，区别在一个 <code>!</code>号</p>
-<p>插入图片的地址需要图床，这里推荐 <a href="http://www.getcloudapp.com/" target="_blank" rel="noopener">CloudApp</a> 的服务，生成URL地址即可。</p>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69495.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<h3 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h3><p>Markdown 的粗体和斜体也非常简单，用两个 <code>*</code> 包含一段文本就是粗体的语法，用一个 <code>*</code> 包含一段文本就是斜体的语法。</p>
-<p>例如：<strong>这里是粗体*</strong>这里是斜体*</p>
-<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>表格是我觉得 Markdown 比较累人的地方，例子如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">| Tables        | Are           | Cool  |</span><br><span class="line">| ------------- |:-------------:| -----:|</span><br><span class="line">| col 3 is      | right-aligned | $1600 |</span><br><span class="line">| col 2 is      | centered      |   $12 |</span><br><span class="line">| zebra stripes | are neat      |    $1 |</span><br></pre></td></tr></table></figure>
-<p>这种语法生成的表格如下：</p>
-<table>
-<thead>
-<tr>
-<th>Tables</th>
-<th>Are</th>
-<th>Cool</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>col 3 is</td>
-<td>right-aligned</td>
-<td>$1600</td>
-</tr>
-<tr>
-<td>col 2 is</td>
-<td>centered</td>
-<td>$12</td>
-</tr>
-<tr>
-<td>zebra stripes</td>
-<td>are neat</td>
-<td>$1</td>
-</tr>
-</tbody>
-</table>
-<h3 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h3><p>如果你是个程序猿，需要在文章里优雅的引用代码框，在 Markdown 下实现也非常简单，只需要用两个 <code>把中间的代码包裹起来，如 `</code>code<code></code>。图例：</p>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69496.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<p>使用 <code>tab</code> 键即可缩进。</p>
-<h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>分割线的语法只需要另起一行，连续输入三个星号 <code>***</code> 即可。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>到这里，Markdown 的基本语法在日常的使用中基本就没什么大问题了，只要多加练习，配合好用的工具，写起东西来肯定会行云流水。更多的语法规则，其实 Mou 的 Help 文档例子很好，当你第一次使用 Mou 时，就会显示该文档，其次，你也可在撰写过程中，使用 <code>CMD+R</code> 快捷键来快速打开文档，以随时查阅和学习语法。</p>
-<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69497.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
-<h2 id="与-Markdown-相关的一些推荐"><a href="#与-Markdown-相关的一些推荐" class="headerlink" title="与 Markdown 相关的一些推荐"></a><strong>与 Markdown 相关的一些推荐</strong></h2><h3 id="可配套使用的工具"><a href="#可配套使用的工具" class="headerlink" title="可配套使用的工具"></a><strong>可配套使用的工具</strong></h3><ul>
-<li><a href="http://droplr.com/" target="_blank" rel="noopener">Droplr</a></li>
-<li><a href="http://www.getcloudapp.com/" target="_blank" rel="noopener">Cloudapp</a></li>
-<li><a href="https://itunes.apple.com/cn/app/yi-xiang/id672522335?mt=12&amp;uo=4" target="_blank" rel="noopener">ezShare for Mac</a></li>
-<li><a href="http://weibotuchuang.sinaapp.com/" target="_blank" rel="noopener">围脖图床修复计划</a></li>
-<li><a href="http://maxiang.info/" target="_blank" rel="noopener">马克飞象，专为印象笔记打造的 Markdown 编辑器，非常推荐</a></li>
-</ul>
-<h3 id="相关文章阅读"><a href="#相关文章阅读" class="headerlink" title="相关文章阅读"></a><strong>相关文章阅读</strong></h3><ul>
-<li><a href="http://apple4us.com/2012/02/why-writers-should-use-markdown.html" target="_blank" rel="noopener">为什么作家应该用 Markdown 保存自己的文稿</a></li>
-<li><a href="http://www.yangzhiping.com/tech/r-markdown-knitr.html" target="_blank" rel="noopener">Markdown 写作浅谈</a></li>
-<li><a href="http://www.appinn.com/markdown-tools/" target="_blank" rel="noopener">Markdown 工具补完</a></li>
-<li><a href="http://jianshu.io/p/63HYZ6" target="_blank" rel="noopener">Drafts + Scriptogr.am + Dropbox 打造移动端 Markdown 风格博客</a></li>
-<li><a href="http://www.ituring.com.cn/article/23" target="_blank" rel="noopener">图灵社区 - 怎样使用 Markdown</a></li>
-<li><a href="http://news.cnblogs.com/n/139649/" target="_blank" rel="noopener">为什么我们要学习 Markdown 的三个理由</a></li>
-<li><a href="http://ibuick.me/?p=4093" target="_blank" rel="noopener">Markdown 语法写作入门指南 by ibuick</a></li>
-</ul>
+        <p>转自<a href="https://wzfou.com/" target="_blank" rel="noopener">挖站否</a></p>
+<p>Nextcloud是一个非常优秀的私有云存储服务，利用官网提供的Snap安装Nextcloud方法，几乎可以几分钟内就可以搭建好Nextcloud云存储平台。Nextcloud提供了丰富的应用接口，不仅仅可以将Nextcloud当成是网盘使用，还可以在线查看文档、图片和播放视频音乐等。</p>
+<p>因为<a href="https://wzfou.com/tag/nextcloud/" target="_blank" rel="noopener">Nextcloud</a>的强大功能，不少的朋友可能想到能不能利用Nextcloud来搭建一个离线下载平台。其实，作为Nextcloud的前身，OwnCloud就已经提供了离线下载的插件，只不过安装与配置起来比较复杂一些。到目前为止，Nextcloud暂未提供可供使用的离线下载工具。</p>
+<p>不过，我们完全可以利用Aria2配合NextCloud实现离线下载存储与在线观看播放的效果。Aria2是一个非常优秀的支持多种协议的轻量级命令行下载工具，优点是：多线程连线充分利用带宽；运行时不会占用过多资源，通常在 4MB~9MB；全功能 BitTorrent 客户端； 支持 RPC 界面远程控制。</p>
+<p><a href="https://wzfou.com/tag/ariang/" target="_blank" rel="noopener">AriaNg</a>就是一个是运行在服务端的Aria2前端管理工具，它可以不用Aria2命令就可以在网页上添加下载任务。当然，本篇文章还为大家介绍一种在本地安装<a href="https://wzfou.com/tag/aria2-webui/" target="_blank" rel="noopener">Aria2 WebUI</a>实现本地操控Aria2离线下载的方法。总之，配合好离线下载，Nextcloud又可以变身为办公与娱乐平台了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_00.jpg" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_00.jpg" alt="Nextcloud离线下载搭建方法-整合Aria2和AriaNg\Aria2 WebUI实现离线下载"></a></p>
+<p>更多的实用建站工具与程序，你可以看看：</p>
+<ol>
+<li><a href="https://wzfou.com/hashover/" target="_blank" rel="noopener">HashOver免费开源PHP评论系统安装使用-自建评论系统替代第三方</a></li>
+<li><a href="https://wzfou.com/lsyncd/" target="_blank" rel="noopener">Lsyncd搭建同步镜像-用Lsyncd实现本地和远程服务器之间实时同步</a></li>
+<li><a href="https://wzfou.com/cn2-vps-list/" target="_blank" rel="noopener">接入CN2线路VPS主机商和机房汇总-鉴别真假CN2线路主机参考手册</a></li>
+</ol>
+<p><strong>PS：2017年10月14日更新，</strong>有兴趣树莓派Raspberry Pi与Nextcloud整合的朋友可以看看：<a href="https://wzfou.com/raspberry-nextcloud/" target="_blank" rel="noopener">树莓派Raspberry Pi安装NextCloud教程-自建家庭私有云局域网共享</a>。</p>
+<h2 id="一、Nextcloud安装使用"><a href="#一、Nextcloud安装使用" class="headerlink" title="一、Nextcloud安装使用"></a>一、Nextcloud安装使用</h2><p>Nextcloud安装与使用我在下面两篇文章中已经详细地进过了，喜欢折腾的朋友，可以自己搭建LNMP和LAMP手动安装Nextcloud，对于只想马上上手Nextcloud的朋友，建议使用一键安装方法。</p>
+<ol>
+<li><a href="https://wzfou.com/nextcloud/" target="_blank" rel="noopener">Nextcloud个人云存储绝佳选择：一键自动安装方法和云盘使用体验</a></li>
+<li><a href="https://wzfou.com/nextcloud-install/" target="_blank" rel="noopener">手动安装NextCloud教程-免费开源的私有云存储网盘可播放图片音乐</a></li>
+</ol>
+<h2 id="二、在VPS上安装Aria2"><a href="#二、在VPS上安装Aria2" class="headerlink" title="二、在VPS上安装Aria2"></a>二、在VPS上安装Aria2</h2><p>执行命令安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/aria2.sh &amp;&amp; chmod +x aria2.sh &amp;&amp; bash aria2.sh</span><br><span class="line">#备用地址：https://www.ucblog.net/wzfou/aria2.sh</span><br></pre></td></tr></table></figure>
+<p>运行脚本后，你可以安装、升级Aria2。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_01.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_01.gif" alt="Nextcloud离线安装脚本"></a></p>
+<p><strong>修改Aria2下载存储路径</strong>。打开：vi /root/.aria2/aria2.conf，找到：dir=XXX，修改为Nextcloud的存储路径。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_03.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_03.gif" alt="Nextcloud离线修改存储路径"></a></p>
+<p>为了保证安全性，请将此路径以外挂存储的方式，在Nextcloud的管理面板中进行挂载。当然不想以挂载的方式，那么请在上面将路径设置为Nextcloud默认的存储路径。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_02.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_02.gif" alt="Nextcloud离线调整路径"></a></p>
+<p><strong>修改RPC令牌(rpc-secret)。</strong>RPC令牌就相当于 <a href="https://wzfou.com/tag/aria2/" target="_blank" rel="noopener">Aria2</a>(后端/服务端)远程API连接的授权密码，如果你想让任何人都使用的话，你可以将RPC令牌留空，否则请设置为你自己的密码。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_04.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_04.gif" alt="Nextcloud离线设置令牌"></a></p>
+<h2 id="三、AriaNg下载与使用"><a href="#三、AriaNg下载与使用" class="headerlink" title="三、AriaNg下载与使用"></a>三、AriaNg下载与使用</h2><p>AriaNg项目：</p>
+<ol>
+<li>项目：<a href="https://github.com/mayswind/AriaNg" target="_blank" rel="noopener">https://github.com/mayswind/AriaNg</a></li>
+<li>下载：<a href="https://github.com/mayswind/AriaNg/releases/latest" target="_blank" rel="noopener">https://github.com/mayswind/AriaNg/releases/latest</a></li>
+</ol>
+<p>AriaNg是一个前端(HTML+JS静态)控制面板，不需要和 Aria2(后端/服务端)放在一个服务器或者设备中，你可以直接下载到你的本地电脑上解压打开index.html，或者放在服务器访问，服务器只要有Nginx或者Apache就可以了。</p>
+<p>点击打开AriaNg 设置 填入RPC别名、地址、协议、请求方法和密钥。RPC地址填写IP或者域名，端口默认的是6800，密钥的话就是你刚刚在配置文件中修改过的。（点击放大）</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_05.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_05.gif" alt="Nextcloud离线设置密钥"></a></p>
+<p>设置完成后，点击Aria2 状态你可以看到Aria2已经连接成功了。没有连接成功的话，检查一下VPS的防火墙有没有开放两个端口，一个是RPC监听端口<code>6800(默认)</code>，一个是BT监听端口<code>51413(默认)</code>。当然修改了配置文件后记得重启VPS。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_05_1.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_05_1.gif" alt="Nextcloud离线连接成功"></a></p>
+<p>打开AriaNg面板，你就可以添加http\BT\磁力链接开始下载了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_07.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_07.gif" alt="Nextcloud离线添加下载任务"></a></p>
+<p>由于我们用的是VPS主机下载资源，所以速度基本上可以飞起来了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_08.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_08.gif" alt="Nextcloud离线速度非常快"></a></p>
+<h2 id="四、Aria2-WebUI安装使用"><a href="#四、Aria2-WebUI安装使用" class="headerlink" title="四、Aria2 WebUI安装使用"></a>四、Aria2 WebUI安装使用</h2><p>Aria2 WebUI</p>
+<ol>
+<li>项目：<a href="https://github.com/ziahamza/webui-aria2" target="_blank" rel="noopener">https://github.com/ziahamza/webui-aria2</a></li>
+</ol>
+<p>你可以将<a href="https://wzfou.com/tag/aria2-webui/" target="_blank" rel="noopener">Aria2 WebUI</a>放在本地或者是放在服务器上，使用方法和上面的AriaNg差不多。运行Aria2 WebUI，然后在设置中选择连接设置。主机就填写你的VPS主机IP地址，端口默认是6800，访问密码就是你修改Aria2配置文件的RPC令牌。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_10.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_10.gif" alt="Nextcloud离线本地设置"></a></p>
+<p>设置成功后，你就可以在Aria2 WebUI中看到Aria2下载任务了，同时你也可以添加链接、种子、磁力链接开始下载了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_11.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_11.gif" alt="Nextcloud离线开始下载了"></a></p>
+<h2 id="五、Nextcloud离线下载使用"><a href="#五、Nextcloud离线下载使用" class="headerlink" title="五、Nextcloud离线下载使用"></a>五、Nextcloud离线下载使用</h2><p>按照上面的方法我们已经实现了离线下载，打开Nextcloud网盘，你就可以看到Aria2 下载的文件了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_18.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_18.gif" alt="Nextcloud离线看到下载的文件"></a></p>
+<p>Nextcloud自带了同步客户端，你可以利用客户端将文件下载到本地，当然Nextcloud可以直接在线播放音乐、视频等，流量足够的话直接自己在线观看即可。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_19.jpg" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_19.jpg" alt="Nextcloud离线在线观看"></a></p>
+<h2 id="六、本地-Aria2-百度网盘"><a href="#六、本地-Aria2-百度网盘" class="headerlink" title="六、本地+Aria2+百度网盘"></a>六、本地+Aria2+百度网盘</h2><p><strong>如果你没有VPS主机，也没有Linux，也没有关系，</strong>这里提供一个本地运行Aria2的方法，支持Mac和Windows，同时还提供Chrome插件，帮助你直接获取百度网盘的文件下载地址，跳过百度网盘客户端，直接使用Aria2高速下载网盘文件。</p>
+<ol>
+<li>下载：<a href="https://www.ucblog.net/wzfou/Aria2.zip" target="_blank" rel="noopener">https://www.ucblog.net/wzfou/Aria2.zip</a></li>
+</ol>
+<p>下载安装包，解压后有三个文件夹，其中Plugin是Chrome插件，我用过之后获取百度网盘不一定有效，可以用本文介绍的安装油猴子的方法来解决。<strong>Mac OS安装Aria2GUI.dmg，位于网盘的Aria2 for Mac文件夹中。</strong></p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_08_1.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_08_1.gif" alt="Nextcloud离线三个文件"></a></p>
+<p><strong>Windows用户的话，</strong>进入Aria2 for Windows，将aria2.rar这个文件解压在D:\aria2这个文件夹里，即D:\aria2\。然后在D盘根目录建立一个Downloads的文件夹，这个文件夹就是你下载的文件存放的地方。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_09.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_09.gif" alt="Nextcloud离线解压文件"></a></p>
+<p>进入D:\aria2\里面，双击HideRun.vbs这个文件，然后进入任务管理器可以看到aria2c.exe这个进程正在运行。找到 aria2控制界面.rar，将这个文件在任意位置解压缩，然后双击index.html这个文件，你的默认浏览器就会打开。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_19.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_19.gif" alt="Nextcloud离线在本地运行"></a></p>
+<p>接下来你就会进入到Aria2 WebUI控制面板，添加下载地址，跟上面的操作是一样的。不过，为了可以下载百度网盘中的文件，你需要在Chrome上安装tampermonkey应用，然后到greasyfork.org下载安装脚本，只要跟百度有关的你都可以安装。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_13.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_13.gif" alt="Nextcloud离线安装插件"></a></p>
+<p>现在用浏览器打开百度网盘，然后在下载页面就会出导出下载链接的按钮了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_14.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_14.gif" alt="Nextcloud离线导出下载地址"></a></p>
+<p>复制出下载链接地址，然后放在Aria2 WebUI和AriaNg中开始调用Aria2下载了。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_15.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_15.gif" alt="Nextcloud离线下载百度网盘"></a></p>
+<p>如果速度太慢的话，你可以修改下载连接数。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_16.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_16.gif" alt="Nextcloud离线修改连接数"></a></p>
+<p>你也可以修改下载的Agent，这样可以逃避百度的封锁或者躲开一些不让爬虫下载的页面。</p>
+<p><a href="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_17.gif" target="_blank" rel="noopener"><img src="https://wzfou.cdn.bcebos.com/wp-content/uploads/2017/08/Aria2-nextcloud_17.gif" alt="Nextcloud离线修改浏览器标识"></a></p>
+<h2 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h2><p>从上文应该能看出来，我们将<a href="https://wzfou.com/tag/nextcloud-aria2/" target="_blank" rel="noopener">Nextcloud与Aria2</a>整合，只是将各自的优势整合在一块了。Aria2负载下载文件，Nextcloud可以管理查看文件。而Aria2的控制面板又可以完全脱离Web服务器，直接在本地运行也可以。</p>
+<p>你甚至可以将它放在Nextcloud同步中，这样在任意地点都可以打开Aria2和AriaNg\Aria2 WebUI来查看和添加下载任务了。当然，在使用Aria2和AriaNg\Aria2 WebUI实现离线下载前，注意国外的VPS主机对版本文件比较严格。</p>
+<p>文章出自：<a href="https://wzfou.com/" target="_blank" rel="noopener">挖站否</a> <a href="https://wzfou.com/nextcloud-aria2/" target="_blank" rel="noopener">https://wzfou.com/nextcloud-aria2/</a>，部分内容参考自：<a href="https://medium.com/@Justin___Smith/aria2%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B-mac%E5%92%8Cwindows-b31d0f64bd4e" target="_blank" rel="noopener">Justin Smith</a> 、<a href="https://doub.io/wlzy-30/" target="_blank" rel="noopener">doub.io</a>  版权所有。本站文章除注明出处外，皆为作者原创文章，可自由引用，但请注明来源。</p>
 
       
     </div>
@@ -648,7 +633,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MARKDOWN/" rel="tag"># MARKDOWN</a>
+            <a href="/tags/离线下载/" rel="tag"># 离线下载</a>
+          
+            <a href="/tags/私有云盘/" rel="tag"># 私有云盘</a>
           
         </div>
       
@@ -661,8 +648,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/22/2019-1-22-Windows10设置开机自动拨号及断线重连/" rel="next" title="Windows10设置开机自动拨号及断线重连">
-                <i class="fa fa-chevron-left"></i> Windows10设置开机自动拨号及断线重连
+              <a href="/2017/09/20/Nextcloud个人云存储绝佳选择/" rel="next" title="Nextcloud个人云存储绝佳选择">
+                <i class="fa fa-chevron-left"></i> Nextcloud个人云存储绝佳选择
               </a>
             
           </div>
@@ -671,8 +658,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/16/基于Hexo-Coding-Github搭建个人博客的全过程/" rel="prev" title="基于Hexo+Coding+Github搭建个人博客的全过程">
-                基于Hexo+Coding+Github搭建个人博客的全过程 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/13/如何在Vultr中添加SWAP交换分区/" rel="prev" title="如何在Vultr中添加SWAP交换分区">
+                如何在Vultr中添加SWAP交换分区 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -744,7 +731,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -830,7 +817,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -927,7 +916,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#认识-Markdown"><span class="nav-number">1.</span> <span class="nav-text">认识 Markdown</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown-官方文档"><span class="nav-number">1.1.</span> <span class="nav-text">Markdown 官方文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Markdown-的优点"><span class="nav-number">1.2.</span> <span class="nav-text">使用 Markdown 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Markdown-的误区"><span class="nav-number">1.3.</span> <span class="nav-text">使用 Markdown 的误区</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我该用什么工具？"><span class="nav-number">2.</span> <span class="nav-text">我该用什么工具？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#macOS-平台"><span class="nav-number">2.1.</span> <span class="nav-text">macOS 平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows、iOS、Web-平台"><span class="nav-number">2.1.1.</span> <span class="nav-text">Windows、iOS、Web 平台</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown-语法的简要规则"><span class="nav-number">3.</span> <span class="nav-text">Markdown 语法的简要规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标题"><span class="nav-number">3.1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表"><span class="nav-number">3.2.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">3.3.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片与链接"><span class="nav-number">3.4.</span> <span class="nav-text">图片与链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#粗体与斜体"><span class="nav-number">3.5.</span> <span class="nav-text">粗体与斜体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表格"><span class="nav-number">3.6.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码框"><span class="nav-number">3.7.</span> <span class="nav-text">代码框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分割线"><span class="nav-number">3.8.</span> <span class="nav-text">分割线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">3.9.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与-Markdown-相关的一些推荐"><span class="nav-number">4.</span> <span class="nav-text">与 Markdown 相关的一些推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可配套使用的工具"><span class="nav-number">4.1.</span> <span class="nav-text">可配套使用的工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关文章阅读"><span class="nav-number">4.2.</span> <span class="nav-text">相关文章阅读</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Nextcloud安装使用"><span class="nav-number">1.</span> <span class="nav-text">一、Nextcloud安装使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、在VPS上安装Aria2"><span class="nav-number">2.</span> <span class="nav-text">二、在VPS上安装Aria2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、AriaNg下载与使用"><span class="nav-number">3.</span> <span class="nav-text">三、AriaNg下载与使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、Aria2-WebUI安装使用"><span class="nav-number">4.</span> <span class="nav-text">四、Aria2 WebUI安装使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、Nextcloud离线下载使用"><span class="nav-number">5.</span> <span class="nav-text">五、Nextcloud离线下载使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、本地-Aria2-百度网盘"><span class="nav-number">6.</span> <span class="nav-text">六、本地+Aria2+百度网盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、总结"><span class="nav-number">7.</span> <span class="nav-text">七、总结</span></a></li></ol></div>
             
 
           </div>
@@ -973,7 +962,7 @@
 
 
 
-<span style="float:right;"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow">
+<span style="float:none;"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow">
 <img src="/img/upyun.png"></a></span>
         
 <div class="busuanzi-count">
