@@ -8,7 +8,50 @@ tags:
 - Fortran
 ---
 
-# 1. FORTRAN函数 示例my_exam.f90
+在使用Python做大量科学计算时，可能会调用执行效率更高或者早期编好的Fortran函数，此时需要将两种语言混编。采用Ctypes模块可以高效地在两种语言之间传递数据。
+
+### 生成动态链接库
+
+Fortran文件内的函数格式改为
+
+```fortran
+module xxx
+    use iso_c_binding   !注意引用该模组
+    implicit none
+contains
+    subroutine func(p1,p2,...pn) BIND(C,name='func') !绑定名称
+    !DEC$ ATTRIBUTES DLLEXPORT :: my_exam  !ifort编译器读取，具体查ifort手册
+    ...
+    end subroutine
+end module
+```
+
+打开Intel Visual Studio命令行模式，输入以下命令生成xxx.dll
+
+> cd /d path (待编译.f90文件路径)
+>
+> ifort /dll file.f90 (.f90文件名，比如xxx.f90)
+
+### 在py文件中按Ctypes指针对象传递参数
+
+比如xxx.dll种有一函数exam(m,n,val)，其中m,n为整数，val为数组（实数），则python文件调用函数exam如下
+
+```python
+import numpy as np
+import ctypes as ct
+# 比如有一个np.array类型的数组
+flib = ct.CDLL('xxx.dll') # 导入dll文件
+def numpy_pointer(array):
+    return array.ctypes.data_as(ct.POINTER(ct.c_double))
+def exam(m,n,val):
+    return flib.exam(ct.byref(ct.c_int(m)),ct.byref(ct.c_int(n)),numpy_pointer(val))
+val = np.asfortranarray(val) #按Fortran列主序方式储存数组
+result = exam(m,n,val)
+```
+
+### 示例
+
+#### FORTRAN函数 示例my_exam.f90
 
 ```fortran
 module example
@@ -35,11 +78,11 @@ contains
     end subroutine
 end module
 ```
-# 2. ifort生成DLL
+#### ifort生成DLL
 打开命令行形式的intel 64 visual studio 2012 mode
 `>ifort /dll my_exam.f90`
 
-# 3. my_exam.py
+#### my_exam.py
 通过ctypes模块调用，注意ndarray数组按照FORTRAN列主序方式储存
 ```python
 import ctypes as ct
@@ -85,7 +128,7 @@ for line in val:
     f.write( '\n')
 f.close()
 ```
-# 4. 结果
+#### 结果
 若example_output.dat与fortran_output.dat数组不同，且前者input array行主序正好与后者的列主序相同，则说明数组按C语言格式传递至子程序中。
 
 > example_output.dat
