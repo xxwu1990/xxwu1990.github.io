@@ -1,6 +1,6 @@
 ---
-title:Win10添加右键打开cmd和Powershell窗口（管理员/非管理员）
-date:2019-05-14
+title: Win10添加右键打开cmd和Powershell窗口（管理员/非管理员）
+date: 2019-05-14
 categories:
 - WINDOWS
 tags:
