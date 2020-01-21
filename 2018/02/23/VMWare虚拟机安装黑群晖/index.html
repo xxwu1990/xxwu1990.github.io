@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="qEdgqO13X5Z5sZwkt6GMVScMlJgTtyWSIaszLQZTqc4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiao5.tk').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="我用黑群晖也有好几个月了，从5.x 到 6.0 再到 6.1.2（现在是这个）一直正常使用。 最新版本是6.1.3，除了解决一些漏洞，并没有什么功能性内容，所以依然保持6.1.2没有升级。 估计现在大部分人使用的群晖引导应该都是在网站 http:&#x2F;&#x2F;xpenology.com&#x2F;forum&#x2F; （需要出国）下载的 DS3617xs 6.1 Jun’s Mod V1.02b.img（目前最新版本，支持6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMWare虚拟机安装黑群晖">
+<meta property="og:url" content="https://xiao5.tk/2018/02/23/VMWare%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/index.html">
+<meta property="og:site_name" content="蘑菇熊星球">
+<meta property="og:description" content="我用黑群晖也有好几个月了，从5.x 到 6.0 再到 6.1.2（现在是这个）一直正常使用。 最新版本是6.1.3，除了解决一些漏洞，并没有什么功能性内容，所以依然保持6.1.2没有升级。 估计现在大部分人使用的群晖引导应该都是在网站 http:&#x2F;&#x2F;xpenology.com&#x2F;forum&#x2F; （需要出国）下载的 DS3617xs 6.1 Jun’s Mod V1.02b.img（目前最新版本，支持6">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_79766.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_68060.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_45581.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_67701.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_75713.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_54886.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_70870.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_79257.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_96053.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_52740.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_30213.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_31381.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_57043.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_86231.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_94420.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_72850.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_67619.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_20507.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_82046.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_70979.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_59889.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_93355.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_17731.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_47476.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_71739.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_79528.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_59216.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_65894.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_75669.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_15662.jpg">
+<meta property="article:published_time" content="2018-02-22T23:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-19T23:13:53.675Z">
+<meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="群晖">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_79766.jpg">
+
+<link rel="canonical" href="https://xiao5.tk/2018/02/23/VMWare%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>VMWare虚拟机安装黑群晖 | 蘑菇熊星球</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蘑菇熊星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hakuna Matata</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/xxwu1990/" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2018/02/23/VMWare%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VMWare虚拟机安装黑群晖
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-02-23 00:00:00" itemprop="dateCreated datePublished" datetime="2018-02-23T00:00:00+01:00">2018-02-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-20 00:13:53" itemprop="dateModified" datetime="2020-01-20T00:13:53+01:00">2020-01-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/NAS/" itemprop="url" rel="index">
+                    <span itemprop="name">NAS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我用黑群晖也有好几个月了，从5.x 到 6.0 再到 6.1.2（现在是这个）一直正常使用。</p>
+<p>最新版本是6.1.3，除了解决一些漏洞，并没有什么功能性内容，所以依然保持6.1.2没有升级。</p>
+<p>估计现在大部分人使用的群晖引导应该都是在网站 <a href="http://xpenology.com/forum/" target="_blank" rel="noopener">http://xpenology.com/forum/ </a>（需要出国）下载的 DS3617xs 6.1 Jun’s Mod V1.02b.img（目前最新版本，支持6.1.3）<a id="more"></a></p>
+<h1 id="1、准备工作"><a href="#1、准备工作" class="headerlink" title="1、准备工作"></a>1、准备工作</h1><p>下载：</p>
+<h2 id="a-DS3617xs-6-1-Jun’s-Mod-V1-02b-img"><a href="#a-DS3617xs-6-1-Jun’s-Mod-V1-02b-img" class="headerlink" title="a) DS3617xs 6.1 Jun’s Mod V1.02b.img"></a>a) DS3617xs 6.1 Jun’s Mod V1.02b.img</h2><p>地址：<a href="https://xpenology.com/forum/topic/6253-dsm-6xx-loader/" target="_blank" rel="noopener">https://xpenology.com/forum/topic/6253­dsm­6xx­loader/</a></p>
+<p>直达(需要出国)：<a href="https://mega.nz/#F!XRhniTSJ!VH8B1I8Db3y8YkCnT4j2VA" target="_blank" rel="noopener">https://mega.nz/#F!XRhniTSJ!VH8B1I8Db3y8YkCnT4j2VA</a> </p>
+<h2 id="b-DSM-DS3617xs-15152-pat"><a href="#b-DSM-DS3617xs-15152-pat" class="headerlink" title="b) DSM_DS3617xs_15152.pat"></a>b) DSM_DS3617xs_15152.pat</h2><p>地址：群晖官网 <a href="https://www.synology.cn/zh-cn/support/download/DS3617xs#utilities" target="_blank" rel="noopener">https://www.synology.cn/zh­cn/support/download/DS3617xs#utilities</a></p>
+<p>直<a href="https://cndl.synology.cn/download/DSM/release/6.1.3/15152/DSM_DS3617xs_15152.pat" target="_blank" rel="noopener">达：https://cndl.synology.cn/download/DSM/release/6.1.3/15152/DSM_DS3617xs_1</a> <a href="https://cndl.synology.cn/download/DSM/release/6.1.3/15152/DSM_DS3617xs_15152.pat" target="_blank" rel="noopener">5152.pat</a></p>
+<h2 id="c-Roadkil’s-DiskImage"><a href="#c-Roadkil’s-DiskImage" class="headerlink" title="c) Roadkil’s DiskImage"></a>c) Roadkil’s DiskImage</h2><p>地址：<a href="http://www.bkill.com/download/33717.html" target="_blank" rel="noopener">http://www.bkill.com/download/33717.html</a></p>
+<h1 id="2、制作引导启动盘"><a href="#2、制作引导启动盘" class="headerlink" title="2、制作引导启动盘"></a>2、制作引导启动盘</h1><p>制作虚拟硬盘VHD，然后写入img到VHD完成引导盘的制作。</p>
+<h2 id="a-创建虚拟磁盘"><a href="#a-创建虚拟磁盘" class="headerlink" title="a)   创建虚拟磁盘"></a>a)   创建虚拟磁盘</h2><p>打开cmd命令窗口，按如下命令步骤操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">diskpart</span><br><span class="line">create vdisk file&#x3D;F:\synoboot.vhd maximum&#x3D;256 type&#x3D;expandable</span><br><span class="line">attach vdisk</span><br><span class="line">create partition primary</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>这几个命令就可以了，不要自作聪明给这个盘进行格式化，如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_79766.jpg" alt=""></p>
+<p>此时你可以打开磁盘管理，确认看到创建的这个虚拟磁盘，如下图：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_68060.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_45581.jpg" alt=""></p>
+<p>这个时候，你在“我的电脑”里面是看不到这个盘的，再重申一下，不需要给这个盘格式化，也不需要分配盘符（因为完全不需要）。</p>
+<h2 id="b-写入img文件到虚拟磁盘，完成黑群晖启动引导的制作"><a href="#b-写入img文件到虚拟磁盘，完成黑群晖启动引导的制作" class="headerlink" title="b)   写入img文件到虚拟磁盘，完成黑群晖启动引导的制作"></a>b)   写入img文件到虚拟磁盘，完成黑群晖启动引导的制作</h2><p>使用工具 Roadkil’s DiskImage 将文件 DS3617xs 6.1 Jun’s Mod V1.02b.img 写入到刚刚创建的虚拟磁盘中。</p>
+<p>步骤如下图：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_67701.jpg" alt=""></p>
+<p>映像档选择我们的 img 文件即可，点击开始按钮完成写入。</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_75713.jpg" alt=""></p>
+<p>PS：如果你是要在实体机中安装黑群晖，可以用同样的方法将img文件写入到U盘（注意驱动器选择对应的U盘）中即可使用。然后将U盘插入到主机上，开机启动设置U盘启动，就可以正常安装黑群晖。</p>
+<h2 id="c-分离虚拟磁盘"><a href="#c-分离虚拟磁盘" class="headerlink" title="c)   分离虚拟磁盘"></a>c)   分离虚拟磁盘</h2><p>在磁盘管理界面里，鼠标右键点击刚刚创建的虚拟磁盘，然后执行 “分离VHD”，将该虚拟磁盘分离掉。</p>
+<p>此时你可以到硬盘中将该文件 “synoboot.vhd” 随意拷贝传播给朋友、备份，当然也可以直接删除掉。</p>
+<p>如下图：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_54886.jpg" alt=""></p>
+<p>至此，我们的黑群晖引导盘制作完成。</p>
+<h1 id="3、创建VMWare虚拟机"><a href="#3、创建VMWare虚拟机" class="headerlink" title="3、创建VMWare虚拟机"></a>3、创建VMWare虚拟机</h1><p>请使用 vmware 12.5.2 以后的版本（我使用的是12.5.7），因为之前的版本不支持虚拟磁盘。</p>
+<p>步骤我已经每一步都截图记录下来，看下面的图片按步骤操作：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155310_70870.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_79257.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_96053.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_52740.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_30213.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_31381.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_57043.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_86231.jpg" alt=""></p>
+<p>点击完成，创建完成，下图为创建的虚拟机信息</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_94420.jpg" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_72850.jpg" alt=""><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_67619.jpg" alt=""><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155311_20507.jpg" alt=""></p>
+<p>完成后，如下图可以看到2个磁盘文件了：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_82046.jpg" alt=""></p>
+<p>网络驱动器请自行根据自己实际情况设置，下图是我的设置，虚拟机的IP地址和主机在同一个网段，走的主网卡桥接的：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_70979.jpg" alt=""></p>
+<p>注意：虚拟磁盘要在创建虚拟机的时候先指定，完成后再附加硬盘。如果你是在已创建好的虚拟机上添加的虚拟磁盘，那么要在虚拟机启动时的BIOS里面修改设置，变更这2个硬盘的启动顺序。或者你可以修改硬盘的SATA编号。（虚拟机启动时BIOS默认按SATA编号从小到大排列），编辑SATA序号的方法如下图所示：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_59889.jpg" alt=""></p>
+<p>至此，虚拟机创建完成，万事俱备，下面就可以安装黑群晖。</p>
+<h1 id="4、启动虚拟机安装黑群晖"><a href="#4、启动虚拟机安装黑群晖" class="headerlink" title="4、启动虚拟机安装黑群晖"></a>4、启动虚拟机安装黑群晖</h1><p> 如下图，开启此虚拟机：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_93355.jpg" alt=""></p>
+<p>然后是短暂的等待后，你就可以看到下面截图的屏幕，中间你不需要做任何操作：</p>
+<p> 如果你看到这个提示，直接选 “否” 忽略即可</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_17731.jpg" alt=""><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_47476.jpg" alt=""></p>
+<p>这个时候，你可以在打开浏览器，输入 <a href="http://find.synology.com/" target="_blank" rel="noopener">http://find.synology.com </a>，如果你的虚拟机网段和主机是同一个网段，使用这个网址是可以直接获取到我们将要安装的群晖的。你也可以使用群晖官方提供的 “群晖助手” 来安装群晖（这个工具很简单，这里不做赘述）</p>
+<p> <a href="https://www.synology.cn/zh-cn/support/download/DS3617xs#utilities" target="_blank" rel="noopener">群晖助手官方下载地址：https://www.synology.cn/zh-cn/support/download/DS3617xs#utilities</a></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_71739.jpg" alt=""></p>
+<p>下面是使用访问 <a href="http://find.synology.com/" target="_blank" rel="noopener">http://find.synology.com </a>的方式安装群晖的步骤截图：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_79528.jpg" alt=""></p>
+<p>虚拟机的IP地址，网卡信息都显示出来了，点击 “联机” 继续，然后继续下一步到下图：</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_59216.jpg" alt=""></p>
+<p>选择 “手动安装” ，浏览我们下载好的系统文件 DSM_DS3617xs_15152.pat，然后执行 “立即安装”</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_65894.jpg" alt=""></p>
+<p>确定后继续，然后就是等待，你可以泡上一杯咖啡慢慢等待。</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_75669.jpg" alt=""></p>
+<p>后续步骤按提示操作即可，其中有一步让你输入群晖账户的，这个地方点击下面的“跳过此步骤” 即可，其他没有什么特别要说明的，最后群晖就安装完成了。</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20181116155312_15662.jpg" alt=""></p>
+<p>看到很多人都在要别人做好的虚拟机文件，其实你更应该思考别人的这个文件是如何做的。这样以后便不用求人。</p>
+<p>出了新版的群晖后，能否升级？心里还是空空的。保险一点就是在虚拟机上安装一下最新版的群晖系统（如果直接安装最新版你还不放心，你可以安装你现在实体机上的版本，然后进入系统后进行升级到新版）。如果正常，则可以对实体机进行升级。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2018/02/23/VMWare%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/" title="VMWare虚拟机安装黑群晖">https://xiao5.tk/2018/02/23/VMWare虚拟机安装黑群晖/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BE%A4%E6%99%96/" rel="tag"># 群晖</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/12/13/%E5%A6%82%E4%BD%95%E5%9C%A8Vultr%E4%B8%AD%E6%B7%BB%E5%8A%A0SWAP%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA/" rel="prev" title="如何在Vultr中添加SWAP交换分区">
+      <i class="fa fa-chevron-left"></i> 如何在Vultr中添加SWAP交换分区
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/06/Python%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8FPYTHONPATH%E8%AE%BE%E7%BD%AE%E5%AF%BC%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97/" rel="next" title="Python环境变量PYTHONPATH设置导入第三方模块">
+      Python环境变量PYTHONPATH设置导入第三方模块 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、准备工作"><span class="nav-number">1.</span> <span class="nav-text">1、准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-DS3617xs-6-1-Jun’s-Mod-V1-02b-img"><span class="nav-number">1.1.</span> <span class="nav-text">a) DS3617xs 6.1 Jun’s Mod V1.02b.img</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#b-DSM-DS3617xs-15152-pat"><span class="nav-number">1.2.</span> <span class="nav-text">b) DSM_DS3617xs_15152.pat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-Roadkil’s-DiskImage"><span class="nav-number">1.3.</span> <span class="nav-text">c) Roadkil’s DiskImage</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、制作引导启动盘"><span class="nav-number">2.</span> <span class="nav-text">2、制作引导启动盘</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#a-创建虚拟磁盘"><span class="nav-number">2.1.</span> <span class="nav-text">a)   创建虚拟磁盘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#b-写入img文件到虚拟磁盘，完成黑群晖启动引导的制作"><span class="nav-number">2.2.</span> <span class="nav-text">b)   写入img文件到虚拟磁盘，完成黑群晖启动引导的制作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#c-分离虚拟磁盘"><span class="nav-number">2.3.</span> <span class="nav-text">c)   分离虚拟磁盘</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、创建VMWare虚拟机"><span class="nav-number">3.</span> <span class="nav-text">3、创建VMWare虚拟机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、启动虚拟机安装黑群晖"><span class="nav-number">4.</span> <span class="nav-text">4、启动虚拟机安装黑群晖</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蘑菇熊"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蘑菇熊</p>
+  <div class="site-description" itemprop="description">我们的征途是星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxwu1990" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail → mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.nwpu.edu.cn/" title="http:&#x2F;&#x2F;www.nwpu.edu.cn&#x2F;" rel="noopener" target="_blank">NPU</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'SnFWeZoaPRmRgfAZt';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2018/02/23/VMWare%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%89%E8%A3%85%E9%BB%91%E7%BE%A4%E6%99%96/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: '8d54a61f120d9097899f011cfee75548',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

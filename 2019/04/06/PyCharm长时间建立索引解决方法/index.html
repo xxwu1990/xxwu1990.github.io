@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="qEdgqO13X5Z5sZwkt6GMVScMlJgTtyWSIaszLQZTqc4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiao5.tk').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="在写自动调用叶型造型程序和调用NUMECA建立叶型数值实验数据库代码的过程中，遇到了一些问题，记录在此。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyCharm长时间建立索引解决方法">
+<meta property="og:url" content="https://xiao5.tk/2019/04/06/PyCharm%E9%95%BF%E6%97%B6%E9%97%B4%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="蘑菇熊星球">
+<meta property="og:description" content="在写自动调用叶型造型程序和调用NUMECA建立叶型数值实验数据库代码的过程中，遇到了一些问题，记录在此。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/71717971ly1g1t2h0gs2aj21400ny781.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/71717971ly1g1t2o9lv4fj21400nw42m.jpg">
+<meta property="article:published_time" content="2019-04-06T15:34:36.000Z">
+<meta property="article:modified_time" content="2020-01-19T23:28:01.417Z">
+<meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/71717971ly1g1t2h0gs2aj21400ny781.jpg">
+
+<link rel="canonical" href="https://xiao5.tk/2019/04/06/PyCharm%E9%95%BF%E6%97%B6%E9%97%B4%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>PyCharm长时间建立索引解决方法 | 蘑菇熊星球</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蘑菇熊星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hakuna Matata</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/xxwu1990/" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/04/06/PyCharm%E9%95%BF%E6%97%B6%E9%97%B4%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PyCharm长时间建立索引解决方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-04-06 17:34:36" itemprop="dateCreated datePublished" datetime="2019-04-06T17:34:36+02:00">2019-04-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-20 00:28:01" itemprop="dateModified" datetime="2020-01-20T00:28:01+01:00">2020-01-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在写自动调用叶型造型程序和调用NUMECA建立叶型数值实验数据库代码的过程中，遇到了一些问题，记录在此。<a id="more"></a></p>
+<h3 id="自动生成叶型并多线程计算脚本"><a href="#自动生成叶型并多线程计算脚本" class="headerlink" title="自动生成叶型并多线程计算脚本"></a>自动生成叶型并多线程计算脚本</h3><p>先附上自动调用脚本的代码，该脚本由Python编写，流程与Isight建立损失与落后角数据库相同，即</p>
+<ol>
+<li><strong>对造型参数采样并生成样本点</strong></li>
+<li><strong>叶型造型</strong></li>
+<li><strong>生成计算网格</strong></li>
+<li><strong>生成计算文件并返回计算结果</strong></li>
+<li><strong>读取计算结果得到损失和落后角</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyDOE <span class="keyword">import</span> fullfact</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool, cpu_count</span><br><span class="line"><span class="keyword">import</span> os, shutil, subprocess, re</span><br><span class="line"><span class="keyword">from</span> math <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">jpath = os.path.join</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sample</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">'''生成样本数据点'''</span></span><br><span class="line">    <span class="comment"># scheme = [2 for i in range(8)]</span></span><br><span class="line">    scheme = [<span class="number">5</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">5</span>]</span><br><span class="line">    sample_mesh = fullfact(scheme)</span><br><span class="line">    names = [ <span class="string">'bet1'</span>,  <span class="string">'cam'</span>,  <span class="string">'ac'</span>,    <span class="string">'r2tm'</span>,     <span class="string">'ttmax'</span>,     <span class="string">'sol'</span>,   <span class="string">'inc'</span>,  <span class="string">'ma'</span>]</span><br><span class="line">    ranges = [[<span class="number">40</span>,<span class="number">70</span>],[<span class="number">20</span>,<span class="number">70</span>],[<span class="number">0.4</span>,<span class="number">0.7</span>],[<span class="number">0.05</span>, <span class="number">0.1</span>],[<span class="number">0.05</span>, <span class="number">0.02</span>],[<span class="number">1.1</span>, <span class="number">2.5</span>],[<span class="number">-6</span>, <span class="number">6</span>],[<span class="number">0.4</span>, <span class="number">1.4</span>]]</span><br><span class="line">    var_range = dict()</span><br><span class="line">    <span class="keyword">for</span> name, scope, num <span class="keyword">in</span> zip(names, ranges, scheme):</span><br><span class="line">        var_range[name] = np.linspace(scope[<span class="number">0</span>], scope[<span class="number">1</span>], num)</span><br><span class="line"></span><br><span class="line">    samples = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(sample_mesh)):</span><br><span class="line">        elem = dict()</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(len(names)):</span><br><span class="line">            sample_mesh[i][j] = var_range[names[j]][int(sample_mesh[i][j])]</span><br><span class="line">            elem[names[j]] = sample_mesh[i][j]</span><br><span class="line">        elem[<span class="string">'rle'</span>] = elem[<span class="string">'r2tm'</span>] * elem[<span class="string">'ttmax'</span>]</span><br><span class="line">        elem[<span class="string">'rte'</span>] = elem[<span class="string">'rle'</span>]</span><br><span class="line">        elem[<span class="string">'bet2'</span>] = elem[<span class="string">'bet1'</span>] - elem[<span class="string">'cam'</span>]</span><br><span class="line">        elem.pop(<span class="string">'r2tm'</span>)</span><br><span class="line">        elem.pop(<span class="string">'cam'</span>)</span><br><span class="line">        samples.append(elem)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span>(os.path.exists(<span class="string">'inout'</span>)):</span><br><span class="line">        os.mkdir(<span class="string">'inout'</span>)</span><br><span class="line">    np.savetxt(<span class="string">"./inout/input_samples.dat"</span>, sample_mesh, fmt=<span class="string">'%10.3f'</span>)</span><br><span class="line">    <span class="keyword">return</span> samples</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readInput</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"""读取input.dat模板"""</span></span><br><span class="line">    f = open(<span class="string">'input.dat'</span>, <span class="string">'r+'</span>)</span><br><span class="line">    text = f.readlines()</span><br><span class="line">    title = text[::<span class="number">2</span>]</span><br><span class="line">    value = text[<span class="number">1</span>::<span class="number">2</span>]</span><br><span class="line">    titles, values = [], []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(title)):</span><br><span class="line">        titles.extend(title[i].strip(<span class="string">'\n'</span>).split())</span><br><span class="line">        values.extend(value[i].split())</span><br><span class="line">    para = dict(zip(titles, values))</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="keyword">return</span> text, para</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">modifyInput</span><span class="params">(out_dir, label, para, text, data)</span>:</span></span><br><span class="line">    <span class="string">'''</span></span><br><span class="line"><span class="string">    修改进出口几何角，最大厚度位置，前后缘相对厚度，最大相对厚度，稠度</span></span><br><span class="line"><span class="string">    返回子文件夹</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    names = [<span class="string">'bet1'</span>, <span class="string">'bet2'</span>, <span class="string">'ac'</span>, <span class="string">'rle'</span>, <span class="string">'rte'</span>, <span class="string">'ttmax'</span>]</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">        para[name] = data[name]</span><br><span class="line">    title = text[<span class="number">2</span>].split()</span><br><span class="line">    text[<span class="number">3</span>] = [para[title[i]] <span class="keyword">for</span> i <span class="keyword">in</span> range(len(title))]</span><br><span class="line">    text[<span class="number">3</span>] = list(map(str, text[<span class="number">3</span>]))</span><br><span class="line">    text[<span class="number">3</span>] = <span class="string">'     '</span>.join(text[<span class="number">3</span>]) + <span class="string">'\n'</span></span><br><span class="line">    subdir = jpath(out_dir, label)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> (os.path.exists(subdir)):</span><br><span class="line">        os.mkdir(subdir)</span><br><span class="line">    os.chdir(subdir)</span><br><span class="line">    f = open(<span class="string">'input.dat'</span>, <span class="string">'w+'</span>)</span><br><span class="line">    f.writelines(text)</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="keyword">return</span> subdir</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">genAirfoil</span><span class="params">(root, subdir, result)</span>:</span></span><br><span class="line">    <span class="string">'''生成叶型并返回安装角'''</span></span><br><span class="line">    os.chdir(subdir)</span><br><span class="line">    cmd = jpath(root, <span class="string">'MyAirfoil.exe'</span>)</span><br><span class="line">    p = subprocess.call(cmd, stdout=subprocess.DEVNULL)</span><br><span class="line">    <span class="comment"># p = 0 # 调试</span></span><br><span class="line">    <span class="keyword">if</span>(p != <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">'GenAirfoil failed: &#123;&#125; return &#123;&#125;'</span>.format(subdir, p))</span><br><span class="line">    <span class="comment"># 读安装角</span></span><br><span class="line">    f = open(<span class="string">'prof.dat'</span>, <span class="string">'r'</span>)</span><br><span class="line">    text = f.readlines()</span><br><span class="line">    f.close()</span><br><span class="line">    stg = float(text[<span class="number">102</span>].split()[<span class="number">1</span>])</span><br><span class="line">    result[<span class="string">'stg'</span>] = degrees(atan(stg))</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">genMesh</span><span class="params">(subdir, data, para)</span>:</span></span><br><span class="line">    <span class="string">'''生成网格'''</span></span><br><span class="line">    <span class="comment"># 生成Geometry</span></span><br><span class="line">    f = open(jpath(subdir, <span class="string">'geom.dat'</span>), <span class="string">'r'</span>)</span><br><span class="line">    text = f.readlines()</span><br><span class="line">    num_points = int(text[<span class="number">1</span>])</span><br><span class="line">    yz_ss = text[<span class="number">2</span>:<span class="number">2</span> + num_points]  <span class="comment"># 吸力面坐标</span></span><br><span class="line">    yz_ps = text[<span class="number">4</span> + num_points:]  <span class="comment"># 压力面坐标</span></span><br><span class="line">    f.close()</span><br><span class="line">    ys, zs, yp, zp = [], [], [], []</span><br><span class="line">    <span class="keyword">for</span> elem <span class="keyword">in</span> yz_ss:</span><br><span class="line">        temp = elem.split()</span><br><span class="line">        ys.append(temp[<span class="number">0</span>])</span><br><span class="line">        zs.append(temp[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">for</span> elem <span class="keyword">in</span> yz_ps:</span><br><span class="line">        temp = elem.split()</span><br><span class="line">        yp.append(temp[<span class="number">0</span>])</span><br><span class="line">        zp.append(temp[<span class="number">1</span>])</span><br><span class="line">    ys = np.array(ys).astype(np.float)</span><br><span class="line">    zs = np.array(zs).astype(np.float)</span><br><span class="line">    yp = np.array(yp).astype(np.float)</span><br><span class="line">    zp = np.array(zp).astype(np.float)</span><br><span class="line">    plt.axis(<span class="string">'equal'</span>)</span><br><span class="line">    plt.plot(zs, ys)</span><br><span class="line">    plt.plot(zp, yp)</span><br><span class="line">    plt.savefig(jpath(subdir, <span class="string">'profile.png'</span>))</span><br><span class="line">    plt.close()</span><br><span class="line">    <span class="comment"># 输出坐标至Cascade.geomTurbo</span></span><br><span class="line">    f = open(<span class="string">'Cascade.geomTurbo'</span>)</span><br><span class="line">    geomturbo = f.readlines()</span><br><span class="line">    chord = para[<span class="string">'chord'</span>] * para[<span class="string">'unit'</span>]</span><br><span class="line">    zin = -chord</span><br><span class="line">    zout = zs[<span class="number">-1</span>] + <span class="number">1.5</span> * chord</span><br><span class="line">    pitch = chord / data[<span class="string">'sol'</span>]</span><br><span class="line">    ss0, ss1, ps0, ps1 = [], [], [], []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num_points):</span><br><span class="line">        ss0.append(<span class="string">'0 '</span> + yz_ss[i])</span><br><span class="line">        ss1.append(<span class="string">'0.1 '</span> + yz_ss[i])</span><br><span class="line">        ps0.append(<span class="string">'0 '</span> + yz_ps[i])</span><br><span class="line">        ps1.append(<span class="string">'0.1 '</span> + yz_ps[i])</span><br><span class="line"></span><br><span class="line">    geomturbo[<span class="number">14</span>] = str(zin) + <span class="string">'   0.045\n'</span>  <span class="comment"># 该叶栅高度为1cm</span></span><br><span class="line">    geomturbo[<span class="number">15</span>] = str(zout) + <span class="string">'   0.045\n'</span></span><br><span class="line">    geomturbo[<span class="number">25</span>] = str(zin) + <span class="string">'   0.055\n'</span></span><br><span class="line">    geomturbo[<span class="number">26</span>] = str(zout) + <span class="string">'   0.055\n'</span></span><br><span class="line">    geomturbo[<span class="number">72</span>] = <span class="string">'  PERIODICITY       '</span> + str(pitch) + <span class="string">'\n'</span></span><br><span class="line">    geomturbo[<span class="number">109</span>] = str(num_points) + <span class="string">'\n'</span></span><br><span class="line">    geomturbo[<span class="number">110</span>:<span class="number">251</span>] = ss0</span><br><span class="line">    geomturbo[<span class="number">253</span>] = str(num_points) + <span class="string">'\n'</span></span><br><span class="line">    geomturbo[<span class="number">254</span>:<span class="number">395</span>] = ss1</span><br><span class="line">    geomturbo[<span class="number">400</span>] = str(num_points) + <span class="string">'\n'</span></span><br><span class="line">    geomturbo[<span class="number">401</span>:<span class="number">542</span>] = ps0</span><br><span class="line">    geomturbo[<span class="number">544</span>] = str(num_points) + <span class="string">'\n'</span></span><br><span class="line">    geomturbo[<span class="number">545</span>:<span class="number">686</span>] = ps1</span><br><span class="line">    f.close()</span><br><span class="line">    f = open(jpath(subdir, <span class="string">'Cascade.geomTurbo'</span>), <span class="string">'w+'</span>)</span><br><span class="line">    f.writelines(geomturbo)</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="comment"># 调用Autogrid生成网格</span></span><br><span class="line">    shutil.copy(<span class="string">'mesh.py'</span>, subdir)</span><br><span class="line">    os.chdir(subdir)</span><br><span class="line">    cmd = <span class="string">'iggx86_64 -batch -autogrid5 -script mesh.py'</span></span><br><span class="line">    f = open(<span class="string">'log.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line">    p = subprocess.call(cmd, stdout=f)</span><br><span class="line">    <span class="comment"># p = 0</span></span><br><span class="line">    f.close()</span><br><span class="line">    <span class="keyword">if</span>(p != <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">'Mesh &#123;&#125; return &#123;&#125;'</span>.format(subdir, p))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">genRun</span><span class="params">(subdir, data, para, result)</span>:</span></span><br><span class="line">    <span class="string">'''生成计算文件执行计算并返回结果文件'''</span></span><br><span class="line">    run_name = <span class="string">'ma'</span>+str(data[<span class="string">'ma'</span>])+<span class="string">'inc'</span>+str(data[<span class="string">'inc'</span>])</span><br><span class="line">    ref_vel = data[<span class="string">'ma'</span>] * sqrt(<span class="number">401.8</span> * <span class="number">293</span> / (<span class="number">1</span> + <span class="number">0.2</span> * data[<span class="string">'ma'</span>] ** <span class="number">2</span>))  <span class="comment"># 参考速度</span></span><br><span class="line">    bet1 = data[<span class="string">'bet1'</span>] + data[<span class="string">'inc'</span>]  <span class="comment"># 进口气流角</span></span><br><span class="line">    sinb1 = sin(radians(bet1))</span><br><span class="line">    cosb1 = cos(radians(bet1))</span><br><span class="line">    pitch = float(para[<span class="string">'chord'</span>]) * float(para[<span class="string">'unit'</span>]) / data[<span class="string">'sol'</span>]</span><br><span class="line">    area_n = pitch * <span class="number">0.01</span> * cosb1</span><br><span class="line">    massflow = area_n * <span class="number">101325</span> / sqrt(<span class="number">1006</span> * <span class="number">293</span>) * <span class="number">1.4</span> /\</span><br><span class="line">               sqrt(<span class="number">0.4</span>) * data[<span class="string">'ma'</span>] * (<span class="number">1</span> + <span class="number">0.2</span> * data[<span class="string">'ma'</span>] ** <span class="number">2</span>) ** <span class="number">-3</span> <span class="comment"># 马赫数计算流量</span></span><br><span class="line">    result[<span class="string">'mass_given'</span>] = massflow</span><br><span class="line">    itmax = <span class="number">400</span> + int(abs(data[<span class="string">'inc'</span>])) * <span class="number">150</span>  <span class="comment"># 最大迭代步数</span></span><br><span class="line">    <span class="keyword">if</span> (data[<span class="string">'ma'</span>] &lt; <span class="number">1</span>):</span><br><span class="line">        initP = <span class="number">100000</span>  <span class="comment"># 初始压力</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        initP = <span class="number">50000</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 修改fine.py</span></span><br><span class="line">    shutil.copy(<span class="string">'fine.py'</span>, subdir)</span><br><span class="line">    os.chdir(subdir)</span><br><span class="line">    f = open(<span class="string">'fine.py'</span>, <span class="string">'r'</span>)</span><br><span class="line">    text = f.readlines()</span><br><span class="line">    f.close()</span><br><span class="line">    subdir = subdir.replace(<span class="string">'\\'</span>, <span class="string">'/'</span>)</span><br><span class="line">    text[<span class="number">0</span>] = re.sub(pattern=<span class="string">r'(?&lt;=\(").+(?=/s)'</span>, repl=subdir, string=text[<span class="number">0</span>])</span><br><span class="line">    text[<span class="number">4</span>] = re.sub(pattern=<span class="string">r'(?&lt;=\(").+(?=/C)'</span>, repl=subdir, string=text[<span class="number">4</span>])</span><br><span class="line">    text[<span class="number">6</span>] = re.sub(pattern=<span class="string">r'(?&lt;=").+(?=")'</span>, repl=run_name, string=text[<span class="number">6</span>])</span><br><span class="line">    text[<span class="number">13</span>] = re.sub(pattern=<span class="string">r'(?&lt;=\().+(?=\))'</span>, repl=str(ref_vel), string=text[<span class="number">13</span>])</span><br><span class="line">    text[<span class="number">28</span>] = re.sub(pattern=<span class="string">r'(?&lt;=",).+(?=\))'</span>, repl=str(sinb1), string=text[<span class="number">28</span>])</span><br><span class="line">    text[<span class="number">29</span>] = re.sub(pattern=<span class="string">r'(?&lt;=",).+(?=\))'</span>, repl=str(cosb1), string=text[<span class="number">29</span>])</span><br><span class="line">    text[<span class="number">40</span>] = re.sub(pattern=<span class="string">r'(?&lt;=",).+(?=\))'</span>, repl=str(massflow), string=text[<span class="number">40</span>])</span><br><span class="line">    text[<span class="number">41</span>] = re.sub(pattern=<span class="string">r'(?&lt;=",).+(?=\))'</span>, repl=str(initP), string=text[<span class="number">41</span>])</span><br><span class="line">    text[<span class="number">51</span>] = re.sub(pattern=<span class="string">r'(?&lt;=\().+(?=\))'</span>, repl=str(itmax), string=text[<span class="number">51</span>])</span><br><span class="line">    f = open(<span class="string">'fine.py'</span>, <span class="string">'w'</span>)</span><br><span class="line">    f.writelines(text)</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="comment"># 生成bat</span></span><br><span class="line">    cmd = <span class="string">'finex86_64 -batch -niversion112 -script fine.py'</span></span><br><span class="line">    p = subprocess.call(cmd, stdout=subprocess.DEVNULL)</span><br><span class="line">    <span class="comment"># p = 0</span></span><br><span class="line">    <span class="keyword">if</span>(p != <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">'gen run_file failed: &#123;&#125; return &#123;&#125;'</span>.format(subdir, p))</span><br><span class="line">    <span class="comment"># 执行bat</span></span><br><span class="line">    cmd = subdir + <span class="string">'/sample/sample_&#123;0&#125;/sample_&#123;0&#125;.bat'</span>.format(run_name)</span><br><span class="line">    p = subprocess.call(cmd, stdout=subprocess.DEVNULL)</span><br><span class="line">    <span class="comment"># p = 0</span></span><br><span class="line">    <span class="keyword">if</span>(p != <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">'caculation failed: &#123;&#125; return &#123;&#125;'</span>.format(subdir, p))</span><br><span class="line">    result_file = subdir + <span class="string">'/sample/sample_&#123;0&#125;/sample_&#123;0&#125;.mf'</span>.format(run_name)</span><br><span class="line">    <span class="comment"># 判断是否收敛</span></span><br><span class="line">    res_file = subdir + <span class="string">'/sample/sample_&#123;0&#125;/sample_&#123;0&#125;.res'</span>.format(run_name)</span><br><span class="line">    f = open(res_file)</span><br><span class="line">    text = f.readlines()</span><br><span class="line">    f.close()</span><br><span class="line">    con_label = <span class="literal">True</span>   <span class="comment"># 收敛标志</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">'NaN'</span> <span class="keyword">in</span> text[<span class="number">-1</span>].split()):</span><br><span class="line">        con_label = <span class="literal">False</span>   <span class="comment"># 发散</span></span><br><span class="line">    result[<span class="string">'con_label'</span>] = con_label</span><br><span class="line">    <span class="keyword">return</span> result_file, result</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">readMfFile</span><span class="params">(result_file, result, data)</span>:</span></span><br><span class="line">    <span class="string">'''读取mf文件和记录安装角'''</span></span><br><span class="line">    f = open(result_file)</span><br><span class="line">    text = f.readlines()</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="comment"># 处理NaN</span></span><br><span class="line">    NaN_exist = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> text:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">'NaN'</span> <span class="keyword">in</span> line:</span><br><span class="line">            text[text.index(line)] = line.replace(<span class="string">'NaN'</span>, <span class="string">'9999.9999'</span>)</span><br><span class="line">            NaN_exist = <span class="literal">True</span></span><br><span class="line">    <span class="comment"># 安装角</span></span><br><span class="line">    pattern = <span class="string">r'\d+\.\d+'</span></span><br><span class="line">    <span class="comment"># Vy(切向速度)</span></span><br><span class="line">    result[<span class="string">'vy1'</span>], result[<span class="string">'vy2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">42</span>])]</span><br><span class="line">    <span class="comment"># Vz(轴向速度)</span></span><br><span class="line">    result[<span class="string">'vz1'</span>], result[<span class="string">'vz2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">43</span>])]</span><br><span class="line">    <span class="comment"># |V|(绝对速度)</span></span><br><span class="line">    result[<span class="string">'v1'</span>], result[<span class="string">'v2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">44</span>])]</span><br><span class="line">    <span class="comment"># 马赫数</span></span><br><span class="line">    result[<span class="string">'ma1'</span>],result[<span class="string">'ma2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">45</span>])]</span><br><span class="line">    <span class="comment"># 静压</span></span><br><span class="line">    result[<span class="string">'p1'</span>],result[<span class="string">'p2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">50</span>])]</span><br><span class="line">    <span class="comment"># 静温</span></span><br><span class="line">    result[<span class="string">'t1'</span>],result[<span class="string">'t2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">51</span>])]</span><br><span class="line">    <span class="comment"># 密度</span></span><br><span class="line">    result[<span class="string">'ro1'</span>], result[<span class="string">'ro2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">52</span>])]</span><br><span class="line">    <span class="comment"># 总压</span></span><br><span class="line">    result[<span class="string">'pt1'</span>], result[<span class="string">'pt2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">57</span>])]</span><br><span class="line">    <span class="comment"># 总温</span></span><br><span class="line">    result[<span class="string">'tt1'</span>], result[<span class="string">'tt2'</span>] = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">58</span>])]</span><br><span class="line">    <span class="comment"># 流量</span></span><br><span class="line">    result[<span class="string">'mass1'</span>], result[<span class="string">'mass2'</span>] = float(text[<span class="number">63</span>].split()[<span class="number">1</span>]), float(text[<span class="number">63</span>].split()[<span class="number">2</span>])</span><br><span class="line">    <span class="comment"># 静压比</span></span><br><span class="line">    result[<span class="string">'pr'</span>], = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">70</span>])]</span><br><span class="line">    <span class="comment"># 总压比</span></span><br><span class="line">    result[<span class="string">'tpr'</span>], = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">71</span>])]</span><br><span class="line">    <span class="comment"># 静温比</span></span><br><span class="line">    result[<span class="string">'tr'</span>], = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">73</span>])]</span><br><span class="line">    <span class="comment"># 总温比</span></span><br><span class="line">    result[<span class="string">'ttr'</span>], = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">74</span>])]</span><br><span class="line">    <span class="comment"># 总压系数</span></span><br><span class="line">    result[<span class="string">'tpcoeff'</span>], = [float(ele) <span class="keyword">for</span> ele <span class="keyword">in</span> re.compile(pattern).findall(text[<span class="number">76</span>])]</span><br><span class="line">    <span class="comment"># 分别处理有无NaN结果</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> NaN_exist:</span><br><span class="line">        <span class="comment"># 计算损失</span></span><br><span class="line">        result[<span class="string">'loss'</span>] = (result[<span class="string">'pt1'</span>] - result[<span class="string">'pt2'</span>]) / (result[<span class="string">'pt1'</span>] - result[<span class="string">'p1'</span>])</span><br><span class="line">        <span class="comment"># 计算落后角</span></span><br><span class="line">        result[<span class="string">'dev'</span>] = degrees(asin(result[<span class="string">'vy2'</span>]/result[<span class="string">'v2'</span>])) - data[<span class="string">'bet2'</span>]</span><br><span class="line">        <span class="comment"># 计算扩散因子</span></span><br><span class="line">        result[<span class="string">'dfactor'</span>] = <span class="number">1</span> - result[<span class="string">'v2'</span>]/result[<span class="string">'v1'</span>]+abs(result[<span class="string">'vy1'</span>]-result[<span class="string">'vy2'</span>])/(<span class="number">2</span>*result[<span class="string">'v1'</span>]*data[<span class="string">'sol'</span>])</span><br><span class="line">        <span class="comment"># 计算AVDR</span></span><br><span class="line">        result[<span class="string">'avdr'</span>] = result[<span class="string">'ro1'</span>]*result[<span class="string">'vz1'</span>]/(result[<span class="string">'ro2'</span>]*result[<span class="string">'vz2'</span>])</span><br><span class="line">        <span class="comment"># Ma之差</span></span><br><span class="line">        result[<span class="string">'err_ma'</span>] = result[<span class="string">'ma1'</span>] - data[<span class="string">'ma'</span>]</span><br><span class="line">        <span class="comment"># 流量之差</span></span><br><span class="line">        result[<span class="string">'err_mass1'</span>] = result[<span class="string">'mass1'</span>] - result[<span class="string">'mass_given'</span>]</span><br><span class="line">        result[<span class="string">'err_mass2'</span>] = result[<span class="string">'mass2'</span>] - result[<span class="string">'mass_given'</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        result[<span class="string">'loss'</span>],result[<span class="string">'dev'</span>],result[<span class="string">'D'</span>],result[<span class="string">'avdr'</span>],result[<span class="string">'err_ma'</span>],result[<span class="string">'err_mass1'</span>],\</span><br><span class="line">        result[<span class="string">'err_mass2'</span>] = <span class="number">9999.9999</span>,<span class="number">9999.9999</span>,<span class="number">9999.9999</span>,<span class="number">9999.9999</span>,<span class="number">9999.9999</span>,<span class="number">9999.9999</span>,<span class="number">9999.9999</span></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">singleProcess</span><span class="params">(text, para, root, data, label)</span>:</span></span><br><span class="line">    <span class="string">'''单线程完整流程，供Pool调用'''</span></span><br><span class="line">    print(<span class="string">'Run task &#123;&#125; (&#123;&#125;)'</span>.format(label, os.getpid()))</span><br><span class="line">    os.chdir(root)</span><br><span class="line">    <span class="comment"># 创建输出文件夹</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> (os.path.exists(<span class="string">'output'</span>)):</span><br><span class="line">        os.mkdir(<span class="string">'output'</span>)</span><br><span class="line">    out_dir = jpath(root, <span class="string">'output'</span>)</span><br><span class="line">    result =&#123;&#125; <span class="comment"># 记录结果</span></span><br><span class="line">    <span class="comment"># 修改input.dat</span></span><br><span class="line">    subdir = modifyInput(out_dir, label, para, text, data)</span><br><span class="line">    os.chdir(root)</span><br><span class="line">    <span class="comment"># 生成叶型</span></span><br><span class="line">    result = genAirfoil(root, subdir, result)</span><br><span class="line">    os.chdir(root)</span><br><span class="line">    <span class="comment"># 生成网格</span></span><br><span class="line">    genMesh(subdir, data, para)</span><br><span class="line">    os.chdir(root)</span><br><span class="line">    <span class="comment"># 生成计算文件</span></span><br><span class="line">    result_file, result = genRun(subdir, data, para, result)</span><br><span class="line">    os.chdir(root)</span><br><span class="line">    <span class="comment"># 读取计算结果</span></span><br><span class="line">    result = readMfFile(result_file, result, data)</span><br><span class="line">    os.chdir(root)</span><br><span class="line">    <span class="comment"># 返回计算结果和收敛标志</span></span><br><span class="line">    result[<span class="string">'No.'</span>] = label</span><br><span class="line">    <span class="comment"># 写入临时文件</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span>(os.path.exists(<span class="string">'./inout/temp_result.dat'</span>)):</span><br><span class="line">        f = open(<span class="string">'./inout/temp_result.dat'</span>, <span class="string">'a'</span>)</span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> result.keys():</span><br><span class="line">            f.write(<span class="string">'&#123;:^20&#125;'</span>.format(name))</span><br><span class="line">        f.write(<span class="string">'\n'</span>)</span><br><span class="line">        f.close()</span><br><span class="line">    f = open(<span class="string">'./inout/temp_result.dat'</span>, <span class="string">'a'</span>)</span><br><span class="line">    <span class="keyword">for</span> val <span class="keyword">in</span> result.values():</span><br><span class="line">        <span class="keyword">if</span>(type(val) <span class="keyword">is</span> str):</span><br><span class="line">            f.write(<span class="string">'&#123;:^20&#125;'</span>.format(val))</span><br><span class="line">        <span class="keyword">elif</span> (type(val) <span class="keyword">is</span> bool):</span><br><span class="line">            f.write(<span class="string">'&#123;:^20d&#125;'</span>.format(val))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            f.write(<span class="string">'&#123;:^20.4f&#125;'</span>.format(val))</span><br><span class="line">    f.write(<span class="string">'\n'</span>)</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 生成样本点参数并保存</span></span><br><span class="line">    samples = sample()</span><br><span class="line">    n_samples = len(samples)</span><br><span class="line">    text, para = readInput()    <span class="comment"># 在主程序里声明的为全局变量</span></span><br><span class="line">    <span class="comment"># 将para转化为float型</span></span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> para.keys():</span><br><span class="line">        para[key] = float(para[key])</span><br><span class="line">    root = os.getcwd()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 测试代码</span></span><br><span class="line">    <span class="comment"># result = singleProcess(text, para, root, samples[0], '00')</span></span><br><span class="line">    <span class="comment"># f = open('test_result.dat','w')</span></span><br><span class="line">    <span class="comment"># for name in result.keys():</span></span><br><span class="line">    <span class="comment">#     f.write('&#123;:^20&#125;'.format(name))</span></span><br><span class="line">    <span class="comment"># f.write('\n')</span></span><br><span class="line">    <span class="comment"># for value in result.values():</span></span><br><span class="line">    <span class="comment">#     if(type(value) == str):</span></span><br><span class="line">    <span class="comment">#         f.write(' &#123;:^20&#125; '.format(value))</span></span><br><span class="line">    <span class="comment">#     else:</span></span><br><span class="line">    <span class="comment">#         f.write('&#123;:^20.4f&#125;'.format(value))</span></span><br><span class="line">    <span class="comment"># f.close()</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 并行</span></span><br><span class="line">    p = Pool(cpu_count())</span><br><span class="line">    res_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n_samples):</span><br><span class="line">        args = (text, para, root, samples[i], str(i))</span><br><span class="line">        res_list.append(p.apply_async(singleProcess,args=args))</span><br><span class="line">    p.close()</span><br><span class="line">    p.join()</span><br><span class="line">    print(<span class="string">'All subprocesses done'</span>)</span><br><span class="line">    f = open(<span class="string">'./inout/results.dat'</span>,<span class="string">'w'</span>)</span><br><span class="line">    names = list(res_list[<span class="number">0</span>].get().keys())</span><br><span class="line">    names.sort()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n_samples):</span><br><span class="line">        result = res_list[i].get()</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span>):</span><br><span class="line">            <span class="keyword">for</span> ele <span class="keyword">in</span> names:</span><br><span class="line">                f.write(<span class="string">'&#123;:^20&#125;'</span>.format(ele))</span><br><span class="line">            f.write(<span class="string">'\n'</span>)</span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">            <span class="keyword">if</span>(type(result[name]) <span class="keyword">is</span> str):</span><br><span class="line">                f.write(<span class="string">'&#123;:^20&#125;'</span>.format(result[name]))</span><br><span class="line">            <span class="keyword">elif</span>(type(result[name]) <span class="keyword">is</span> bool):</span><br><span class="line">                f.write(<span class="string">'&#123;:^20d&#125;'</span>.format(result[name]))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                f.write(<span class="string">'&#123;:^20.4f&#125;'</span>.format(result[name]))</span><br><span class="line">        f.write(<span class="string">'\n'</span>)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>起初计算一切正常，当运行到第4w+样本点时由于停电计算中断，重新启动PyCharm再次打开项目文件夹底部一直显示<code>scanning files to index</code>无法调试和运行，卸载PyCharm重装依旧无效。查询Google得知原因是工作目录文件过多导致长时间索引，并给出了两条解决方法。</p>
+<p>第一种是在<code>File-Setting-Project Structure</code>中将所索引较慢或文件较多的目录选中后点击Excluded，即不索引该目录，该方法测试对我遇到的问题无效。</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/71717971ly1g1t2h0gs2aj21400ny781.jpg" alt=""></p>
+<p>第二种是<code>File-Invalidate and restart</code>清空缓存并重启PyCharm，亲测无效。</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/71717971ly1g1t2o9lv4fj21400nw42m.jpg" alt=""></p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>在output文件夹内保存了大量的NUMECA计算结果，大概有几百万个文件，我估计应该是导致长时间无法完成索引的罪魁祸首。故将该文件转移至非工作目录，再次打开PyCharm，问题解决。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>在PyCharm工作目录内不宜放置过多的文件，若有子目录需要包含大量文件例如计算结果，需要提前将该文件夹设置为Excluded。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2019/04/06/PyCharm%E9%95%BF%E6%97%B6%E9%97%B4%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="PyCharm长时间建立索引解决方法">https://xiao5.tk/2019/04/06/PyCharm长时间建立索引解决方法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/25/next%E4%B8%BB%E9%A2%98%E8%A7%A3%E5%86%B3%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" rel="prev" title="next主题解决无法显示数学公式">
+      <i class="fa fa-chevron-left"></i> next主题解决无法显示数学公式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/08/%E5%88%A9%E7%94%A8Github%E5%88%86%E6%94%AF%E5%A4%87%E4%BB%BDHexo%E6%BA%90%E6%96%87%E4%BB%B6/" rel="next" title="利用Github分支备份Hexo源文件">
+      利用Github分支备份Hexo源文件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动生成叶型并多线程计算脚本"><span class="nav-number">1.</span> <span class="nav-text">自动生成叶型并多线程计算脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">2.</span> <span class="nav-text">遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法"><span class="nav-number">3.</span> <span class="nav-text">解决方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结论"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蘑菇熊"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蘑菇熊</p>
+  <div class="site-description" itemprop="description">我们的征途是星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxwu1990" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail → mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.nwpu.edu.cn/" title="http:&#x2F;&#x2F;www.nwpu.edu.cn&#x2F;" rel="noopener" target="_blank">NPU</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'SnFWeZoaPRmRgfAZt';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2019/04/06/PyCharm%E9%95%BF%E6%97%B6%E9%97%B4%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: '85b5dfa046a4226045557a32b5ce3a03',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

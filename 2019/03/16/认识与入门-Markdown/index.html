@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="qEdgqO13X5Z5sZwkt6GMVScMlJgTtyWSIaszLQZTqc4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiao5.tk').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="转自少数派  Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识与入门 Markdown">
+<meta property="og:url" content="https://xiao5.tk/2019/03/16/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%85%A5%E9%97%A8-Markdown/index.html">
+<meta property="og:site_name" content="蘑菇熊星球">
+<meta property="og:description" content="转自少数派  Markdown 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69489.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69490.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69491.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69492.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69493.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69494.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69495.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69496.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="og:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69497.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+<meta property="article:published_time" content="2019-03-15T23:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-19T23:23:46.683Z">
+<meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="MARKDOWN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.sspai.com/attachment/origin/2014/04/15/69489.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1">
+
+<link rel="canonical" href="https://xiao5.tk/2019/03/16/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%85%A5%E9%97%A8-Markdown/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>认识与入门 Markdown | 蘑菇熊星球</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蘑菇熊星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hakuna Matata</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/xxwu1990/" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/03/16/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%85%A5%E9%97%A8-Markdown/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          认识与入门 Markdown
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-03-16 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-16T00:00:00+01:00">2019-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-20 00:23:46" itemprop="dateModified" datetime="2020-01-20T00:23:46+01:00">2020-01-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MARKDOWN/" itemprop="url" rel="index">
+                    <span itemprop="name">MARKDOWN</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>转自<a href="https://sspai.com/post/25137" target="_blank" rel="noopener">少数派</a></p>
+<blockquote>
+<p><a href="http://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="noopener">Markdown</a> 是一种轻量级的「标记语言」，它的优点很多，目前也被越来越多的写作爱好者，撰稿者广泛使用。看到这里请不要被「标记」、「语言」所迷惑，Markdown 的语法十分简单。常用的标记符号也不超过十个，这种相对于更为复杂的HTML 标记语言来说，Markdown 可谓是十分轻量的，学习成本也不需要太多，且一旦熟悉这种语法规则，会有一劳永逸的效果。<a id="more"></a></p>
+</blockquote>
+<h2 id="认识-Markdown"><a href="#认识-Markdown" class="headerlink" title="认识 Markdown"></a>认识 Markdown</h2><p>在刚才的导语里提到，Markdown 是一种用来写作的轻量级「标记语言」，它用简洁的语法代替排版，而不像一般我们用的字处理软件 Word 或 Pages 有大量的排版、字体设置。它使我们专心于码字，用「标记」语法，来代替常见的排版格式。例如此文从内容到格式，甚至插图，键盘就可以通通搞定了。</p>
+<p>目前来看，支持 Markdown 语法的编辑器有很多，包括很多网站（例如 <a href="http://jianshu.io/" target="_blank" rel="noopener">简书</a>）也支持了 Markdown 的文字录入。Markdown 从写作到完成，导出格式随心所欲，你可以导出 HTML 格式的文件用来网站发布，也可以十分方便的导出 PDF 格式，这种格式写出的简历更能得到 HR 的好感，甚至可以利用 <a href="http://www.getcloudapp.com/" target="_blank" rel="noopener">CloudApp</a> 这种云服务工具直接上传至网页用来分享你的文章，全球最大的轻博客平台 Tumblr，也支持使用 Mou 这类 Markdown 工具进行编辑并直接上传。</p>
+<h3 id="Markdown-官方文档"><a href="#Markdown-官方文档" class="headerlink" title="Markdown 官方文档"></a>Markdown 官方文档</h3><p>这里可以看到官方的 Markdown 语法规则文档，当然，后文我也会用自己的方式，阐述这些语法在实际使用中的用法。</p>
+<ul>
+<li><a href="http://daringfireball.net/projects/markdown/syntax" target="_blank" rel="noopener">创始人 John Gruber 的 Markdown 语法说明</a></li>
+<li><a href="http://wowubuntu.com/markdown/#list" target="_blank" rel="noopener">Markdown 中文版语法说明</a></li>
+</ul>
+<h3 id="使用-Markdown-的优点"><a href="#使用-Markdown-的优点" class="headerlink" title="使用 Markdown 的优点"></a>使用 Markdown 的优点</h3><ul>
+<li>专注你的文字内容而不是排版样式，安心写作。</li>
+<li>轻松的导出 HTML、PDF 和本身的 .md 文件。</li>
+<li>纯文本内容，兼容所有的文本编辑器与字处理软件。</li>
+<li>随时修改你的文章版本，不必像字处理软件生成若干文件版本导致混乱。</li>
+<li>可读、直观、学习成本低。</li>
+</ul>
+<h3 id="使用-Markdown-的误区"><a href="#使用-Markdown-的误区" class="headerlink" title="使用 Markdown 的误区"></a>使用 Markdown 的误区</h3><blockquote>
+<p>We believe that writing is about content, about what you want to say – not about fancy formatting.</p>
+<p>我们坚信写作写的是内容，所思所想，而不是花样格式。<br>— <em>Ulysses for Mac</em></p>
+</blockquote>
+<p>Markdown 旨在简洁、高效，也由于 Markdown 的易读易写，人们用不同的编程语言实现了多个版本的解析器和生成器。这就导致了目前不同的 Markdown 工具集成了不同的功能（基础功能大致相同），例如流程图与时序图，复杂表格与复杂公式的呈现。</p>
+<p>虽然功能的丰富并没有什么本质的缺点，但终归有些背离初衷，何况在编写的过程中很费神，不如使用专业的工具撰写来的更有效率，所以如果你需实现复杂功能，专业的图形界面工具会更加方便。</p>
+<p>当然，如果你对折腾这些不同客户端对 Markdown 的定制所带来高阶功能感到愉悦的话，那也是无可厚非的。</p>
+<h2 id="我该用什么工具？"><a href="#我该用什么工具？" class="headerlink" title="我该用什么工具？"></a>我该用什么工具？</h2><h3 id="macOS-平台"><a href="#macOS-平台" class="headerlink" title="macOS 平台"></a>macOS 平台</h3><p>在 macOS 上可以使用 <a href="http://mouapp.com/" target="_blank" rel="noopener">Mou</a>，它支持实时预览，既左边是你编辑 Markdown 语言，右边会实时的生成预览效果，笔者文章就是 Mou 这款应用写出来的。</p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69489.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>其次还有很多同类选择。如果你是个编辑作者，我强烈建议你购买 <a href="http://www.ulyssesapp.com/" target="_blank" rel="noopener">Ulysses</a>，这款应用入围了 Mac App Store 的 The Best of 2013，相比 Mou 它支持更多的写作格式、多文档的支持。Mou、iA Writer 这些应用都是基于单文档的管理方式，而 Ulysses 支持 Folder、Filter 的管理，一个 Folder 里面可以创建多个 Sheet，Sheet 之间还可以进行 Combine 处理。</p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69490.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<h4 id="Windows、iOS、Web-平台"><a href="#Windows、iOS、Web-平台" class="headerlink" title="Windows、iOS、Web 平台"></a>Windows、iOS、Web 平台</h4><ul>
+<li>笔者并未使用过 Windows 下的 Markdown 工具，但经朋友介绍，有两款还算不错，一款叫 <a href="http://www.markdownpad.com/" target="_blank" rel="noopener">MarkdownPad</a> ，另一款叫 <a href="http://code52.org/DownmarkerWPF/" target="_blank" rel="noopener">MarkPad</a>。</li>
+<li>iOS 端已有相当多的 app 支持 Markdown 语法编辑，例如 Drafts、Day One、iA Writer 等。</li>
+<li>Web 端上，我强烈推荐 <a href="http://jianshu.io/" target="_blank" rel="noopener">简书</a> 这款产品，上面有无数热爱文字的人在不停的创造、分享。在 Web 端使用 Markdown 没有比简书更舒服的地方了，它同样支持左右两栏的实时预览，字体优雅、简洁。</li>
+</ul>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69491.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<ul>
+<li>同样是 Web 端，<a href="https://draftin.com/" target="_blank" rel="noopener">Draftin</a> 这款在线 MD 编辑器也近乎完美。</li>
+</ul>
+<h2 id="Markdown-语法的简要规则"><a href="#Markdown-语法的简要规则" class="headerlink" title="Markdown 语法的简要规则"></a>Markdown 语法的简要规则</h2><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69492.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>标题是每篇文章都需要也是最常用的格式，在 Markdown 中，如果一段文字被定义为标题，只要在这段文字前加 <code>#</code> 号即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 一级标题</span><br><span class="line">## 二级标题</span><br><span class="line">### 三级标题</span><br></pre></td></tr></table></figure>
+<p>以此类推，总共六级标题，建议在井号后加一个空格，这是最标准的 Markdown 语法。</p>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>熟悉 HTML 的同学肯定知道有序列表与无序列表的区别，在 Markdown 下，列表的显示只需要在文字前加上 <code>-</code> 或 <code>*</code> 即可变为无序列表，有序列表则直接在文字前加 <code>1.``2.``3.</code> 符号要和文字之间加上一个字符的空格。</p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69493.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>如果你需要引用一小段别处的句子，那么就要用引用的格式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; 例如这样</span><br></pre></td></tr></table></figure>
+<p>只需要在文本前加入 <code>&gt;</code> 这种尖括号（大于号）即可</p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69494.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<h3 id="图片与链接"><a href="#图片与链接" class="headerlink" title="图片与链接"></a>图片与链接</h3><p>插入链接与插入图片的语法很像，区别在一个 <code>!</code>号</p>
+<p>插入图片的地址需要图床，这里推荐 <a href="http://www.getcloudapp.com/" target="_blank" rel="noopener">CloudApp</a> 的服务，生成URL地址即可。</p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69495.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<h3 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h3><p>Markdown 的粗体和斜体也非常简单，用两个 <code>*</code> 包含一段文本就是粗体的语法，用一个 <code>*</code> 包含一段文本就是斜体的语法。</p>
+<p>例如：<strong>这里是粗体*</strong>这里是斜体*</p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>表格是我觉得 Markdown 比较累人的地方，例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">| Tables        | Are           | Cool  |</span><br><span class="line">| ------------- |:-------------:| -----:|</span><br><span class="line">| col 3 is      | right-aligned | $1600 |</span><br><span class="line">| col 2 is      | centered      |   $12 |</span><br><span class="line">| zebra stripes | are neat      |    $1 |</span><br></pre></td></tr></table></figure>
+<p>这种语法生成的表格如下：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Tables</th>
+<th>Are</th>
+<th>Cool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>col 3 is</td>
+<td>right-aligned</td>
+<td>$1600</td>
+</tr>
+<tr>
+<td>col 2 is</td>
+<td>centered</td>
+<td>$12</td>
+</tr>
+<tr>
+<td>zebra stripes</td>
+<td>are neat</td>
+<td>$1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h3><p>如果你是个程序猿，需要在文章里优雅的引用代码框，在 Markdown 下实现也非常简单，只需要用两个 ` 把中间的代码包裹起来，如 <code>code</code>。图例：</p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69496.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<p>使用 <code>tab</code> 键即可缩进。</p>
+<h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>分割线的语法只需要另起一行，连续输入三个星号 <code>***</code> 即可。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>到这里，Markdown 的基本语法在日常的使用中基本就没什么大问题了，只要多加练习，配合好用的工具，写起东西来肯定会行云流水。更多的语法规则，其实 Mou 的 Help 文档例子很好，当你第一次使用 Mou 时，就会显示该文档，其次，你也可在撰写过程中，使用 <code>CMD+R</code> 快捷键来快速打开文档，以随时查阅和学习语法。</p>
+<p><img src="https://cdn.sspai.com/attachment/origin/2014/04/15/69497.jpg?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="img"></p>
+<h2 id="与-Markdown-相关的一些推荐"><a href="#与-Markdown-相关的一些推荐" class="headerlink" title="与 Markdown 相关的一些推荐"></a><strong>与 Markdown 相关的一些推荐</strong></h2><h3 id="可配套使用的工具"><a href="#可配套使用的工具" class="headerlink" title="可配套使用的工具"></a><strong>可配套使用的工具</strong></h3><ul>
+<li><a href="http://droplr.com/" target="_blank" rel="noopener">Droplr</a></li>
+<li><a href="http://www.getcloudapp.com/" target="_blank" rel="noopener">Cloudapp</a></li>
+<li><a href="https://itunes.apple.com/cn/app/yi-xiang/id672522335?mt=12&amp;uo=4" target="_blank" rel="noopener">ezShare for Mac</a></li>
+<li><a href="http://weibotuchuang.sinaapp.com/" target="_blank" rel="noopener">围脖图床修复计划</a></li>
+<li><a href="http://maxiang.info/" target="_blank" rel="noopener">马克飞象，专为印象笔记打造的 Markdown 编辑器，非常推荐</a></li>
+</ul>
+<h3 id="相关文章阅读"><a href="#相关文章阅读" class="headerlink" title="相关文章阅读"></a><strong>相关文章阅读</strong></h3><ul>
+<li><a href="http://apple4us.com/2012/02/why-writers-should-use-markdown.html" target="_blank" rel="noopener">为什么作家应该用 Markdown 保存自己的文稿</a></li>
+<li><a href="http://www.yangzhiping.com/tech/r-markdown-knitr.html" target="_blank" rel="noopener">Markdown 写作浅谈</a></li>
+<li><a href="http://www.appinn.com/markdown-tools/" target="_blank" rel="noopener">Markdown 工具补完</a></li>
+<li><a href="http://jianshu.io/p/63HYZ6" target="_blank" rel="noopener">Drafts + Scriptogr.am + Dropbox 打造移动端 Markdown 风格博客</a></li>
+<li><a href="http://www.ituring.com.cn/article/23" target="_blank" rel="noopener">图灵社区 - 怎样使用 Markdown</a></li>
+<li><a href="http://news.cnblogs.com/n/139649/" target="_blank" rel="noopener">为什么我们要学习 Markdown 的三个理由</a></li>
+<li><a href="http://ibuick.me/?p=4093" target="_blank" rel="noopener">Markdown 语法写作入门指南 by ibuick</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2019/03/16/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%85%A5%E9%97%A8-Markdown/" title="认识与入门 Markdown">https://xiao5.tk/2019/03/16/认识与入门-Markdown/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MARKDOWN/" rel="tag"># MARKDOWN</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/01/22/Windows10%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E6%8B%A8%E5%8F%B7%E5%8F%8A%E6%96%AD%E7%BA%BF%E9%87%8D%E8%BF%9E/" rel="prev" title="Windows10设置开机自动拨号及断线重连">
+      <i class="fa fa-chevron-left"></i> Windows10设置开机自动拨号及断线重连
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/16/%E5%9F%BA%E4%BA%8EHexo-Coding-Github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%85%A8%E8%BF%87%E7%A8%8B/" rel="next" title="基于Hexo+Coding+Github搭建个人博客的全过程">
+      基于Hexo+Coding+Github搭建个人博客的全过程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#认识-Markdown"><span class="nav-number">1.</span> <span class="nav-text">认识 Markdown</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Markdown-官方文档"><span class="nav-number">1.1.</span> <span class="nav-text">Markdown 官方文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Markdown-的优点"><span class="nav-number">1.2.</span> <span class="nav-text">使用 Markdown 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Markdown-的误区"><span class="nav-number">1.3.</span> <span class="nav-text">使用 Markdown 的误区</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我该用什么工具？"><span class="nav-number">2.</span> <span class="nav-text">我该用什么工具？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#macOS-平台"><span class="nav-number">2.1.</span> <span class="nav-text">macOS 平台</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows、iOS、Web-平台"><span class="nav-number">2.1.1.</span> <span class="nav-text">Windows、iOS、Web 平台</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Markdown-语法的简要规则"><span class="nav-number">3.</span> <span class="nav-text">Markdown 语法的简要规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标题"><span class="nav-number">3.1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表"><span class="nav-number">3.2.</span> <span class="nav-text">列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">3.3.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片与链接"><span class="nav-number">3.4.</span> <span class="nav-text">图片与链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#粗体与斜体"><span class="nav-number">3.5.</span> <span class="nav-text">粗体与斜体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表格"><span class="nav-number">3.6.</span> <span class="nav-text">表格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码框"><span class="nav-number">3.7.</span> <span class="nav-text">代码框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分割线"><span class="nav-number">3.8.</span> <span class="nav-text">分割线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">3.9.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与-Markdown-相关的一些推荐"><span class="nav-number">4.</span> <span class="nav-text">与 Markdown 相关的一些推荐</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可配套使用的工具"><span class="nav-number">4.1.</span> <span class="nav-text">可配套使用的工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关文章阅读"><span class="nav-number">4.2.</span> <span class="nav-text">相关文章阅读</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蘑菇熊"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蘑菇熊</p>
+  <div class="site-description" itemprop="description">我们的征途是星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxwu1990" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail → mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.nwpu.edu.cn/" title="http:&#x2F;&#x2F;www.nwpu.edu.cn&#x2F;" rel="noopener" target="_blank">NPU</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'SnFWeZoaPRmRgfAZt';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2019/03/16/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%85%A5%E9%97%A8-Markdown/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: 'bcfc2c06b26904d74bef4ca48cb99f71',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

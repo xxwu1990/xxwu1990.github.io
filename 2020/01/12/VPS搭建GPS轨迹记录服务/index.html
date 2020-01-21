@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="qEdgqO13X5Z5sZwkt6GMVScMlJgTtyWSIaszLQZTqc4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiao5.tk').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="VPS搭建GPS轨迹记录服务">
+<meta property="og:url" content="https://xiao5.tk/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/index.html">
+<meta property="og:site_name" content="蘑菇熊星球">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-04_11-22-40-768x424.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_20-05-43-768x347.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/%E8%BD%A8%E8%BF%B9-1-768x370.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_21-54-45-768x476.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200112180224.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_19-12-51-768x462.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_19-40-01.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/lala.im_2019-07-21_23-51-15.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_19-44-17-768x359.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_20-00-44-768x596.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/image-20200112181329268.png">
+<meta property="article:published_time" content="2020-01-11T23:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-21T18:17:39.263Z">
+<meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="traccar">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-04_11-22-40-768x424.png">
+
+<link rel="canonical" href="https://xiao5.tk/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>VPS搭建GPS轨迹记录服务 | 蘑菇熊星球</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蘑菇熊星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hakuna Matata</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/xxwu1990/" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VPS搭建GPS轨迹记录服务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-12 00:00:00" itemprop="dateCreated datePublished" datetime="2020-01-12T00:00:00+01:00">2020-01-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-21 19:17:39" itemprop="dateModified" datetime="2020-01-21T19:17:39+01:00">2020-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/VPS/" itemprop="url" rel="index">
+                    <span itemprop="name">VPS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-04_11-22-40-768x424.png" alt=""><br><a id="more"></a></p>
+<h4 id="Traccar-是什么？"><a href="#Traccar-是什么？" class="headerlink" title="Traccar 是什么？"></a>Traccar 是什么？</h4><p><strong>Traccar 是一个免费的开源现代GPS跟踪系统，支持170多种GPS协议和超过1500种型号的GPS跟踪设备。</strong></p>
+<p>可以满足</p>
+<ul>
+<li>出租车，货车，卡车/拖车</li>
+<li>农用设备，车队，集装箱，船舶，全地形车</li>
+<li>专人跟踪，个人车辆，手机</li>
+</ul>
+<p>等追踪定位需求。</p>
+<p>Traccar 的功能非常多，可<strong>切换卫星、街景地图</strong></p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_20-05-43-768x347.png" alt=""></p>
+<p> <strong>追踪运动轨迹</strong> <img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/%E8%BD%A8%E8%BF%B9-1-768x370.png" alt=""></p>
+<p> <strong>追踪行程</strong>，<strong>停留点</strong>等 </p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_21-54-45-768x476.png" alt=""></p>
+<h4 id="搭建-Traccar-服务端"><a href="#搭建-Traccar-服务端" class="headerlink" title="搭建 Traccar 服务端"></a>搭建 Traccar 服务端</h4><p>我使用的Vultr虚拟主机，配置为</p>
+<blockquote>
+<p>操作系统：Debian10</p>
+<p>控制面板：宝塔</p>
+</blockquote>
+<p>SSH连接后，安装Java服务和Mysql数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install unzip default-jre mysql-server</span><br></pre></td></tr></table></figure>
+<p>由于宝塔已经安装了MySQL，只需要再安装java即可。使用宝塔面板创建一个新数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">数据库名: traccar</span><br><span class="line">用户名: traccar</span><br><span class="line">密码: 123456</span><br></pre></td></tr></table></figure>
+<p>下载 Traccar 安装压缩包，可上<a href="https://github.com/traccar/traccar/releases" target="_blank" rel="noopener">官网</a>查看最新版本</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /opt/traccar &amp;&amp; cd /opt/traccar</span><br><span class="line">wget https://github.com/traccar/traccar/releases/download/v4.6/traccar-linux-64-4.6.zip</span><br></pre></td></tr></table></figure>
+<p> 解压压缩包并安装，编辑配置文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">unzip traccar-linux-*.zip</span><br><span class="line">./traccar.run</span><br><span class="line">echo &gt; conf/traccar.xml</span><br><span class="line">nano conf/traccar.xml</span><br></pre></td></tr></table></figure>
+<p>按照<a href="https://www.traccar.org/install-digitalocean/" target="_blank" rel="noopener">官方模板</a>修改配置文件，注意端口和数据库密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&#39;1.0&#39; encoding&#x3D;&#39;UTF-8&#39;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE properties SYSTEM &#39;http:&#x2F;&#x2F;java.sun.com&#x2F;dtd&#x2F;properties.dtd&#39;&gt;</span><br><span class="line"></span><br><span class="line">&lt;properties&gt;</span><br><span class="line"></span><br><span class="line">    &lt;entry key&#x3D;&quot;config.default&quot;&gt;.&#x2F;conf&#x2F;default.xml&lt;&#x2F;entry&gt;</span><br><span class="line"></span><br><span class="line">    &lt;entry key&#x3D;&#39;web.port&#39;&gt;(端口)&lt;&#x2F;entry&gt;</span><br><span class="line"></span><br><span class="line">    &lt;entry key&#x3D;&#39;geocoder.enable&#39;&gt;false&lt;&#x2F;entry&gt;</span><br><span class="line"></span><br><span class="line">    &lt;entry key&#x3D;&#39;database.driver&#39;&gt;com.mysql.jdbc.Driver&lt;&#x2F;entry&gt;</span><br><span class="line">    &lt;entry key&#x3D;&#39;database.url&#39;&gt;jdbc:mysql:&#x2F;&#x2F;localhost&#x2F;traccar?allowMultiQueries&#x3D;true&amp;autoReconnect&#x3D;true&amp;useUnicode&#x3D;yes&amp;characterEncoding&#x3D;UTF-8&amp;sessionVariables&#x3D;sql_mode&#x3D;&#39;&#39;&lt;&#x2F;entry&gt;</span><br><span class="line">    &lt;entry key&#x3D;&#39;database.user&#39;&gt;root&lt;&#x2F;entry&gt;</span><br><span class="line">    &lt;entry key&#x3D;&#39;database.password&#39;&gt;(数据库密码)&lt;&#x2F;entry&gt;</span><br><span class="line">    </span><br><span class="line">    &lt;entry key&#x3D;&#39;server.timeout&#39;&gt;120&lt;&#x2F;entry&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;properties&gt;</span><br></pre></td></tr></table></figure>
+<p> 删除安装压缩包 （可选）安装完就用不到安装包了，删除节省服务器空间 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f traccar.run README.txt traccar-linux-*.zip</span><br></pre></td></tr></table></figure>
+<p> 使用systemd启停traccar： </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl start traccar</span><br><span class="line">systemctl enable traccar</span><br><span class="line">systemctl status traccar</span><br></pre></td></tr></table></figure>
+<p>宝塔面板新建站点，开启反向代理绑定traccar端口，</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200112180224.png" alt=""></p>
+<p>更改反代配置，避免出现<a href="https://github.com/socketio/socket.io/issues/1942" target="_blank" rel="noopener">websocket error问题</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;www&#x2F;server&#x2F;panel&#x2F;vhost&#x2F;nginx&#x2F;proxy&#x2F;域名&#x2F;*.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#PROXY-START/</span><br><span class="line">location  ~* \.(php|jsp|cgi|asp|aspx)$</span><br><span class="line">&#123;</span><br><span class="line">    proxy_pass http://127.0.0.1:8082;</span><br><span class="line">    proxy_http_version 1.1;</span><br><span class="line">    proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">    proxy_set_header Connection "upgrade";</span><br><span class="line">    proxy_set_header Host $host;</span><br><span class="line">&#125;</span><br><span class="line">location /</span><br><span class="line">&#123;</span><br><span class="line">    proxy_pass http://127.0.0.1:8082;</span><br><span class="line">    proxy_http_version 1.1;</span><br><span class="line">    proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">    proxy_set_header Connection "upgrade";</span><br><span class="line">    proxy_set_header Host $host; </span><br><span class="line">    add_header X-Cache $upstream_cache_status;</span><br><span class="line">    </span><br><span class="line">    #Set Nginx Cache</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    proxy_ignore_headers Set-Cookie Cache-Control expires;</span><br><span class="line">    proxy_cache cache_one;</span><br><span class="line">    proxy_cache_key $host$uri$is_args$args;</span><br><span class="line">    proxy_cache_valid 200 304 301 302 1m;</span><br><span class="line">    expires 12h;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#PROXY-END/</span><br></pre></td></tr></table></figure>
+<p><strong>完成后重启nginx</strong></p>
+<h4 id="登陆-Traccar-Web管理"><a href="#登陆-Traccar-Web管理" class="headerlink" title="登陆 Traccar Web管理"></a>登陆 Traccar Web管理</h4><p> 浏览器输入 <code>http://服务器IP:8082</code>（需防火墙放行端口）或者反代域名， <strong>初始用户名和密码都为 ：</strong> admin </p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_19-12-51-768x462.png" alt=""></p>
+<p> 添加设备和设备编码 </p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_19-40-01.png" alt=""></p>
+<p>如果是自己用的话，建议把注册功能给关了，另外这个默认的地图不能显示出详细的街道名和附近的场所名，这里我们可以把地图换成GoogleMap： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;mt0.google.com&#x2F;vt&#x2F;lyrs&#x3D;m&amp;hl&#x3D;en&amp;x&#x3D;&#123;x&#125;&amp;y&#x3D;&#123;y&#125;&amp;z&#x3D;&#123;z&#125;&amp;s&#x3D;Ga</span><br></pre></td></tr></table></figure>
+<p> 按下图进行设置，将上面这个地址粘贴进去即可： </p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/lala.im_2019-07-21_23-51-15.png" alt=""></p>
+<h4 id="安装-Traccar-客户端"><a href="#安装-Traccar-客户端" class="headerlink" title="安装 Traccar 客户端"></a>安装 Traccar 客户端</h4><p> Traccar有多种平台<a href="https://www.traccar.org/client/" target="_blank" rel="noopener">客户端</a>，根据需求安装。安卓机直接 Google Play 商城搜索 traccar 下载 </p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_19-44-17-768x359.png" alt=""></p>
+<p>安装打开，给予权限</p>
+<p>按图设置</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/Snipaste_2019-03-03_20-00-44-768x596.png" alt=""></p>
+<p> 然后打开 Traccar Web管理界面点击跟踪就可以定位到你的位置了 </p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/image-20200112181329268.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/" title="VPS搭建GPS轨迹记录服务">https://xiao5.tk/2020/01/12/VPS搭建GPS轨迹记录服务/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/traccar/" rel="tag"># traccar</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/" rel="prev" title="手动安装V2ray并配置ssl">
+      <i class="fa fa-chevron-left"></i> 手动安装V2ray并配置ssl
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/15/MISES%E8%AE%A1%E7%AE%97%E7%AE%97%E4%BE%8B/" rel="next" title="MISES计算算例">
+      MISES计算算例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Traccar-是什么？"><span class="nav-number">1.</span> <span class="nav-text">Traccar 是什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建-Traccar-服务端"><span class="nav-number">2.</span> <span class="nav-text">搭建 Traccar 服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登陆-Traccar-Web管理"><span class="nav-number">3.</span> <span class="nav-text">登陆 Traccar Web管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Traccar-客户端"><span class="nav-number">4.</span> <span class="nav-text">安装 Traccar 客户端</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蘑菇熊"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蘑菇熊</p>
+  <div class="site-description" itemprop="description">我们的征途是星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxwu1990" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail → mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.nwpu.edu.cn/" title="http:&#x2F;&#x2F;www.nwpu.edu.cn&#x2F;" rel="noopener" target="_blank">NPU</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'SnFWeZoaPRmRgfAZt';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: 'dcae0229ecafe4fd6d9a975721bdd3c0',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

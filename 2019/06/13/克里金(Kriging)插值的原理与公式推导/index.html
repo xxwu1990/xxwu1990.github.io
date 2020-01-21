@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="qEdgqO13X5Z5sZwkt6GMVScMlJgTtyWSIaszLQZTqc4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiao5.tk').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="转自xg1990 学过空间插值的人都知道克里金插值，但是它的变种繁多、公式复杂，还有个半方差函数让人不知所云。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="克里金(Kriging)插值的原理与公式推导">
+<meta property="og:url" content="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/index.html">
+<meta property="og:site_name" content="蘑菇熊星球">
+<meta property="og:description" content="转自xg1990 学过空间插值的人都知道克里金插值，但是它的变种繁多、公式复杂，还有个半方差函数让人不知所云。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-12T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-20T23:49:18.982Z">
+<meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="Kriging">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>克里金(Kriging)插值的原理与公式推导 | 蘑菇熊星球</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蘑菇熊星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hakuna Matata</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/xxwu1990/" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          克里金(Kriging)插值的原理与公式推导
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-13 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-13T00:00:00+02:00">2019-06-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-21 00:49:18" itemprop="dateModified" datetime="2020-01-21T00:49:18+01:00">2020-01-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>转自</strong><a href="https://xg1990.com/blog/archives/222" target="_blank" rel="noopener">xg1990</a></p>
+<p>学过空间插值的人都知道克里金插值，但是它的变种繁多、公式复杂，还有个半方差函数让人不知所云。<a id="more"></a></p>
+<p>本文讲简单介绍基本克里金插值的原理，及其推理过程，全文分为九个部分：</p>
+<p>0.引言－从反距离插值说起<br>1.克里金插值的定义<br>2.假设条件<br>3.无偏约束条件<br>4.优化目标／代价函数<br>5.代价函数的最优解<br>6.半方差函数<br>7.普通克里金与简单克里金<br>8.小结</p>
+<h1 id="0-引言——从反距离插值-IDW-说起"><a href="#0-引言——从反距离插值-IDW-说起" class="headerlink" title="0.引言——从反距离插值(IDW)说起"></a>0.引言——从反距离插值(IDW)说起</h1><p>空间插值问题，就是在已知空间上若干离散点 $(x_i,y_i)$ 的某一属性(如气温，海拔)的观测值$z_i=z(x_i,y_i)$的条件下，估计空间上任意一点$(x,y)$的属性值的问题。</p>
+<p>直观来讲，根据地理学第一定律，</p>
+<blockquote>
+<p>All attribute values on a geographic surface are related to each other, but closer values are more strongly related than are more distant ones.</p>
+</blockquote>
+<p>大意就是，地理属性有空间相关性，相近的事物会更相似。由此人们发明了反距离插值，对于空间上任意一点$(x,y)$的属性$z=z(x,y)$，定义反距离插值公式估计量</p>
+<script type="math/tex; mode=display">
+\hat{z} = \sum^{n}_{i=0}{\frac{1}{d^\alpha}z_i}</script><p>其中$\alpha$通常取1或者2。</p>
+<p>即，用空间上所有已知点的数据加权求和来估计未知点的值，权重取决于距离的倒数（或者倒数的平方）。那么，距离近的点，权重就大；距离远的点，权重就小。</p>
+<p>反距离插值可以有效的基于地理学第一定律估计属性值空间分布，但仍然存在很多问题：</p>
+<ul>
+<li>$\alpha$的值不确定</li>
+<li>用倒数函数来描述空间关联程度不够准确</li>
+</ul>
+<p>因此更加准确的克里金插值方法被提出来了</p>
+<h1 id="1-克里金插值的定义"><a href="#1-克里金插值的定义" class="headerlink" title="1.克里金插值的定义"></a>1.克里金插值的定义</h1><p>相比反距离插值，克里金插值公式更加抽象</p>
+<script type="math/tex; mode=display">
+\hat{z_o} = \sum^{n}_{i=0}{\lambda_iz_i}</script><p>其中$\hat{z_o}$是点$(x_o,y_o)$处的估计值，即$z_o=z(x_o,y_o)$ 。</p>
+<p>这里的$\lambda_i$是权重系数。它同样是用空间上所有已知点的数据加权求和来估计未知点的值。但权重系数并非距离的倒数，而是能够满足点$(x_o,y_o)$处的估计值$\hat{z_o}$与真实值$z_o$的差最小的一套最优系数，即</p>
+<script type="math/tex; mode=display">
+\min_{\lambda_i} Var(\hat{z_o}-z_o)</script><p>同时满足无偏估计的条件</p>
+<script type="math/tex; mode=display">
+E(\hat{z_o}-z_o)=0</script><h1 id="2-假设条件"><a href="#2-假设条件" class="headerlink" title="2.假设条件"></a>2.假设条件</h1><p>不同的克里金插值方法的主要差异就是假设条件不同。本文仅介绍普通克里金插值的假设条件与应用。</p>
+<p>普通克里金插值的假设条件为，空间属性z是均一的。对于空间任意一点$(x,y)$，都有同样的期望$c$与方差$\sigma^2$。</p>
+<p>即对任意点$(x,y)$都有</p>
+<script type="math/tex; mode=display">
+E[z(x,y)] = E[z] = c</script><script type="math/tex; mode=display">
+Var[z(x,y)] = \sigma^2</script><p>换一种说法：任意一点处的值z(x,y)，都由区域平均值c和该点的随机偏差R(x,y)组成，即</p>
+<script type="math/tex; mode=display">
+z(x,y)=E[z(x,y)] + R(x,y)] = c + R(x,y)</script><p>其中$R(x,y)$表示点$(x,y)$处的偏差，其方差均为常数</p>
+<script type="math/tex; mode=display">
+Var[R(x,y)] = \sigma^2</script><h1 id="3-无偏约束条件"><a href="#3-无偏约束条件" class="headerlink" title="3.无偏约束条件"></a>3.无偏约束条件</h1><p>先分析无偏估计条件$E(\hat{z_o}-z_o)=0$，将$\hat{z_o} = \sum^{n}_{i=0}{\lambda_iz_i}$带入则有</p>
+<script type="math/tex; mode=display">
+E(\sum^{n}_{i=0}{\lambda_iz_i}- z_o)=0</script><p>又因为对任意的$z$都有$E[z] = c$，则</p>
+<script type="math/tex; mode=display">
+c \sum^{n}_{i=0}{\lambda_i}- c=0</script><p>即</p>
+<script type="math/tex; mode=display">
+\sum^{n}_{i=0}{\lambda_i} = 1</script><p>这是$\lambda_i$的约束条件之一。</p>
+<h1 id="4-优化目标-代价函数J"><a href="#4-优化目标-代价函数J" class="headerlink" title="4.优化目标/代价函数J"></a>4.优化目标/代价函数J</h1><p>再分析估计误差$Var(\hat{z_o}-z_o)$。为方便公式推理，用符号J表示，即</p>
+<script type="math/tex; mode=display">
+J = Var(\hat{z_o}-z_o)</script><p>则有</p>
+<script type="math/tex; mode=display">
+\begin{array}{r@{\;=\;}l} J &= Var(\sum^{n}_{i=0}{\lambda_iz_i} - z_o) \\&= Var(\sum^{n}_{i=0}{\lambda_iz_i}) - 2 Cov(\sum^{n}_{i=0}{\lambda_iz_i}, z_o) + Cov(z_o, z_o) \\&= \sum^{n}_{i=0}\sum^{n}_{j=0}{\lambda_i\lambda_jCov( z_i, z_j)} - 2 \sum^{n}_{i=0}{\lambda_iCov(z_i, z_o)} + Cov(z_o, z_o) \end{array}</script><p>为简化描述，定义符号 $C_{ij} = Cov(z_i,z_j) =Cov(R_i,R_j)$，这里$R_i = z_i - c$，即点$(x_i,y_i)$处的属性值相对于区域平均属性值的偏差。</p>
+<p>则有</p>
+<script type="math/tex; mode=display">
+J = \sum^{n}_{i=0}\sum^{n}_{j}{\lambda_i\lambda_jC_{ij}} - 2 \sum^{n}_{i=0}{\lambda_iC_{io}} + C_{oo}</script><h1 id="5-代价函数的最优解"><a href="#5-代价函数的最优解" class="headerlink" title="5.代价函数的最优解"></a>5.代价函数的最优解</h1><p>再定义半方差函数 $r_{ij} = \sigma^2 -C_{ij}$，带入$J$中，有</p>
+<script type="math/tex; mode=display">
+\begin{array}{r@{\;=\;}l}J & = \sum^{n}_{i=0}\sum^{n}_{j=0}{\lambda_i\lambda_j(\sigma^2 - r_{ij})} - 2 \sum^{n}_{i=0}{\lambda_i(\sigma^2 - r_{io})} + \sigma^2 - r_{oo} \\ &=\sum^{n}_{i=0}\sum^{n}_{j=0}{\lambda_i\lambda_j(\sigma^2)} -\sum^{n}_{i=0}\sum^{n}_{j=0}{\lambda_i\lambda_j( r_{ij})}-2\sum^{n}_{i=0}{\lambda_i(\sigma^2)}+2 \sum^{n}_{i=0}{\lambda_i(r_{io})}+\sigma^2 - r_{oo} \end{array}</script><p>考虑到$\sum^{n}_{i=0}{\lambda_i} = 1$</p>
+<script type="math/tex; mode=display">
+\begin{array}{r@{\;=\;}l}J &= \sigma^2-\sum^{n}_{i=0}\sum^{n}_{j}{\lambda_i\lambda_j(r_{ij})}-2 \sigma^2 +2 \sum^{n}_{i=0}{\lambda_i(r_{io})}+ \sigma^2 - r_{oo}\\&=2 \sum^{n}_{i=0}{\lambda_i(r_{io})} -\sum^{n}_{i=0}\sum^{n}_{j=0}{\lambda_i\lambda_j(r_{ij})} - r_{oo} \end{array}</script><p>我们的目标是寻找使J最小的一组 $\lambda_i$，且$J$是$\lambda_i$的函数，因此直接将J对$\lambda_i$求偏导数令其为0即可。即</p>
+<script type="math/tex; mode=display">
+\frac{\partial J}{\partial \lambda_i}= 0;i=1,2,\cdots,n</script><p>但是要注意的是，我们要保证求解出来的最优 $\lambda_i$ 满足公式$\sum^{n}_{i=0}{\lambda_i} = 1$，这是一个带约束条件的最优化问题。使用拉格朗日乘数法求解，求解方法为构造一个新的目标函数</p>
+<script type="math/tex; mode=display">
+J + \phi(\sum^{n}_{i=0}{\lambda_i}-1)</script><p>其中$\phi$是拉格朗日乘数。求解使这个代价函数最小的参数集${\phi,\lambda_1,\lambda_2,\cdots,\lambda_n}$，则能满足其在$\sum^{n}_{i=0}{\lambda_i} = 1$约束下最小化$J$。即</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{r@{\;=\;}l}\frac{\partial(J + \phi(\sum^{n}_{i=0}{\lambda_i}-1))}{\partial \lambda_i} &= 0;i=1,2,\cdots,n\\ \frac{\partial(J + \phi(\sum^{n}_{i=0}{\lambda_i}-1))}{\partial \phi} &= 0 \end{array} \right.</script><script type="math/tex; mode=display">
+\left\{\begin{array}{r@{\;=\;}l} \frac{\partial (2 \sum^{n}_{i=0}{\lambda_i(r_{io})} - \sum^{n}_{i=0}\sum^{n}_{j}{\lambda_i\lambda_j(r_{ij})} - r_{oo})}{\partial \lambda_i}&= 0;i=1,2,\cdots,n\\ \frac{\partial (\partial 2 \sum^{n}_{i=0}{\lambda_i(r_{io})} - \sum^{n}_{i=0}\sum^{n}_{j}{\lambda_i\lambda_j(r_{ij})} - r_{oo})}{\partial \phi} &= 0 \end{array} \right.</script><script type="math/tex; mode=display">
+\left\{\begin{array}{r@{\;=\;}l} 2r_{io} - \sum^{n}_{j=1}{(r_{ij}+r_{ji})\lambda_j}&=0;i=1,2,\cdots,n\\ \sum^{n}_{i=0}{\lambda_i} &= 1 \end{array} \right.</script><p>由于$C_{ij}=Cov(z_i,z_j)=C_{ji}$，因此同样地$r_{ij}=r_{ji}$，那么有</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{r@{\;=\;}l} r_{io} - \sum^{n}_{j=1}{r_{ij}\lambda_j} &= 0;i=1,2,\cdots,n\\ \sum^{n}_{i=0}{\lambda_i} &= 1 \end{array} \right.</script><p>式子中半方差函数$r_{ij}$十分重要，最后会详细解释其计算与定义</p>
+<p>在以上计算中我们得到了对于求解权重系数$\lambda_j$的方程组。写成线性方程组的形式就是：</p>
+<script type="math/tex; mode=display">
+\begin{equation}\left\{\begin{array}{r@{\;=\;}l} r_{11}\lambda_1 + r_{12}\lambda_2 + \cdots + r_{1n}\lambda_n + \phi&= r_{1o}\\r_{21}\lambda_1 + r_{22}\lambda_2 + \cdots + r_{2n}\lambda_n + \phi&= r_{2o}\\&\cdots\\ r_{n1}\lambda_1 + r_{n2}\lambda_2 + \cdots + r_{nn}\lambda_n + \phi&= r_{no}\\ \lambda_1 + \lambda_2 + \cdots + \lambda_n &= 1\\ \end{array} \right.\end{equation}</script><p>写成矩阵形式即为</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}r_{11}&r_{12}&\cdots&r_{1n}&1\\ r_{21}&r_{22}&\cdots&r_{2n}&1\\\cdots&\cdots&\cdots&\cdots&\cdots\\r_{n1}&r_{n2}&\cdots&r_{nn}&1\\1&1&\cdots&1&0\end{bmatrix}\begin{bmatrix} \lambda_1\\ \lambda_2\\\cdots\\\lambda_n\\0\end{bmatrix}=\begin{bmatrix} r_{1o}\\ r_{2o}\\\cdots\\r_{no}\\1\end{bmatrix}</script><p>对矩阵求逆即可求解。</p>
+<p>唯一未知的就是上文中定义的半方差函数$r_{ij}$，接下来将详细讨论</p>
+<h1 id="6-半方差函数"><a href="#6-半方差函数" class="headerlink" title="6.半方差函数"></a>6.半方差函数</h1><p>上文中对半方差函数的定义为</p>
+<script type="math/tex; mode=display">
+r_{ij} = \sigma^2 -C_{ij}</script><p>其等价形式为</p>
+<script type="math/tex; mode=display">
+r_{ij} = \frac{1}{2}E[(z_i-z_j)^2]</script><p>这也是半方差函数名称的来由，接下来证明这二者是等价的：</p>
+<p>根据上文定义 $R_i = z_i - c$，有$z_i-z_j = R_i - R_j$，则</p>
+<script type="math/tex; mode=display">
+\begin{array}{r@{\;=\;}l} r_{ij} &= \frac{1}{2}E[(R_i-R_j)^2]\\&= \frac{1}{2}E[R_i^2-2R_iR_j+R_j^2]\\&= \frac{1}{2}E[R_i^2]+\frac{1}{2}E[R_j^2]-E[R_iR_j] \end{array}</script><p>又因为：</p>
+<script type="math/tex; mode=display">
+E[R_i^2] =E[R_j^2] = E[(z_i - c)^2] = Var(z_i) = \sigma^2</script><script type="math/tex; mode=display">
+E[R_iR_j] = E[(z_i - c)(z_j-c)] = Cov(z_i,z_j) = C_{ij}</script><p>于是有</p>
+<script type="math/tex; mode=display">
+\begin{array}{r@{\;=\;}l} r_{ij} &= \frac{1}{2}E[(z_i-z_j)^2]\\&= \frac{1}{2}E[R_i^2]+\frac{1}{2}E[R_j^2]-E[R_iR_j]\\&= \frac{1}{2}\sigma^2+\frac{1}{2}\sigma^2- C_{ij}\\&=\sigma^2 -C_{ij}\end{array}</script><p> $\sigma^2 -C_{ij} = \frac{1}{2}E[(z_i-z_j)^2]$得证，现在的问题就是如何计算</p>
+<script type="math/tex; mode=display">
+r_{ij} = \frac{1}{2}E[(z_i-z_j)^2]</script><p>这时需要用到地理学第一定律，空间上相近的属性相近。$r_{ij} = \frac{1}{2}(z_i-z_j)^2$表达了属性的相似度；空间的相似度就用距离来表达，定义i与j之间的几何距离</p>
+<script type="math/tex; mode=display">
+d_{ij} = d(z_i,z_j) = d( (x_i,y_i), (x_j,y_j)) = \sqrt{(x_i-x_j)^2 + (y_i - y_j)^2}</script><p>克里金插值假设$r_{ij}$与$d_{ij}$存在着函数关系，这种函数关系可以是线性、二次函数、指数、对数关系。为了确认这种关系，我们需要首先对观测数据集</p>
+<script type="math/tex; mode=display">
+\{z(x_1,y_1),z(x_2,y_2),z(x_3,y_3),\cdots,z(x_{n-1},y_{n-1}),z(x_n,y_n)\}</script><p>计算任意两个点的 距离$d_{ij}= \sqrt{(x_i-x_j)^2 + (y_i - y_j)^2}$和 半方差 $\sigma^2 -C_{ij} =\frac{1}{2}E[(z_i-z_j)^2]$，这时会得到$n^2$个$(d_{ij}, r_{ij})$的数据对。</p>
+<p>将所有的$d$和$r$绘制成散点图，寻找一个最优的拟合曲线拟合d与r的关系，得到函数关系式</p>
+<script type="math/tex; mode=display">
+r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算其距离$d_{ij}$，然后根据得到的函数关系就可以得到这两点的半方差$r_{ij}$</p>
+<h1 id="7-简单克里金（simple-kriging）与普通克里金（ordinary-kriging）的区别"><a href="#7-简单克里金（simple-kriging）与普通克里金（ordinary-kriging）的区别" class="headerlink" title="7. 简单克里金（simple kriging）与普通克里金（ordinary kriging）的区别"></a>7. 简单克里金（simple kriging）与普通克里金（ordinary kriging）的区别</h1><p>以上介绍的均为普通克里金（ordinary kriging）的公式与推理。</p>
+<p>事实上普通克里金插值还有简化版，即简单克里金（simple kriging）插值。二者的差异就在于如何定义插值形式：</p>
+<p>上文讲到，普通克里金插值形式为</p>
+<script type="math/tex; mode=display">
+\hat{z_o} = \sum^{n}_{i=0}{\lambda_iz_i}</script><p>而简单克里金的形式则为</p>
+<script type="math/tex; mode=display">
+\hat{z_o} - c= \sum^{n}_{i=0}{\lambda_i(z_i-c)}</script><p>这里的符号c在上文介绍过了，是属性值的数学期望，即E[z] = c。也就是说，在普通克里金插值中，认为未知点的属性值是已知点的属性值的加权求和；而在简单克里金插值中，假设未知点的属性值相对于平均值的偏差是已知点的属性值相对于平均值的偏差的加权求和，用公式表达即为：</p>
+<script type="math/tex; mode=display">
+\hat{R_o} = \sum^{n}_{i=0}{\lambda_iR_i}</script><p>这里的R_i在上文定义过了：$R_i = z_i - c$。</p>
+<p>但是为什么这样的克里金插值称为“简单克里金”呢？由于有假设$E[z] = c$，也就是说$E(R_i + c) = c$，即$E(R_i) = 0$。那么上面的公式$\hat{R_o} = \sum^{n}_{i=0}{\lambda_iR_i}$两边的期望一定相同，那么在求解未知参数\lambda_i就不需要有无偏约束条件$\sum^{n}_{i=0}{\lambda_i} = 1$。换句话说，这样的估计公式天生就能满足无偏条件。因此它被称为简单克里金。</p>
+<p>从在上文（第4节优化目标/代价函数J）中可以知道，优化目标的推理和求解过程是通过对属性值相对于期望的偏差量R_i进行数学计算而进行的。也就是说这两种克里金插值方法虽然插值形式不一样，求解方法是一样的，重要的区别是简单克里金插值不需要约束条件$\sum^{n}_{i=0}{\lambda_i} = 1$，求解方程组为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}\left\{\begin{array}{r@{\;=\;}l} r_{11}\lambda_1 + r_{12}\lambda_2 + \cdots + r_{1n}\lambda_n + \phi&= r_{1o}\\r_{21}\lambda_1 + r_{22}\lambda_2 + \cdots + r_{2n}\lambda_n + \phi&= r_{2o}\\&\cdots\\ r_{n1}\lambda_1 + r_{n2}\lambda_2 + \cdots + r_{nn}\lambda_n + \phi&= r_{no}\\ \end{array} \right.\end{equation}</script><p>还有更重要的一点，简单克里金的插值公式为：</p>
+<script type="math/tex; mode=display">
+\hat{z_o} = \sum^{n}_{i=0}{\lambda_i(z_i-c)}+c</script><p>换句话说，在计算未知点属性值$\hat{z_o}$前，需要知道该地区的属性值期望$c$。事实上我们在进行插值前很难知道这个地区的真实属性值期望。有些研究者可能会采用对观测数据简单求平均的方法计算期望值$c$，而考虑到空间采样点位置代表性可能有偏差（比如采样点聚集在某一小片地区，没有代表性），简单平均估计的期望也可能是有偏差的。这是简单克里金方法的局限性。</p>
+<h1 id="8-小结"><a href="#8-小结" class="headerlink" title="8.小结"></a>8.小结</h1><p>总的来说，进行克里金插值分为这几个步骤：</p>
+<ol>
+<li>对于观测数据，两两计算距离与半方差</li>
+<li>寻找一个拟合曲线拟合距离与半方差的关系，从而能根据任意距离计算出相应的半方差</li>
+<li>计算出所有已知点之间的半方差$r_{ij}$</li>
+<li>对于未知点$z_o$，计算它到所有已知点$z_i$的半方差$r_{io}$</li>
+<li>求解第四节中的方程组，得到最优系数$\lambda_i$</li>
+<li>使用最优系数对已知点的属性值进行加权求和，得到未知点$z_o$的估计值</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" title="克里金(Kriging)插值的原理与公式推导">https://xiao5.tk/2019/06/13/克里金(Kriging)插值的原理与公式推导/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Kriging/" rel="tag"># Kriging</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/06/03/Linux-Tips/" rel="prev" title="Linux Tips">
+      <i class="fa fa-chevron-left"></i> Linux Tips
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/06/18/%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95%E3%80%81%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E5%92%8C%E6%9C%89%E9%99%90%E4%BD%93%E7%A7%AF%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89/" rel="next" title="有限元法、有限差分法和有限体积法的区别（转载）">
+      有限元法、有限差分法和有限体积法的区别（转载） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0-引言——从反距离插值-IDW-说起"><span class="nav-number">1.</span> <span class="nav-text">0.引言——从反距离插值(IDW)说起</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-克里金插值的定义"><span class="nav-number">2.</span> <span class="nav-text">1.克里金插值的定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-假设条件"><span class="nav-number">3.</span> <span class="nav-text">2.假设条件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-无偏约束条件"><span class="nav-number">4.</span> <span class="nav-text">3.无偏约束条件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-优化目标-代价函数J"><span class="nav-number">5.</span> <span class="nav-text">4.优化目标&#x2F;代价函数J</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-代价函数的最优解"><span class="nav-number">6.</span> <span class="nav-text">5.代价函数的最优解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-半方差函数"><span class="nav-number">7.</span> <span class="nav-text">6.半方差函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-简单克里金（simple-kriging）与普通克里金（ordinary-kriging）的区别"><span class="nav-number">8.</span> <span class="nav-text">7. 简单克里金（simple kriging）与普通克里金（ordinary kriging）的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-小结"><span class="nav-number">9.</span> <span class="nav-text">8.小结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蘑菇熊"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蘑菇熊</p>
+  <div class="site-description" itemprop="description">我们的征途是星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxwu1990" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail → mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.nwpu.edu.cn/" title="http:&#x2F;&#x2F;www.nwpu.edu.cn&#x2F;" rel="noopener" target="_blank">NPU</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'SnFWeZoaPRmRgfAZt';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+    MathJax.Ajax.config.path['mhchem'] = '//cdn.jsdelivr.net/npm/mathjax-mhchem@3';
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        extensions: ['[mhchem]/mhchem.js'],
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: '861289b32142c2dea6ad16871600faa8',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>

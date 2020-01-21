@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="qEdgqO13X5Z5sZwkt6GMVScMlJgTtyWSIaszLQZTqc4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiao5.tk').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="FDM，FVM和FEM的概念和区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有限元法、有限差分法和有限体积法的区别（转载）">
+<meta property="og:url" content="https://xiao5.tk/2019/06/18/%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95%E3%80%81%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E5%92%8C%E6%9C%89%E9%99%90%E4%BD%93%E7%A7%AF%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89/index.html">
+<meta property="og:site_name" content="蘑菇熊星球">
+<meta property="og:description" content="FDM，FVM和FEM的概念和区别。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-17T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-01-20T00:20:29.053Z">
+<meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="偏微分方程离散">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://xiao5.tk/2019/06/18/%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95%E3%80%81%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E5%92%8C%E6%9C%89%E9%99%90%E4%BD%93%E7%A7%AF%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>有限元法、有限差分法和有限体积法的区别（转载） | 蘑菇熊星球</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蘑菇熊星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hakuna Matata</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/xxwu1990/" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/06/18/%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95%E3%80%81%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E5%92%8C%E6%9C%89%E9%99%90%E4%BD%93%E7%A7%AF%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          有限元法、有限差分法和有限体积法的区别（转载）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-18 00:00:00" itemprop="dateCreated datePublished" datetime="2019-06-18T00:00:00+02:00">2019-06-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-01-20 01:20:29" itemprop="dateModified" datetime="2020-01-20T01:20:29+01:00">2020-01-20</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CFD/" itemprop="url" rel="index">
+                    <span itemprop="name">CFD</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>FDM，FVM和FEM的概念和区别。<a id="more"></a></p>
+<p>有限差分方法(FDM)**是计算机数值模拟最早采用的方法，至今仍被广泛运用。该方法将求解域划分为差分网格，用有限个网格节点代替连续的求解域。有限差分法以Taylor级数展开等方法，把控制方程中的导数用网格节点上的函数值的差商代替进行离散，从而建立以网格节点上的值为未知数的代数方程组。该方法是一种直接将微分问题变为代数问题的近似数值解法，数学概念直观，表达简单，是发展较早且比较成熟的数值方法。</p>
+<p>对于有限差分格式，从格式的精度来划分，有一阶格式、二阶格式和高阶格式。从差分的空间形式来考虑，可分为中心格式和逆风格式。考虑时间因子的影响，差分格式还可以分为显格式、隐格式、显隐交替格式等。目前常见的差分格式，主要是上述几种形式的组合，不同的组合构成不同的差分格式。差分方法主要适用于有结构网格，网格的步长一般根据实际地形的情况和柯朗稳定条件来决定。</p>
+<p>构造差分的方法有多种形式，目前主要采用的是泰勒级数展开方法。其基本的差分表达式主要有三种形式：一阶向前差分、一阶向后差分、一阶中心差分和二阶中心差分等，其中前两种格式为一阶计算精度，后两种格式为二阶计算精度。通过对时间和空间这几种不同差分格式的组合，可以组合成不同的差分计算格式。</p>
+<p>有限差分法的主要内容包括：如何根据问题的特点将定解区域作网格剖分；如何把原微分方程离散化为差分方程组以及如何解此代数方程组。此外为了保证计算过程的可行和计算结果的正确，还需从理论上分析差分方程组的性态，包括解的唯一性、存在性和差分格式的相容性、收敛性和稳定性。对于一个微分方程建立的各种差分格式，为了有实用意义，一个基本要求是它们能够任意逼近微分方程，这就是相容性要求。另外，一个差分格式是否有用，最终要看差分方程的精确解能否任意逼近微分方程的解，这就是收敛性的概念。此外，还有一个重要的概念必须考虑，即差分格式的稳定性。因为差分格式的计算过程是逐层推进的，在计算第n＋1层的近似值时要用到第n层的近似值，直到与初始值有关。前面各层若有舍入误差，必然影响到后面各层的值，如果误差的影响越来越大，以致差分格式的精确解的面貌完全被掩盖，这种格式是不稳定的，相反如果误差的传播是可以控制的，就认为格式是稳定的。只有在这种情形，差分格式在实际计算中的近似解才可能任意逼近差分方程的精确解。关于差分格式的构造一般有以下3种方法。最常用的方法是数值微分法，比如用差商代替微商等。另一方法叫积分插值法，因为在实际问题中得出的微分方程常常反映物理上的某种守恒原理，一般可以通过积分形式来表示。此外还可以用待定系数法构造一些精度较高的差分格式。</p>
+<p><strong>有限元方法</strong>的基础是变分原理和加权余量法，其基本求解思想是把计算域划分为有限个互不重叠的单元，在每个单元内，选择一些合适的节点作为求解函数的插值点，将微分方程中的变量改写成由各变量或其导数的节点值与所选用的插值函数组成的线性表达式，借助于变分原理或加权余量法，将微分方程离散求解。采用不同的权函数和插值函数形式，便构成不同的有限元方法。</p>
+<p>有限元方法最早应用于结构力学，后来随着计算机的发展慢慢用于流体力学的数值模拟。在有限元方法中，把计算域离散剖分为有限个互不重叠且相互连接的单元，在每个单元内选择基函数，用单元基函数的线形组合来逼近单元中的真解，整个计算域上总体的基函数可以看为由每个单元基函数组成的，则整个计算域内的解可以看作是由所有单元上的近似解构成。</p>
+<p>常见的有限元计算方法是由变分法和加权余量法发展而来的里兹法和伽辽金法、最小二乘法等。根据所采用的权函数和插值函数的不同，有限元方法也分为多种计算格式。从权函数的选择来说，有配置法、矩量法、最小二乘法和伽辽金法，从计算单元网格的形状来划分，有三角形网格、四边形网格和多边形网格，从插值函数的精度来划分，又分为线性插值函数和高次插值函数等。不同的组合同样构成不同的有限元计算格式。对于权函数，伽辽金(Galerkin)法是将权函数取为逼近函数中的基函数；最小二乘法是令权函数等于余量本身，而内积的极小值则为对代求系数的平方误差最小；在配置法中，先在计算域内选取N个配置点。令近似解在选定的N个配置点上严格满足微分方程，即在配置点上令方程余量为0。插值函数一般由不同次幂的多项式组成，但也有采用三角函数或指数函数组成的乘积表示，但最常用的多项式插值函数。有限元插值函数分为两大类，一类只要求插值多项式本身在插值点取已知值，称为拉格朗日(Lagrange)多项式插值；另一种不仅要求插值多项式本身，还要求它的导数值在插值点取已知值，称为哈密特(Hermite)多项式插值。单元坐标有笛卡尔直角坐标系和无因次自然坐标，有对称和不对称等。常采用的无因次坐标是一种局部坐标系，它的定义取决于单元的几何形状，一维看作长度比，二维看作面积比，三维看作体积比。在二维有限元中，三角形单元应用的最早，近来四边形等参元的应用也越来越广。对于二维三角形和四边形电源单元，常采用的插值函数为有Lagrange插值直角坐标系中的线性插值函数及二阶或更高阶插值函数、面积坐标系中的线性插值函数、二阶或更高阶插值函数等。</p>
+<p>对于有限元方法，其基本思路和解题步骤可归纳为：</p>
+<p><strong>(1)</strong>建立积分方程，根据变分原理或方程余量与权函数正交化原理，建立与微分方程初边值问题等价的积分表达式，这是有限元法的出发点。</p>
+<p><strong>(2)</strong>区域单元剖分，根据求解区域的形状及实际问题的物理特点，将区域剖分为若干相互连接、不重叠的单元。区域单元划分是采用有限元方法的前期准备工作，这部分工作量比较大，除了给计算单元和节点进行编号和确定相互之间的关系之外，还要表示节点的位置坐标，同时还需要列出自然边界和本质边界的节点序号和相应的边界值。</p>
+<p><strong>(3)</strong>确定单元基函数，根据单元中节点数目及对近似解精度的要求，选择满足一定插值条件的插值函数作为单元基函数。有限元方法中的基函数是在单元中选取的，由于各单元具有规则的几何形状，在选取基函数时可遵循一定的法则。</p>
+<p><strong>(4)</strong>单元分析：将各个单元中的求解函数用单元基函数的线性组合表达式进行逼近；再将近似函数代入积分方程，并对单元区域进行积分，可获得含有待定系数(即单元中各节点的参数值)的代数方程组，称为单元有限元方程。</p>
+<p><strong>(5)</strong>总体合成：在得出单元有限元方程之后，将区域中所有单元有限元方程按一定法则进行累加，形成总体有限元方程。</p>
+<p><strong>(6)</strong>边界条件的处理：一般边界条件有三种形式，分为本质边界条件(狄里克雷边界条件 )、自然边界条件(黎曼边界条件)、混合边界条件(柯西边界条件)。对于自然边界条件，一般在积分表达式中可自动得到满足。对于本质边界条件和混合边界条件，需按一定法则对总体有限元方程进行修正满足。</p>
+<p><strong>(7)</strong>解有限元方程：根据边界条件修正的总体有限元方程组，是含所有待定未知量的封闭方程组，采用适当的数值计算方法求解，可求得各节点的函数值。</p>
+<p><strong>有限体积法（Finite Volume Method）</strong>又称为控制体积法。其基本思路是：将计算区域划分为一系列不重复的控制体积，并使每个网格点周围有一个控制体积；将待解的微分方程对每一个控制体积积分，便得出一组离散方程。其中的未知数是网格点上的因变量的数值。为了求出控制体积的积分，必须假定值在网格点之间的变化规律，即假设值的分段的分布的分布剖面。从积分区域的选取方法看来，有限体积法属于加权剩余法中的子区域法；从未知解的近似方法看来，有限体积法属于采用局部近似的离散方法。简言之，子区域法属于有限体积发的基本方法。</p>
+<p>有限体积法的基本思路易于理解，并能得出直接的物理解释。离散方程的物理意义，就是因变量在有限大小的控制体积中的守恒原理，如同微分方程表示因变量在无限小的控制体积中的守恒原理一样。限体积法得出的离散方程，要求因变量的积分守恒对任意一组控制体积都得到满足，对整个计算区域，自然也得到满足。这是有限体积法吸引人的优点。有一些离散方法，例如有限差分法，仅当网格极其细密时，离散方程才满足积分守恒；而有限体积法即使在粗网格情况下，也显示出准确的积分守恒。就离散方法而言，有限体积法可视作有限单元法和有限差分法的中间物。有限单元法必须假定值在网格点之间的变化规律（既插值函数），并将其作为近似解。有限差分法只考虑网格点上的数值而不考虑值在网格点之间如何变化。有限体积法只寻求的结点值，这与有限差分法相类似；但有限体积法在寻求控制体积的积分时，必须假定值在网格点之间的分布，这又与有限单元法相类似。在有限体积法中，插值函数只用于计算控制体积的积分，得出离散方程之后，便可忘掉插值函数；如果需要的话，可以对微分方程中不同的项采取不同的插值函数。</p>
+<p><strong>三者各有所长：</strong></p>
+<p>有限差分法：直观，理论成熟，精度可选。但是不规则区域处理繁琐，虽然网格生成可以使FDM应用于不规则区域，但是对区域的连续性等要求较严。使用FDM的好处在于易于编程，易于并行。</p>
+<p>有限元方法：适合处理复杂区域，精度可选。缺憾在于内存和计算量巨大。并行不如FDM和FVM直观。不过FEM的并行是当前和将来应用的一个不错的方向。</p>
+<p>有限容积法：适于流体计算，可以应用于不规则网格，适于并行。但是精度基本上只能是二阶了。FVM的优势正逐渐显现出来，FVM在应力应变，高频电磁场方面的特殊的优点正在被人重视。</p>
+<p><strong>比较一下：</strong></p>
+<p>有限容积法和有限差分法：一个区别就是有限容积法的截差是不定的（跟取的相邻点有关，积分方法离散方程），而有限差分就可以直接知道截差（微分方法离散方程）。 有限容积法和有限差分法最本质的区别是，前者是根据积分方程推导出来的（即对每个控制体积分），后者直接根据微分方程推导出来，所以前者的精度不但取决于积分时的精度，还取决与对导数处理的精度，一般有限容积法总体的精度为二阶，因为积分的精度限制，当然有限容积法对于守恒型方程导出的离散方程可以保持守恒型；而后者直接由微分方程导出，不涉及积分过程，各种导数的微分借助Taylor展开，直接写出离散方程，当然不一定有守恒性，精度也和有限容积法不一样，一般有限差分法可以使精度更高一些。</p>
+<p>当然二者有联系，有时导出的形式一样，但是概念上是不一样的。</p>
+<p>至于有限容积法和有限元相比，有限元在复杂区域的适应性对有限容积是毫无优势可言的，至于有限容积的守恒性，物理概念明显的这些特点，有限元是没有的。目前有限容积在精度方面与有限元法有些差距。</p>
+<p>有限元方法比有限差分优越的方面主要在能适应不规则区域，但是这只是指的是传统意义上的有限差分，现在发展的一些有限差分已经能适应不规则区域。对于椭圆型方程，如果区域规则，传统有限差分和有限元都能解，在求解效率，这里主要指编程负责度和收敛快慢、内存需要，肯定有限差分有优势。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2019/06/18/%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95%E3%80%81%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E5%92%8C%E6%9C%89%E9%99%90%E4%BD%93%E7%A7%AF%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89/" title="有限元法、有限差分法和有限体积法的区别（转载）">https://xiao5.tk/2019/06/18/有限元法、有限差分法和有限体积法的区别（转载）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%81%8F%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B%E7%A6%BB%E6%95%A3/" rel="tag"># 偏微分方程离散</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" rel="prev" title="克里金(Kriging)插值的原理与公式推导">
+      <i class="fa fa-chevron-left"></i> 克里金(Kriging)插值的原理与公式推导
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/07/18/Configuration-forpy-on-Windows-with-Intel-visual-fortran-complier/" rel="next" title="Configuration forpy on Windows with Intel visual fortran complier">
+      Configuration forpy on Windows with Intel visual fortran complier <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蘑菇熊"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蘑菇熊</p>
+  <div class="site-description" itemprop="description">我们的征途是星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxwu1990" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail → mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.nwpu.edu.cn/" title="http:&#x2F;&#x2F;www.nwpu.edu.cn&#x2F;" rel="noopener" target="_blank">NPU</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'SnFWeZoaPRmRgfAZt';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2019/06/18/%E6%9C%89%E9%99%90%E5%85%83%E6%B3%95%E3%80%81%E6%9C%89%E9%99%90%E5%B7%AE%E5%88%86%E6%B3%95%E5%92%8C%E6%9C%89%E9%99%90%E4%BD%93%E7%A7%AF%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: 'ef87834304c3a0c7a4bbc4b14cf8615d',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
