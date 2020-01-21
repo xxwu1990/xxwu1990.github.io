@@ -4,7 +4,7 @@
     <title>参数化方法CST学习笔记</title>
     <url>/2020/01/20/%E5%8F%82%E6%95%B0%E5%8C%96%E6%96%B9%E6%B3%95CST%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p> “Universal Parametric Geometry Representation Method”学习笔记。</p>
-<p>​        叶型优化设计过程中，叶型几何参数期望尽可能得少。一种叶型集合的参数化方法CST(Class Shape Transformation)包含了描述集合特征的“类型函数(class function)”和”形状函数(shape function)”，例如头圆尾尖的NASA系列翼型，可以通过具有明确可观测物理特征的简单函数准确地解析描述其叶型形状。这种参数化方法可以表示几乎无限的设计空间，这些设计空间完全由解析的光滑几何构成。<a id="more"></a></p>
+<p>​        叶型优化设计过程中，叶型几何参数期望尽可能得少。一种叶型集合的参数化方法CST(Class Shape Transformation)包含了描述集合特征的“类型函数(class function)”和”形状函数(shape function)”，例如头圆尾尖(round-nose/sharp aft-end)的NASA系列翼型，可以通过具有明确可观测物理特征的简单函数准确地解析描述其叶型形状。这种参数化方法可以表示几乎无限的设计空间，这些设计空间完全由解析的光滑几何构成。<a id="more"></a></p>
 <h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>​        选择在任何特定的空气动力学设计优化过程中使用的飞机或飞机部件几何形状的数学表示形式，以及选择优化算法的类型，都会对以下方面产生影响，诸如计算时间和资源，设计空间的范围和一般性质，以及设计空间中包含的几何形状是光滑还是不规则，甚至是物理上现实的或可接受的。几何表示方法也影响所选优化过程的适用性。例如，使用离散坐标作为设计变量可能不适合用于遗传优化过程，因为生成的设计空间可能会被具有凹凸不平表面的几何图形大量填充，因此实际上不可能找到最佳的光滑表面。几何图形表示方法还会影响设计空间中是否包含有意义的“最佳”，以及是否存在最佳设计。</p>
 <p>​    任意理想的几何描述方式需要有以下特点：</p>
 <ol>
@@ -38,7 +38,61 @@
 <p>代表机翼形状的一般表达式为：</p>
 <script type="math/tex; mode=display">
 \zeta(\psi)=\sqrt{\psi}(1-\psi)\sum_{i=0}^{N}A_i\psi^i+\psi\zeta_T</script><p>其中$\psi=x/c,\zeta=z/c,\zeta_T=\Delta Z_{TE}$，$\sqrt{\psi}$项保证前缘为圆形，$(1-\psi)$保证尾缘是尖的，$\psi\zeta_T$控制尾缘厚度，$\sum_{i=0}^{N}A_i\psi^i$表示描述圆鼻和尖尾之间唯一几何形状的一般函数。</p>
-<h4 id="翼型形状函数"><a href="#翼型形状函数" class="headerlink" title="翼型形状函数"></a>翼型形状函数</h4><p>定义一个形状函数$S(\psi)$，将翼型形状减去尾缘厚度，并除以圆头尖尾类型函数$\sqrt{\psi}(1-\psi)$</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200121212152.png" alt=""></p>
+<h4 id="翼型形状函数"><a href="#翼型形状函数" class="headerlink" title="翼型形状函数"></a>翼型形状函数</h4><p>定义一个形状函数$S(\psi)$，将翼型形状减去尾缘厚度，并除以圆头尖尾类型函数$\sqrt{\psi}(1-\psi)$，得到：</p>
+<script type="math/tex; mode=display">
+S(\psi)\equiv\frac{\zeta(\psi)-\psi\zeta_T}{\sqrt{\psi}(1-\psi)}=\sum_{i=0}^{N}A_i\psi^i</script><p>前缘半径，尾缘厚度和船尾角直接确定了$S(\psi)$的唯一边界值。$x/c=0$处的形状函数直接由前缘半径$R_{LE}$和弦长$C$确定：</p>
+<script type="math/tex; mode=display">
+S(0) = \sqrt{2 [R_{LE}/C]}</script><p>$x/c=1$处的形状函数直接由船尾角$\beta$和尾缘厚度确定：</p>
+<script type="math/tex; mode=display">
+S(1) = \tan{\beta}+\frac{\Delta Z_{TE}}{c}</script><p>因此在变换坐标系下，通过指定形状函数的端点可以轻松控制前缘半径，船尾角和尾缘厚度。</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200121212410.png" alt=""></p>
+<h4 id="翼型类型函数"><a href="#翼型类型函数" class="headerlink" title="翼型类型函数"></a>翼型类型函数</h4><p>类型函数的一般表达式如下：</p>
+<script type="math/tex; mode=display">
+C_{N2}^{N1}(\psi) \stackrel{\Delta}{=} (\psi)^{N1}[1-\psi]^{N2}</script><p>对于前缘为圆形的翼型有$N1=0.5,N2=1.0$。与单位形状函数结合，类型函数的不同种指数组合从数学上定义了一系列一般几何形状的类别：</p>
+<ul>
+<li>$N1=0.5,N2=1.0$定义了NACA系列圆鼻尖尾叶型；</li>
+<li>$N1=0.5,N2＝0.5$定义了定义椭圆机翼或椭圆体旋转体；</li>
+<li>$N1=1.0,N2＝1.0$定义双凸翼型或凸形主体。 双凸翼型是给定面积的最小阻力超音速翼型；</li>
+<li>$N1=0.75,N2＝0.75$定义Sears–Haack物体的半径分布。 对于给定的体积，Sears–Haack体是最小的阻力超音速体；</li>
+<li>$N1=0.75,N2＝0.25$定义低阻力弹丸；</li>
+<li>$N1=1.0,N2＝0.001$定义了锥形或楔形叶型；</li>
+<li>$N1=0.001,N2＝0.001$定义了长方形，圆形管道或圆形杆。</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200121212338.png" alt=""></p>
+<p>类别函数用于确定一般几何类别，而形状函数用于确定该类别下的详细几何形状。确定一个叶型形状函数并指定其几何类别等价于确定叶型真实坐标，其坐标可以从形状函数和类别函数中获得：</p>
+<script type="math/tex; mode=display">
+\zeta(\psi)=C_{N1}^{N2}(\psi) + \psi \zeta_T</script><h4 id="形状函数分解"><a href="#形状函数分解" class="headerlink" title="形状函数分解"></a>形状函数分解</h4><p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200121215217.png" alt=""></p>
+<p>​        上图展示了单位形状函数$S(\psi)=1$可以分解为两个元叶型函数：具有圆鼻和零船尾角的叶型$S1(\psi)=1-\psi$和前缘半径为零且有有限船尾角的叶型$S2(\psi)=\psi$。任意缩放因子$KR$在途中式子中作为权重系数。通过改变$KR$值变化前缘半径和尾缘夹角的值，于是带来了一系列可变前缘半径，尾缘夹角，最大厚度位置的叶型。单位形状函数还能通过伯恩斯坦多项式（Bernstein polynomial）的方式继续分解。$n$阶伯恩斯坦多项式由$n+1$项构成：</p>
+<script type="math/tex; mode=display">
+S_{r,n}(x)=K_{r,n}x^r(1-x)^{n-r}</script><p>其中$r=0\sim n$，上式中系数$K_{r,n}$为二项式系数$K_{r,n} \equiv \frac{n!}{r!(n-r)!}$。根据伯恩斯坦多项式的递增阶数表示单位形状函数，可以将单位形状函数系统地分解为可缩放的部分。这是“单位划分”属性的直接结果，该属性表明，在0–1的区间内，组成任意顺序的伯恩斯坦多项式的项的总和等于1。 这意味着每个伯恩斯坦多项式都代表单位形状函数。因此，多项式中的各个项可以缩放以定义多种翼型几何形状。</p>
+<p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200121222223.png" alt=""></p>
+<p>​        对于选择用来表示单位形状函数的任何伯恩斯坦多项式阶数，只有第一项定义前沿半径，只有最后一项定义船尾角。 其他的项是“形状项”，既不影响前缘半径也不影响后缘船尾角。下图展示了使用各种阶数的Bernstein多项式分解单位形状函数的示例以及相应的组件翼型。基元形状函数的最高点沿着展向方向等距分布，组成翼型的峰的相应位置也沿着翼型的弦等距间隔开，并且由类函数指数和伯恩斯坦多项式的阶数由方程式定义。</p>
+<script type="math/tex; mode=display">
+(\psi)_{Zmax}=\frac{N1+i}{N1+N2+n} \quad for \quad i=0\sim n</script><p><img src="https://raw.githubusercontent.com/wuxiaoxiong1990/pic/master/20200121222246.png" alt=""></p>
+<p>实际上，使用伯恩斯坦多项式表示机翼形状函数的技术定义了一组可缩放的组件机翼几何形状，然后求和以表示各种机翼形状。</p>
+<h4 id="使用单元形状函数的伯恩斯坦多项式表示法定义的机翼"><a href="#使用单元形状函数的伯恩斯坦多项式表示法定义的机翼" class="headerlink" title="使用单元形状函数的伯恩斯坦多项式表示法定义的机翼"></a>使用单元形状函数的伯恩斯坦多项式表示法定义的机翼</h4><p>​        可以使用任何选定阶数n的伯恩斯坦多项式来定义弧形机翼的上表面和下表面，以描述一组基元形状函数，这些函数由“待确定”系数按比例缩放。基元形状函数定义为</p>
+<script type="math/tex; mode=display">
+S_i(\psi)=K_i\psi^i(1-\psi)^{n-i}</script><p>其中$K_i$为二项式系数定义为</p>
+<script type="math/tex; mode=display">
+K_i \equiv \left( \begin{matrix}  n \\  r \\ \end{matrix} \right) = \frac{n!}{i!(n-i)!}</script><p>令上下表面的尾缘厚度比表示为</p>
+<script type="math/tex; mode=display">
+\Delta \xi_U = \frac{zu_{TE}}{C} \quad \Delta \xi_L = \frac{zl_{TE}}{C}</script><p>形状函数定义为</p>
+<script type="math/tex; mode=display">
+C_{N2}^{N1}(\psi) = (\psi)^{N1}(1-\psi)^{N2}</script><p>上表面的总形状函数表达式为</p>
+<script type="math/tex; mode=display">
+Su(\psi)=\sum_{i=1}^n Au_i S_i(\psi)</script><p>于是得到上表面坐标为</p>
+<script type="math/tex; mode=display">
+(\zeta)_{upper} = C_{N2}^{N1}(\psi)Su(\psi)+\psi\Delta\xi_{upper}</script><p>同理下表面的形状函数和坐标分别为</p>
+<script type="math/tex; mode=display">
+Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
+
+(\zeta)_{lower} = C_{N2}^{N1}(\psi)Sl(\psi)+\psi\Delta\xi_{lower}</script><p>将叶型坐标点带入上式得到一个$m \times n$的线性超定方程组，系数$Au_i，Al_i$由最小二乘法确定。伯恩斯坦基方法表示叶片形状由以下独特的特性：</p>
+<ol>
+<li>能够表示设计空间中所有光滑的叶型；</li>
+<li>设计空间中的每一个叶型都能从单位形状函数叶型衍生得到；</li>
+<li>设计空间中的每一个叶型也都能从其它叶型衍生得到。</li>
+</ol>
 <h4 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h4><p><em>Kulfan B M. Universal parametric geometry representation method[J]. Journal of aircraft, 2008, 45(1): 142-158.</em> </p>
 ]]></content>
       <categories>
