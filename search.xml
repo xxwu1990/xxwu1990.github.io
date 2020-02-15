@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Github+jsDelivr+PicGo 打造稳定快速、高效免费图床</title>
+    <url>/2020/02/15/Github+jsDelivr+PicGo-%E6%89%93%E9%80%A0%E7%A8%B3%E5%AE%9A%E5%BF%AB%E9%80%9F%E3%80%81%E9%AB%98%E6%95%88%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/ImgHosting.png" alt=""><a id="more"></a></p>
+<hr>
+<p>本文转自<a href="https://www.itrhx.com/2019/08/01/A27-image-hosting/" target="_blank" rel="noopener">Github+jsDelivr+PicGo 打造稳定快速、高效免费图床</a></p>
+<h4 id="–-前言"><a href="#–-前言" class="headerlink" title="– 前言"></a>– 前言</h4><p>图床是个啥东西就不用过多介绍了，先来对比一下各路图床：</p>
+<blockquote>
+<ul>
+<li>微博图床：以前用的人比较多，从2019年4月开始开启了防盗链，凉凉</li>
+<li>SM.MS：运营四年多了，也变得越来越慢了，到了晚上直接打不开图片，速度堪忧</li>
+<li>其他小众图床：随时有挂掉的风险</li>
+<li>Imgur等国外图床：国内访问速度太慢，随时有被墙的风险</li>
+<li>大厂储存服务：例如七牛云、又拍云、腾讯云COS、阿里云OSS等，容量限制，操作繁琐，又是实名认证又是域名备案的，麻烦，而且还要花钱（有钱又不怕麻烦的当我没说）</li>
+</ul>
+</blockquote>
+<p>因此，GitHub 图床是个不错的选择，利用 jsDelivr CDN 加速访问（jsDelivr 是一个免费开源的 CDN 解决方案），PicGo 工具一键上传，操作简单高效，GitHub 和 jsDelivr 都是大厂，不用担心跑路问题，不用担心速度和容量问题，而且完全免费，可以说是目前免费图床的最佳解决方案！</p>
+<hr>
+<h4 id="–-新建GitHub仓库"><a href="#–-新建GitHub仓库" class="headerlink" title="– 新建GitHub仓库"></a>– 新建GitHub仓库</h4><p>登录/注册GitHub，新建一个仓库，填写好仓库名，仓库描述，根据需求选择是否为仓库初始化一个README.md描述文件</p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/01.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/01.png" alt="01"></a></p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/02.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/02.png" alt="02"></a></p>
+<hr>
+<h4 id="–-生成一个Token"><a href="#–-生成一个Token" class="headerlink" title="– 生成一个Token"></a>– 生成一个Token</h4><p>在主页依次选择【Settings】-【Developer settings】-【Personal access tokens】-【Generate new token】，填写好描述，勾选【repo】，然后点击【Generate token】生成一个Token，注意这个Token只会显示一次，自己先保存下来，或者等后面配置好PicGo后再关闭此网页</p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/03.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/03.png" alt="03"></a></p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/04.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/04.png" alt="04"></a></p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/05.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/05.png" alt="05"></a></p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/06.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/06.png" alt="06"></a></p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/07.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/07.png" alt="07"></a></p>
+<h4 id="–-配置PicGo"><a href="#–-配置PicGo" class="headerlink" title="– 配置PicGo"></a>– 配置PicGo</h4><p>前往<a href="https://github.com/Molunerfinn/picgo/releases" target="_blank" rel="noopener">下载PicGo</a>，安装好后开始配置图床</p>
+<p><a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/08.png" target="_blank" rel="noopener"><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/08.png" alt="08"></a></p>
+<ul>
+<li>设定仓库名：按照【用户名/图床仓库名】的格式填写</li>
+<li>设定分支名：【master】</li>
+<li>设定Token：粘贴之前生成的【Token】</li>
+<li>指定存储路径：填写想要储存的路径，如【ITRHX-PIC/】，这样就会在仓库下创建一个名为 ITRHX-PIC 的文件夹，图片将会储存在此文件夹中</li>
+<li>设定自定义域名：它的作用是，在图片上传后，PicGo 会按照【自定义域名+储存路径+上传的图片名】的方式生成访问链接，并放到粘贴板上，因为我们要使用 jsDelivr 加速访问，所以可以设置为【<a href="https://cdn.jsdelivr.net/gh/用户名/图床仓库名" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/用户名/图床仓库名</a> 】，上传完毕后，我们就可以通过【<a href="https://cdn.jsdelivr.net/gh/用户名/图床仓库名/图片路径" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/用户名/图床仓库名/图片路径</a> 】加速访问我们的图片了，比如上图的图片链接为：<a href="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/08.png" target="_blank" rel="noopener">https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/08.png</a></li>
+</ul>
+<p>关于 jsDelivr 具体是如何引用资源的可以参考我的另一篇博客：<a href="https://www.itrhx.com/2019/02/10/A18-free-cdn/" target="_blank" rel="noopener">《免费CDN：jsDelivr+Github》</a></p>
+<hr>
+<h4 id="–-进行高效创作"><a href="#–-进行高效创作" class="headerlink" title="– 进行高效创作"></a>– 进行高效创作</h4><p>配置好PicGo后，我们就可以进行高效创作了，将图片拖拽到上传区，将会自动上传并复制访问链接，将链接粘贴到博文中就行了，访问速度杠杠的，此外PicGo还有相册功能，可以对已上传的图片进行删除，修改链接等快捷操作，PicGo还可以生成不同格式的链接、支持批量上传、快捷键上传、自定义链接格式、上传前重命名等，更多功能自己去探索吧！</p>
+]]></content>
+      <categories>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>图床</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu 18.04/Debian 10开机自启动脚本</title>
     <url>/2020/02/10/Ubuntu-18.04Debian-10%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</url>
     <content><![CDATA[<p>ubuntu18.04不再使用initd管理系统，改用<a href="https://www.centos.bz/tag/systemd/" target="_blank" rel="noopener">systemd</a>。</p>
@@ -3474,10 +3522,10 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <p>转载请注明：<a href="https://teddysun.com/" target="_blank" rel="noopener">秋水逸冰</a> » <a href="https://teddysun.com/342.html" target="_blank" rel="noopener">Shadowsocks Python版一键安装脚本</a></p>
 ]]></content>
       <categories>
-        <category>VPS</category>
+        <category>博客</category>
       </categories>
       <tags>
-        <tag>科学上网</tag>
+        <tag>图床</tag>
       </tags>
   </entry>
 </search>
