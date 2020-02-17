@@ -329,7 +329,7 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
 <p>等追踪定位需求。</p>
 <p>Traccar 的功能非常多，可<strong>切换卫星、街景地图</strong></p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/Snipaste_2019-03-03_20-05-43-768x347.png" alt=""></p>
-<p> <strong>追踪运动轨迹</strong> <img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/%E8%BD%A8%E8%BF%B9-1-768x370.png" alt=""></p>
+<p> <strong>追踪运动轨迹</strong> <img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/GPStrace-1-768x370.png" alt=""></p>
 <p> <strong>追踪行程</strong>，<strong>停留点</strong>等 </p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/Snipaste_2019-03-03_21-54-45-768x476.png" alt=""></p>
 <h4 id="搭建-Traccar-服务端"><a href="#搭建-Traccar-服务端" class="headerlink" title="搭建 Traccar 服务端"></a>搭建 Traccar 服务端</h4><p>我使用的Vultr虚拟主机，配置为</p>
