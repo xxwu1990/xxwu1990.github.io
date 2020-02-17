@@ -1604,7 +1604,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <p>Gmsh -2 cascade_airfoil.geo -o airfoil.su2</p>
 </blockquote>
 <p>check the label and direction of curves carefully!</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g3almpxormj21hc0u0wjv.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3akdh1wwoj21hc0u07cm.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3almpxormj21hc0u0wjv.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3akdh1wwoj21hc0u07cm.jpg" alt=""></p>
 <h3 id="SU2-numerical-simulation"><a href="#SU2-numerical-simulation" class="headerlink" title="SU2 numerical simulation"></a>SU2 numerical simulation</h3><h4 id="Preprocessing-periodic-boundary-by-SU2-MSH"><a href="#Preprocessing-periodic-boundary-by-SU2-MSH" class="headerlink" title="Preprocessing periodic boundary by SU2_MSH"></a>Preprocessing periodic boundary by SU2_MSH</h4><p>Use SU2_MSH to generate the periodic .su2 mesh, optional to modify the MESH_OUT_FILENAME in .cfg file or the default meshout.su2 will be generated.</p>
 <p><strong>Notice that the periodic distance in .cfg file should be correspond to gmsh</strong>!!</p>
 <blockquote>
@@ -1827,28 +1827,28 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <p>4、点击Blocking工具栏，使用2DPlaner初始化Block，并将Block对应的点和边线关联(Associate)至几何，此时需要将左边栏Geometry的Points和Curves，Blocking的Edges和Vertices勾上。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6j4tj9j20ko0hewf1.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6j7qaij20ez0cfq3h.jpg" alt=""></p>
 <p>5、将Block切开(split block)，先对着上下游连接处切两刀，并关联block的点（不用关联边）。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6jf9jxj20cv0bdjrz.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6jivnpj20b70ag0t1.jpg" alt=""></p>
-<p>6、纵向切分block，并将点移动(move vertices)到周期性边界上。也可以先snap project vertices<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6jlnvvj201a01a3yb.jpg" alt="">后再用move vertices<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6jrksrj201a01at8h.jpg" alt="">调整；</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6kdl5aj20dt0cfq3g.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6kb94jj20j10gwt9l.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6jf9jxj20cv0bdjrz.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6jivnpj20b70ag0t1.jpg" alt=""></p>
+<p>6、纵向切分block，并将点移动(move vertices)到周期性边界上。也可以先snap project vertices<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6jlnvvj201a01a3yb.jpg" alt="">后再用move vertices<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6jrksrj201a01at8h.jpg" alt="">调整；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6kdl5aj20dt0cfq3g.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6kb94jj20j10gwt9l.jpg" alt=""></p>
 <p>7、横向切割block，删除叶型部分的小block，关联edges到叶型吸压力面；</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6kgbcmj20ha0erdgw.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6l1c3zj20fk0dfgn5.jpg" alt=""></p>
-<p>8、勾选Parts-VORFN<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6kphq7j202k00na9t.jpg" alt=""> (该Part包含已删除的部分)，点击Split Block-Ogrid Block工具，勾选Around block，Offset视情况而定，可以选择0.3左右。点击Select Blocks<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6ku81bj200x00xmwx.jpg" alt="">，选择之前删掉的包含叶型的块，向外生成O型网格；</p>
+<p>8、勾选Parts-VORFN<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6kphq7j202k00na9t.jpg" alt=""> (该Part包含已删除的部分)，点击Split Block-Ogrid Block工具，勾选Around block，Offset视情况而定，可以选择0.3左右。点击Select Blocks<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6ku81bj200x00xmwx.jpg" alt="">，选择之前删掉的包含叶型的块，向外生成O型网格；</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6l819qj20bo0bxwex.jpg" alt=""><br><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6ln9e7j20em0ev75u.jpg" alt=""></p>
 <p>9、增加叶型表面block的样条曲线控制点<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6lb21hj201a01a0si.jpg" alt="">，使block边界与叶型贴合更紧密，不要遗忘了前后缘；</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6m1egvj20br0e70te.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6ltuauj20dn0at0sy.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6m1egvj20br0e70te.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6ltuauj20dn0at0sy.jpg" alt=""></p>
 <p>10、点击Link Edge，用叶型表面Block线连接O型网格外层edge；</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6mc9cxj20bo0bxgm7.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6mj9cjj20kn0gfjs8.jpg" alt=""></p>
-<p>11、（可选）取消上下游连接处的点附着<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6mfmyxj201a01awea.jpg" alt="">)，并重新关联线附着<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6mpl3fj201a01amwy.jpg" alt="">，微调上下游连接处的block边界使网格结构更加合理。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6mc9cxj20bo0bxgm7.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6mj9cjj20kn0gfjs8.jpg" alt=""></p>
+<p>11、（可选）取消上下游连接处的点附着<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6mfmyxj201a01awea.jpg" alt="">)，并重新关联线附着<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6mpl3fj201a01amwy.jpg" alt="">，微调上下游连接处的block边界使网格结构更加合理。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6n71ufj20jc0goq4d.jpg" alt=""></p>
 <p>12、全局网格周期性设置；周期性端点设置，可以右键vertices选择periodic在图上显示（周期性最后设置，若在Block初始化完成后立即设置周期性，则生成的网格周期性边界完全匹配，但是所有周期性边界上的点的坐标都将自动保持一致，即移动上方周期性边界的网格点也会使下方周期性边界的网格点同步移动。若采用完全匹配周期性边界，则只需要block关联一侧周期性边界的端点，另一侧的端点由周期决定）</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6ndcs9j20bo0bxq3t.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6niu20j20bo0cct9i.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6nl8unj20b20bijrt.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6o2bouj20gh0e2wfp.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6ndcs9j20bo0bxq3t.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6niu20j20bo0cct9i.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6nl8unj20b20bijrt.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6o2bouj20gh0e2wfp.jpg" alt=""></p>
 <p>13、预览网格，选择update all，勾选run check/fix blocks，勾选pre-mesh；</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6o4si5j20bo0bxaaq.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6o6z6mj20b20bx74s.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6opofnj20h80f341h.jpg" alt=""></p>
-<p>14、加密网格，选择<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6ohvmtj201a01aa9t.jpg" alt="">，勾选<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6oioxhj203r00sjr5.jpg" alt="">，Copy方法为<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6p0gnij20ai01wq2r.jpg" alt="">，点击block边界修改网格数目；对于O型网格，采用space2+ratio2的方式实现近壁面加密的效果；</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6p6mxaj20bo0bxaao.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6pejzlj20h30epmye.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6qetk8j20jh0gfdl6.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6puymaj20iv0g441d.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6o4si5j20bo0bxaaq.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6o6z6mj20b20bx74s.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6opofnj20h80f341h.jpg" alt=""></p>
+<p>14、加密网格，选择<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6ohvmtj201a01aa9t.jpg" alt="">，勾选<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6oioxhj203r00sjr5.jpg" alt="">，Copy方法为<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6p0gnij20ai01wq2r.jpg" alt="">，点击block边界修改网格数目；对于O型网格，采用space2+ratio2的方式实现近壁面加密的效果；</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6p6mxaj20bo0bxaao.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6pejzlj20h30epmye.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6qetk8j20jh0gfdl6.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6puymaj20iv0g441d.jpg" alt=""></p>
 <p>15、网格输出：右键Pre-mesh – construct unstruct mesh，由于Fluent是非结构化网格求解器，将结构化网格转化为非结构化网格，此时会生成一个hex.uns文件；</p>
 <p>16、点击output mesh标签，<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6pzd55j203300sdfm.jpg" alt="">分别设置求解器、边界条件及输出网格。边界条件设置需要注意，对于完全匹配周期性边界网格，不需要理会周期性边界设置，Fluent会自动识别；对于非完全匹配周期性边界，则需要将边界设置为固壁(wall)条件，等网格导入fluent后设置为interface，再使用mesh interfaces非完全匹配周期性边界网格。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6q92moj205q057t8o.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6qfzraj203s03pglg.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g2xn6qmeejj204q03tjr9.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6r4ti6j20py0h5js1.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6q92moj205q057t8o.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6qfzraj203s03pglg.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6qmeejj204q03tjr9.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g2xn6r4ti6j20py0h5js1.jpg" alt=""></p>
 ]]></content>
       <categories>
         <category>CFD</category>
@@ -2062,9 +2062,9 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <p>工具 1）Win32DiskImager  2）ChipEasy芯片无忧</p>
 </blockquote>
 <p>引导U盘制作：<br>打开芯片无忧记录 vid，pid：如下图</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971ly1g153a22155j20f30ge42p.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971ly1g153a22155j20f30ge42p.jpg" alt=""></p>
 <p>打开Win32DiskImager 选择引导文件synoboot.img 如图：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971ly1g153a1zurvj20bp05xjs1.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971ly1g153a1zurvj20bp05xjs1.jpg" alt=""></p>
 <p><center>写入成功后</center><br><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971ly1g153a1nn37j20b905qt93.jpg" alt=""></p>
 <p>写入U盘后5.x版本可以用windows7打开 6.x版本只能用windos10才能识别u盘格式 打开grub.cfg 用文本文档打开  修改里面的pid, vid 如下图</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971ly1g153a246raj207r05bgnc.jpg" alt=""></p>
@@ -2971,7 +2971,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155311_86231.jpg" alt=""></p>
 <p>点击完成，创建完成，下图为创建的虚拟机信息</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155311_94420.jpg" alt=""></p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/20181116155311_72850.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/20181116155311_67619.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155311_20507.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155311_72850.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155311_67619.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155311_20507.jpg" alt=""></p>
 <p>完成后，如下图可以看到2个磁盘文件了：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155312_82046.jpg" alt=""></p>
 <p>网络驱动器请自行根据自己实际情况设置，下图是我的设置，虚拟机的IP地址和主机在同一个网段，走的主网卡桥接的：</p>
@@ -2983,7 +2983,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155312_93355.jpg" alt=""></p>
 <p>然后是短暂的等待后，你就可以看到下面截图的屏幕，中间你不需要做任何操作：</p>
 <p> 如果你看到这个提示，直接选 “否” 忽略即可</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/20181116155312_17731.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155312_47476.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155312_17731.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155312_47476.jpg" alt=""></p>
 <p>这个时候，你可以在打开浏览器，输入 <a href="http://find.synology.com/" target="_blank" rel="noopener">http://find.synology.com </a>，如果你的虚拟机网段和主机是同一个网段，使用这个网址是可以直接获取到我们将要安装的群晖的。你也可以使用群晖官方提供的 “群晖助手” 来安装群晖（这个工具很简单，这里不做赘述）</p>
 <p> <a href="https://www.synology.cn/zh-cn/support/download/DS3617xs#utilities" target="_blank" rel="noopener">群晖助手官方下载地址：https://www.synology.cn/zh-cn/support/download/DS3617xs#utilities</a></p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20181116155312_71739.jpg" alt=""></p>

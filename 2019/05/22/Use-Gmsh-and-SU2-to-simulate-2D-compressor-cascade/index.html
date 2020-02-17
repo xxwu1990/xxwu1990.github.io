@@ -56,14 +56,14 @@
 <meta property="og:description" content="This article describle simulation of 2D compressor cascade with Gmsh for grid generation and SU2 for flowfield.">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3aixd9bvwj20lv0bpdgx.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g3almpxormj21hc0u0wjv.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3almpxormj21hc0u0wjv.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3akdh1wwoj21hc0u07cm.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3al7rqg9wj20rz0ojq7q.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3al6dqctgj20rx0om796.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3alk43ngdj20s40p00sw.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3alkbyq0qj20s40p00sq.jpg">
 <meta property="article:published_time" content="2019-05-21T22:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-17T11:01:57.925Z">
+<meta property="article:modified_time" content="2020-02-17T11:30:51.839Z">
 <meta property="article:author" content="蘑菇熊">
 <meta property="article:tag" content="Gmsh">
 <meta property="article:tag" content="SU2">
@@ -250,7 +250,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-17 12:01:57" itemprop="dateModified" datetime="2020-02-17T12:01:57+01:00">2020-02-17</time>
+                <time title="修改时间：2020-02-17 12:30:51" itemprop="dateModified" datetime="2020-02-17T12:30:51+01:00">2020-02-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -297,7 +297,7 @@
 <p>Gmsh -2 cascade_airfoil.geo -o airfoil.su2</p>
 </blockquote>
 <p>check the label and direction of curves carefully!</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/master/71717971gy1g3almpxormj21hc0u0wjv.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3akdh1wwoj21hc0u07cm.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3almpxormj21hc0u0wjv.jpg" alt=""><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g3akdh1wwoj21hc0u07cm.jpg" alt=""></p>
 <h3 id="SU2-numerical-simulation"><a href="#SU2-numerical-simulation" class="headerlink" title="SU2 numerical simulation"></a>SU2 numerical simulation</h3><h4 id="Preprocessing-periodic-boundary-by-SU2-MSH"><a href="#Preprocessing-periodic-boundary-by-SU2-MSH" class="headerlink" title="Preprocessing periodic boundary by SU2_MSH"></a>Preprocessing periodic boundary by SU2_MSH</h4><p>Use SU2_MSH to generate the periodic .su2 mesh, optional to modify the MESH_OUT_FILENAME in .cfg file or the default meshout.su2 will be generated.</p>
 <p><strong>Notice that the periodic distance in .cfg file should be correspond to gmsh</strong>!!</p>
 <blockquote>
