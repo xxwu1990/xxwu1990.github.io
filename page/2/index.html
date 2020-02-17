@@ -208,6 +208,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Windows 10 环境 Windows Sub Linux 安装和使用</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-21 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-21T00:00:00+02:00">2019-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-02-17 00:00:35" itemprop="dateModified" datetime="2020-02-17T00:00:35+01:00">2020-02-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>虽然 WSL ( Windows Subsystem for Linux ) 可以直接访问 Windows 下的文件，但是因为文件权限的问题，把需要在 WSL 中使用的文件放在 WSL 的用户主目录是最好的解决方案没有之一。为了不撑爆系统盘，除了修改 Windows 应用安装位置，还可以把 WSL 整个安装目录进行转移，使用<code>wsl --export</code>和<code>wsl --import</code>这两个命令可以对 WSL 进行打包再自定义目录安装，就相当于转移。我以为这已经是相当完美的解决方案了，但最近发现了一款非常实用的 WSL 管理软件：<a href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL0REb1NvbGl0YXJ5L0x4UnVuT2ZmbGluZQ==" target="_blank" rel="noopener">LxRunOffline</a>，它可以安装任意发行版到任意目录、转移已安装的 WSL 目录、备份 WSL、设置默认用户和修改环境变量等操作，完全碾压 <code>wsl</code>、<code>wslconfig</code> 这些简陋原生管理命令。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/10/21/Windows10-+-WSL-+-vscode%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -268,89 +351,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/10/21/Windows10-+-WSL-+-vscode%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/img/avatar.jpg">
-      <meta itemprop="name" content="蘑菇熊">
-      <meta itemprop="description" content="我们的征途是星辰大海">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="蘑菇熊星球">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">Windows 10 环境 Windows Sub Linux 安装和使用</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2019-10-21 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-21T00:00:00+02:00">2019-10-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-20 00:50:23" itemprop="dateModified" datetime="2020-01-20T00:50:23+01:00">2020-01-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>虽然 WSL ( Windows Subsystem for Linux ) 可以直接访问 Windows 下的文件，但是因为文件权限的问题，把需要在 WSL 中使用的文件放在 WSL 的用户主目录是最好的解决方案没有之一。为了不撑爆系统盘，除了修改 Windows 应用安装位置，还可以把 WSL 整个安装目录进行转移，使用<code>wsl --export</code>和<code>wsl --import</code>这两个命令可以对 WSL 进行打包再自定义目录安装，就相当于转移。我以为这已经是相当完美的解决方案了，但最近发现了一款非常实用的 WSL 管理软件：<a href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL0REb1NvbGl0YXJ5L0x4UnVuT2ZmbGluZQ==" target="_blank" rel="noopener">LxRunOffline</a>，它可以安装任意发行版到任意目录、转移已安装的 WSL 目录、备份 WSL、设置默认用户和修改环境变量等操作，完全碾压 <code>wsl</code>、<code>wslconfig</code> 这些简陋原生管理命令。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -572,7 +572,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-20 00:40:53" itemprop="dateModified" datetime="2020-01-20T00:40:53+01:00">2020-01-20</time>
+                <time title="修改时间：2020-02-17 00:00:19" itemprop="dateModified" datetime="2020-02-17T00:00:19+01:00">2020-02-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -656,7 +656,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-20 01:22:07" itemprop="dateModified" datetime="2020-01-20T01:22:07+01:00">2020-01-20</time>
+                <time title="修改时间：2020-02-17 00:00:19" itemprop="dateModified" datetime="2020-02-17T00:00:19+01:00">2020-02-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -664,7 +664,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VPS/" itemprop="url" rel="index">
+                  <a href="/categories/vps/" itemprop="url" rel="index">
                     <span itemprop="name">VPS</span>
                   </a>
                 </span>
@@ -739,7 +739,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-20 01:21:24" itemprop="dateModified" datetime="2020-01-20T01:21:24+01:00">2020-01-20</time>
+                <time title="修改时间：2020-02-17 00:00:19" itemprop="dateModified" datetime="2020-02-17T00:00:19+01:00">2020-02-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -747,7 +747,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/VPS/" itemprop="url" rel="index">
+                  <a href="/categories/vps/" itemprop="url" rel="index">
                     <span itemprop="name">VPS</span>
                   </a>
                 </span>
@@ -989,7 +989,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-01-20 01:20:29" itemprop="dateModified" datetime="2020-01-20T01:20:29+01:00">2020-01-20</time>
+                <time title="修改时间：2020-02-17 00:00:19" itemprop="dateModified" datetime="2020-02-17T00:00:19+01:00">2020-02-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -997,7 +997,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CFD/" itemprop="url" rel="index">
+                  <a href="/categories/cfd/" itemprop="url" rel="index">
                     <span itemprop="name">CFD</span>
                   </a>
                 </span>
