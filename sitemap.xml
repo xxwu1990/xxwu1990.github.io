@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://xiao5.tk/2019/07/18/Configuration-forpy-on-Windows-with-Intel-visual-fortran-complier/</loc>
+    
+    <lastmod>2020-02-17T11:50:21.088Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://xiao5.tk/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/</loc>
     
     <lastmod>2020-02-17T11:38:59.554Z</lastmod>
@@ -243,13 +250,6 @@
     <loc>https://xiao5.tk/2019/10/14/ConvergenceWarning-Liblinear-failed-to-converge,-increase-the-number-of-iterations/</loc>
     
     <lastmod>2020-01-19T23:40:53.810Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://xiao5.tk/2019/07/18/Configuration-forpy-on-Windows-with-Intel-visual-fortran-complier/</loc>
-    
-    <lastmod>2020-01-19T23:40:11.390Z</lastmod>
     
   </url>
   

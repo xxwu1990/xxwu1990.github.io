@@ -1343,8 +1343,7 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
 <h2 id="Notice"><a href="#Notice" class="headerlink" title="Notice:"></a>Notice:</h2><p>If I set PYTHONHOME variable on Windows (my anaconda version 3.6.3) an error like “Fatal Python error: Py_Initialize: unable to load the file system codec ModuleNotFoundError: No module named ‘encodings’  “ will be induced like <a href="https://bugs.python.org/issue27054" target="_blank" rel="noopener">https://bugs.python.org/issue27054</a>. “intro_to_forpy” works well without PYTHONHOME.</p>
 <h2 id="update"><a href="#update" class="headerlink" title="update:"></a>update:</h2><p>works with PYTHONHOME too. Configure PYTHONHOME to “C:\ProgramData\Anaconda3\” at first then open VS compiler</p>
 <p>use errcheck to check ierror and print error messages.</p>
-<blockquote>
-<h1 id="define-errcheck-if-ierror-0-then-call-err-print-stop-endif"><a href="#define-errcheck-if-ierror-0-then-call-err-print-stop-endif" class="headerlink" title="define errcheck if(ierror/=0) then;call err_print;stop;endif"></a>define errcheck if(ierror/=0) then;call err_print;stop;endif</h1></blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> errcheck <span class="meta-keyword">if</span>(ierror/=0) then;call err_print;stop;<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>if ierror = -1 and show message about <u>“ImportError: DLL load failed: 找不到指定的模块”</u> when use import_py to import some python module,  reinstall this module with pip may solve this problem.</p>
 ]]></content>
       <categories>
