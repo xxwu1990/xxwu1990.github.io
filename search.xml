@@ -263,6 +263,59 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
+    <title>手动安装V2ray并配置ssl</title>
+    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
+    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
+<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
+<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
+<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
+<p>此脚本会自动安装以下文件：</p>
+<ul>
+<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
+<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
+<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
+<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
+<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
+</ul>
+<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
+<p>运行脚本位于系统的以下位置：</p>
+<ul>
+<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
+<li><code>/etc/init.d/v2ray</code>: SysV</li>
+</ul>
+<p>脚本运行完成后，你需要：</p>
+<ol>
+<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
+<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
+<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
+</ol>
+<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启v2ray和nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
+<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
+<p>地址：域名</p>
+<p>端口：443</p>
+<p>用户ID：UUID</p>
+<p>传输协议：ws</p>
+<p>路径：/abc123</p>
+<p>底层传输安全：tls</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
+<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>v2ray</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VPS搭建GPS轨迹记录服务</title>
     <url>/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/Snipaste_2019-03-04_11-22-40-768x424.png" alt=""><br><a id="more"></a></p>
@@ -325,59 +378,6 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </categories>
       <tags>
         <tag>traccar</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手动安装V2ray并配置ssl</title>
-    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
-    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
-<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
-<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
-<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
-<p>此脚本会自动安装以下文件：</p>
-<ul>
-<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
-<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
-<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
-<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
-<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
-</ul>
-<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
-<p>运行脚本位于系统的以下位置：</p>
-<ul>
-<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
-<li><code>/etc/init.d/v2ray</code>: SysV</li>
-</ul>
-<p>脚本运行完成后，你需要：</p>
-<ol>
-<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
-<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
-<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
-</ol>
-<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启v2ray和nginx</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
-<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
-<p>地址：域名</p>
-<p>端口：443</p>
-<p>用户ID：UUID</p>
-<p>传输协议：ws</p>
-<p>路径：/abc123</p>
-<p>底层传输安全：tls</p>
-</blockquote>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
-<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
-]]></content>
-      <categories>
-        <category>VPS</category>
-      </categories>
-      <tags>
-        <tag>v2ray</tag>
       </tags>
   </entry>
   <entry>
@@ -866,7 +866,7 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
-    <title>Windows10 + WSL + Vscode编程环境配置</title>
+    <title>Windows10 + WSL + vscode编程环境配置</title>
     <url>/2019/10/21/Windows10-+-WSL-+-vscode%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>Windows Subsystem Linux是微软在Windows10平台推出的Linux子系统方案，可以实现VMware虚拟机安装Linux系统的大部分功能，并且运行效率更高。同时相较于模拟Linux开发环境的MinGW方案，WSL几乎就是原生的Linux系统，能够兼容大部分Linux版本的软件，因此作为开发环境配置也更加灵活。同时VScode官方推出了WSL远程开发套件，使得在Windows平台使用Linux开发环境变得十分容易。<a id="more"></a></p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
@@ -1107,7 +1107,7 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
-    <title>ConvergenceWarning：Liblinear Failed to Converge, Increase the Number of Iterations</title>
+    <title>ConvergenceWarning：Liblinear failed to converge, increase the number of iterations</title>
     <url>/2019/10/14/ConvergenceWarning-Liblinear-failed-to-converge,-increase-the-number-of-iterations/</url>
     <content><![CDATA[<h3 id="Q"><a href="#Q" class="headerlink" title="Q:"></a>Q:</h3><p>Running the code of linear binary pattern for Adrian. This program runs but gives the following warning:</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">C:\Python27\lib\site-packages\sklearn\svm\base.py:<span class="number">922</span>: ConvergenceWarning: Liblinear failed to converge, increase the number of iterations.</span><br><span class="line"> <span class="string">"the number of iterations."</span>, ConvergenceWarning</span><br></pre></td></tr></table></figure>
@@ -1331,7 +1331,7 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
-    <title>Configuration Forpy on Windows With Intel Visual Fortran Complier</title>
+    <title>Configuration forpy on Windows with Intel visual fortran complier</title>
     <url>/2019/07/18/Configuration-forpy-on-Windows-with-Intel-visual-fortran-complier/</url>
     <content><![CDATA[<p>forpy is a  library to use Python features in Fortran  (“embedding Python in Fortran”) as this <a href="https://github.com/ylikx/forpy" target="_blank" rel="noopener">Link</a>, configuration of it on Visual Studio, Intel Visual Fortran compiler on Windows 10 follows steps as:<a id="more"></a></p>
 <h2 id="Steps"><a href="#Steps" class="headerlink" title="Steps"></a>Steps</h2><ol>
@@ -1586,45 +1586,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
-    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
-    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
-    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
-<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
-<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
-<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-<p>查看可用内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
-<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
-<p>先检查有什么已经下载过的内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核安装</p>
-<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
-<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
-<p>查看内核安装情况：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
-<p>卸载内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
-<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
-<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<p>如果要重新启用内核更新：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考：</p>
-<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Use Gmsh and SU2 to Simulate 2D Compressor Cascade</title>
+    <title>Use Gmsh and SU2 to simulate 2D compressor cascade</title>
     <url>/2019/05/22/Use-Gmsh-and-SU2-to-simulate-2D-compressor-cascade/</url>
     <content><![CDATA[<p>This article describle simulation of 2D compressor cascade with Gmsh for grid generation and SU2 for flowfield. <a id="more"></a></p>
 <p>Thanks Nathan Ricks’ help!**</p>
@@ -1685,6 +1647,44 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       <tags>
         <tag>gmsh</tag>
         <tag>su2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
+    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
+    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
+<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
+<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
+<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<p>查看可用内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
+<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
+<p>先检查有什么已经下载过的内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核安装</p>
+<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
+<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
+<p>查看内核安装情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
+<p>卸载内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
+<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
+<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<p>如果要重新启用内核更新：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考：</p>
+<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1955,7 +1955,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
-    <title>Next主题解决无法显示数学公式</title>
+    <title>next主题解决无法显示数学公式</title>
     <url>/2019/03/25/next%E4%B8%BB%E9%A2%98%E8%A7%A3%E5%86%B3%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/</url>
     <content><![CDATA[<p>在用markdown写技术文档时，免不了会碰到数学公式。常用的Markdown编辑器都会集成Mathjax，用来渲染文档中的类Latex格式书写的数学公式。基于Hexo搭建的个人博客，默认情况下渲染数学公式却会出现各种各样的问题。<a id="more"></a></p>
 <p>这个问题搞了好久才找到解决方案，感谢@<a href="http://xudongyang.coding.me/math-in-hexo/" target="_blank" rel="noopener">小毛驴</a></p>
@@ -2626,7 +2626,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <h2 id="关于收费"><a href="#关于收费" class="headerlink" title="关于收费"></a>关于收费</h2><p><strong>马克飞象</strong>为新用户提供 10 天的试用期，试用期过后需要<a href="maxiang.info/vip.html">续费</a>才能继续使用。未购买或者未及时续费，将不能同步新的笔记。之前保存过的笔记依然可以编辑。</p>
 <h2 id="反馈与建议"><a href="#反馈与建议" class="headerlink" title="反馈与建议"></a>反馈与建议</h2><ul>
 <li>微博：<a href="http://weibo.com/u/2788354117" target="_blank" rel="noopener">@马克飞象</a>，<a href="http://weibo.com/ggock" target="_blank" rel="noopener" title="开发者个人账号">@GGock</a></li>
-<li>邮箱：<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#104;&#x75;&#115;&#x74;&#x67;&#111;&#x63;&#107;&#64;&#103;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;">&#104;&#x75;&#115;&#x74;&#x67;&#111;&#x63;&#107;&#64;&#103;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;</a></li>
+<li>邮箱：<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x68;&#x75;&#115;&#x74;&#x67;&#x6f;&#x63;&#107;&#64;&#x67;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;">&#x68;&#x75;&#115;&#x74;&#x67;&#x6f;&#x63;&#107;&#64;&#x67;&#x6d;&#x61;&#105;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a></li>
 </ul>
 <hr>
 <p>感谢阅读这份帮助文档。请点击右上角，绑定印象笔记账号，开启全新的记录与分享体验吧。</p>
