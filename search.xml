@@ -1586,44 +1586,6 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
-    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
-    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
-    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
-<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
-<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
-<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-<p>查看可用内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
-<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
-<p>先检查有什么已经下载过的内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核安装</p>
-<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
-<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
-<p>查看内核安装情况：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
-<p>卸载内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
-<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
-<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<p>如果要重新启用内核更新：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考：</p>
-<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Use Gmsh and SU2 to simulate 2D compressor cascade</title>
     <url>/2019/05/22/Use-Gmsh-and-SU2-to-simulate-2D-compressor-cascade/</url>
     <content><![CDATA[<p>This article describle simulation of 2D compressor cascade with Gmsh for grid generation and SU2 for flowfield. <a id="more"></a></p>
@@ -1685,6 +1647,44 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       <tags>
         <tag>gmsh</tag>
         <tag>su2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
+    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
+    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
+<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
+<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
+<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<p>查看可用内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
+<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
+<p>先检查有什么已经下载过的内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核安装</p>
+<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
+<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
+<p>查看内核安装情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
+<p>卸载内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
+<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
+<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<p>如果要重新启用内核更新：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考：</p>
+<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -2626,7 +2626,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
 <h2 id="关于收费"><a href="#关于收费" class="headerlink" title="关于收费"></a>关于收费</h2><p><strong>马克飞象</strong>为新用户提供 10 天的试用期，试用期过后需要<a href="maxiang.info/vip.html">续费</a>才能继续使用。未购买或者未及时续费，将不能同步新的笔记。之前保存过的笔记依然可以编辑。</p>
 <h2 id="反馈与建议"><a href="#反馈与建议" class="headerlink" title="反馈与建议"></a>反馈与建议</h2><ul>
 <li>微博：<a href="http://weibo.com/u/2788354117" target="_blank" rel="noopener">@马克飞象</a>，<a href="http://weibo.com/ggock" target="_blank" rel="noopener" title="开发者个人账号">@GGock</a></li>
-<li>邮箱：<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#104;&#117;&#115;&#x74;&#103;&#111;&#99;&#x6b;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;">&#104;&#117;&#115;&#x74;&#103;&#111;&#99;&#x6b;&#x40;&#103;&#109;&#x61;&#x69;&#x6c;&#46;&#x63;&#111;&#x6d;</a></li>
+<li>邮箱：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#104;&#x75;&#115;&#x74;&#103;&#111;&#99;&#x6b;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#x63;&#111;&#x6d;">&#104;&#x75;&#115;&#x74;&#103;&#111;&#99;&#x6b;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#x63;&#111;&#x6d;</a></li>
 </ul>
 <hr>
 <p>感谢阅读这份帮助文档。请点击右上角，绑定印象笔记账号，开启全新的记录与分享体验吧。</p>
