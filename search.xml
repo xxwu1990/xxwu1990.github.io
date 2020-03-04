@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>超音速来流叶栅进口边界条件设置</title>
+    <url>/2020/03/04/%E8%B6%85%E9%9F%B3%E9%80%9F%E6%9D%A5%E6%B5%81%E5%8F%B6%E6%A0%85%E8%BF%9B%E5%8F%A3%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<p>在计算平面叶栅工况时，亚音速来流的边界条件通常和整机仿真相同，即进口给定<strong>总温，总压，来流方向和湍流粘度</strong>，出口指定<strong>静压</strong>或者<strong>流量</strong>。然而由于无因次密流函数的非单调性，同一流量对应超音速和亚音速两种工况，所以来流超音的情况下的边界条件设置和亚音速有所不同。<a id="more"></a></p>
+<h4 id="实验工况"><a href="#实验工况" class="headerlink" title="实验工况"></a>实验工况</h4><p>Ma’ = 1.416,  TT1’ = 365.48 K, PT1’ = 233745.02 Pa, Bet1 = 59.2°, P2 = 127383.58 Pa</p>
+<h4 id="Fine-Turbo设置"><a href="#Fine-Turbo设置" class="headerlink" title="Fine/Turbo设置"></a>Fine/Turbo设置</h4><h5 id="进口条件设置"><a href="#进口条件设置" class="headerlink" title="进口条件设置"></a>进口条件设置</h5><ul>
+<li>Cartesian坐标系（针对平面叶栅）</li>
+<li>选择超音速进口（虽然NUMECA手册上说明 Note that the velocity component normal to the boundary should be considered to determine whether an inlet (or an outlet) boundary is subsonic or supersonic，即进口法向速度决定超音还是亚音速边界条件，实测这么做得到的结果会有较大偏差）</li>
+<li>指定进口静温，静压以及速度矢量（静参数可以由总参数和马赫数计算得到，速度由来流方向，马赫数和静参数得到）</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304163019.png" alt=""></p>
+<h5 id="出口条件设置"><a href="#出口条件设置" class="headerlink" title="出口条件设置"></a>出口条件设置</h5><p>出口为亚音边界条件，给定平均静压（若给流量似乎会发散，因为进口条件流量已经确定了）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304164542.png" alt=""></p>
+<h5 id="两种进口条计算结果件对比"><a href="#两种进口条计算结果件对比" class="headerlink" title="两种进口条计算结果件对比"></a>两种进口条计算结果件对比</h5><p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304170620.png" alt=""></p>
+<center>亚音速进口条件计算结果</center>
+![](https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304170734.png)
+
+<center>超音速进口条件计算结果</center>
+#### SU2设置
+
+官方提供的针对叶轮机的配置模板中采用了Giles边界条件，即进出口边界条件都是亚音速的：
+
+##### 配置文件
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">% Giles boundary condition for inflow, outfolw and mixing-plane</span><br><span class="line">% Format inlet:  ( marker, TOTAL_CONDITIONS_PT, Total Pressure , Total Temperature,</span><br><span class="line">% Flow dir-norm, Flow dir-tang, Flow dir-span, under-relax-avg, under-relax-fourier)</span><br><span class="line">% Format outlet: ( marker, STATIC_PRESSURE, Static Pressure value, -, -, -, -, under-relax-avg, under-relax-fourier)</span><br><span class="line">% Format mixing-plane in and out: ( marker, MIXING_IN or MIXING_OUT, -, -, -, -, -, -, under-relax-avg, under-relax-fourier)</span><br></pre></td></tr></table></figure>
+
+针对超音速来流工况，需要手动设置进出口边界条件，首先注释掉turbomachinery默认设置：
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%MARKER_TURBOMACHINERY&#x3D; (inlet, outlet)</span><br><span class="line">%MARKER_GILES&#x3D; (inlet, TOTAL_CONDITIONS_PT, 233745.02, 365.48, 1.0, 1.677, 0.0,1.0,1.0, outlet, STATIC_PRESSURE, 127383.58, 0.0, 0.0, 0.0, 0.0,1.0,1.0)</span><br></pre></td></tr></table></figure>
+
+分别指定进口和出口条件
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">% Supersonic inlet boundary marker(s) (NONE &#x3D; no marker)</span><br><span class="line">% Format: (inlet marker, temperature, static pressure, velocity_x,</span><br><span class="line">%           velocity_y, velocity_z, ... ), i.e. primitive variables specified.</span><br><span class="line">MARKER_SUPERSONIC_INLET &#x3D; (inlet, 261.15, 72083.18, 234.50, 393.60, 0)</span><br><span class="line">% Outlet boundary marker(s) (NONE &#x3D; no marker)</span><br><span class="line">% Compressible: ( outlet marker, back pressure (static thermodynamic), ... )</span><br><span class="line">% Inc. Pressure: ( outlet marker, back pressure (static gauge in Pa), ... )</span><br><span class="line">% Inc. Mass Flow: ( outlet marker, mass flow target (kg&#x2F;s), ... )</span><br><span class="line">MARKER_OUTLET &#x3D; (outlet, 127383.58)</span><br></pre></td></tr></table></figure>
+
+##### 计算结果
+
+![](https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304171747.png)
+
+<center>亚音速进口条件计算结果</center>
+![](https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304171711.png)
+
+<center>超音速进口条件计算结果</center>
+
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>su2</tag>
+        <tag>numeca</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Github+jsDelivr+PicGo 打造稳定快速、高效免费图床</title>
     <url>/2020/02/15/Github+jsDelivr+PicGo-%E6%89%93%E9%80%A0%E7%A8%B3%E5%AE%9A%E5%BF%AB%E9%80%9F%E3%80%81%E9%AB%98%E6%95%88%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/TRHX/ImageHosting/ITRHX-PIC/A27/ImgHosting.png" alt=""><a id="more"></a></p>
