@@ -15,36 +15,20 @@
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304164542.png" alt=""></p>
 <h5 id="两种进口条计算结果件对比"><a href="#两种进口条计算结果件对比" class="headerlink" title="两种进口条计算结果件对比"></a>两种进口条计算结果件对比</h5><p>CFview绘制</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304170620.png" alt=""></p>
-<center>亚音速进口条件计算结果</center>
-![](https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304170734.png)
-
-<center>超音速进口条件计算结果</center>
-#### SU2设置
-
-官方提供的针对叶轮机的配置模板中采用了Giles边界条件，即进出口边界条件都是亚音速的：
-
-##### 配置文件
-
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">% Giles boundary condition for inflow, outfolw and mixing-plane</span><br><span class="line">% Format inlet:  ( marker, TOTAL_CONDITIONS_PT, Total Pressure , Total Temperature,</span><br><span class="line">% Flow dir-norm, Flow dir-tang, Flow dir-span, under-relax-avg, under-relax-fourier)</span><br><span class="line">% Format outlet: ( marker, STATIC_PRESSURE, Static Pressure value, -, -, -, -, under-relax-avg, under-relax-fourier)</span><br><span class="line">% Format mixing-plane in and out: ( marker, MIXING_IN or MIXING_OUT, -, -, -, -, -, -, under-relax-avg, under-relax-fourier)</span><br></pre></td></tr></table></figure>
-
-针对超音速来流工况，需要手动设置进出口边界条件，首先注释掉turbomachinery默认设置：
-
+<p>亚音速进口条件计算结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304170734.png" alt=""></p>
+<p>超音速进口条件计算结果</p>
+<h4 id="SU2设置"><a href="#SU2设置" class="headerlink" title="SU2设置"></a>SU2设置</h4><p>官方提供的针对叶轮机的配置模板中采用了Giles边界条件，即进出口边界条件都是亚音速的：</p>
+<h5 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">% Giles boundary condition for inflow, outfolw and mixing-plane</span><br><span class="line">% Format inlet:  ( marker, TOTAL_CONDITIONS_PT, Total Pressure , Total Temperature,</span><br><span class="line">% Flow dir-norm, Flow dir-tang, Flow dir-span, under-relax-avg, under-relax-fourier)</span><br><span class="line">% Format outlet: ( marker, STATIC_PRESSURE, Static Pressure value, -, -, -, -, under-relax-avg, under-relax-fourier)</span><br><span class="line">% Format mixing-plane in and out: ( marker, MIXING_IN or MIXING_OUT, -, -, -, -, -, -, under-relax-avg, under-relax-fourier)</span><br></pre></td></tr></table></figure>
+<p>针对超音速来流工况，需要手动设置进出口边界条件，首先注释掉turbomachinery默认设置：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">%MARKER_TURBOMACHINERY&#x3D; (inlet, outlet)</span><br><span class="line">%MARKER_GILES&#x3D; (inlet, TOTAL_CONDITIONS_PT, 233745.02, 365.48, 1.0, 1.677, 0.0,1.0,1.0, outlet, STATIC_PRESSURE, 127383.58, 0.0, 0.0, 0.0, 0.0,1.0,1.0)</span><br></pre></td></tr></table></figure>
-
-分别指定进口和出口条件
-
+<p>分别指定进口和出口条件</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">% Supersonic inlet boundary marker(s) (NONE &#x3D; no marker)</span><br><span class="line">% Format: (inlet marker, temperature, static pressure, velocity_x,</span><br><span class="line">%           velocity_y, velocity_z, ... ), i.e. primitive variables specified.</span><br><span class="line">MARKER_SUPERSONIC_INLET &#x3D; (inlet, 261.15, 72083.18, 234.50, 393.60, 0)</span><br><span class="line">% Outlet boundary marker(s) (NONE &#x3D; no marker)</span><br><span class="line">% Compressible: ( outlet marker, back pressure (static thermodynamic), ... )</span><br><span class="line">% Inc. Pressure: ( outlet marker, back pressure (static gauge in Pa), ... )</span><br><span class="line">% Inc. Mass Flow: ( outlet marker, mass flow target (kg&#x2F;s), ... )</span><br><span class="line">MARKER_OUTLET &#x3D; (outlet, 127383.58)</span><br></pre></td></tr></table></figure>
-
-##### 计算结果
-
-Tecplot绘制
-
-![](https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304171747.png)
-
-<center>亚音速进口条件计算结果</center>
-![](https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304171711.png)
-
-<center>超音速进口条件计算结果</center>
+<h5 id="计算结果"><a href="#计算结果" class="headerlink" title="计算结果"></a>计算结果</h5><p>Tecplot绘制</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304171747.png" alt=""></p>
+<p>亚音速进口条件计算结果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-04/20200304171711.png" alt=""></p>
+<p>超音速进口条件计算结果</p>
 ]]></content>
       <categories>
         <category>CFD</category>
