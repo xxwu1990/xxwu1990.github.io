@@ -48,20 +48,24 @@
   };
 </script>
 
-  <meta name="description" content="初期分配的VMware硬盘空间常常在使用一段时间后捉襟见肘，这时需要扩展虚拟磁盘空间的大小，本文介绍详细步骤。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="扩大VMware虚拟机中CentOS7的硬盘空间">
-<meta property="og:url" content="https://xiao5.tk/2019/05/15/%E6%89%A9%E5%A4%A7VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCentOS7%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="VPS挂载阿里云OSS">
+<meta property="og:url" content="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/index.html">
 <meta property="og:site_name" content="蘑菇熊星球">
-<meta property="og:description" content="初期分配的VMware硬盘空间常常在使用一段时间后捉襟见肘，这时需要扩展虚拟磁盘空间的大小，本文介绍详细步骤。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2019-05-14T22:00:00.000Z">
-<meta property="article:modified_time" content="2020-02-17T13:20:30.528Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ%E6%88%AA%E5%9B%BE20190616174109.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ%E6%88%AA%E5%9B%BE20190616182722.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ%E6%88%AA%E5%9B%BE20190616182917.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/%E6%89%B9%E6%B3%A8-2019-06-16-181429.jpg">
+<meta property="article:published_time" content="2020-03-17T23:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-18T00:14:16.489Z">
 <meta property="article:author" content="蘑菇熊">
-<meta property="article:tag" content="linux">
+<meta property="article:tag" content="OSS">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg">
 
-<link rel="canonical" href="https://xiao5.tk/2019/05/15/%E6%89%A9%E5%A4%A7VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCentOS7%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4/">
+<link rel="canonical" href="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/">
 
 
 <script id="page-configurations">
@@ -73,7 +77,7 @@
   };
 </script>
 
-  <title>扩大VMware虚拟机中CentOS7的硬盘空间 | 蘑菇熊星球</title>
+  <title>VPS挂载阿里云OSS | 蘑菇熊星球</title>
   
 
 
@@ -211,7 +215,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/05/15/%E6%89%A9%E5%A4%A7VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCentOS7%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4/">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/img/avatar.jpg">
@@ -224,7 +228,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          扩大VMware虚拟机中CentOS7的硬盘空间
+          VPS挂载阿里云OSS
         </h1>
 
         <div class="post-meta">
@@ -233,24 +237,18 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2019-05-15 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-15T00:00:00+02:00">2019-05-15</time>
+              <time title="创建时间：2020-03-18 00:00:00 / 修改时间：01:14:16" itemprop="dateCreated datePublished" datetime="2020-03-18T00:00:00+01:00">2020-03-18</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-02-17 14:20:30" itemprop="dateModified" datetime="2020-02-17T14:20:30+01:00">2020-02-17</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/" itemprop="url" rel="index">
-                    <span itemprop="name">虚拟机</span>
+                  <a href="/categories/vps/" itemprop="url" rel="index">
+                    <span itemprop="name">VPS</span>
                   </a>
                 </span>
             </span>
@@ -273,31 +271,121 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>初期分配的VMware硬盘空间常常在使用一段时间后捉襟见肘，这时需要扩展虚拟磁盘空间的大小，本文介绍详细步骤。<a id="more"></a></p>
-<h3 id="1-查看挂载点信息："><a href="#1-查看挂载点信息：" class="headerlink" title="1.查看挂载点信息："></a>1.查看挂载点信息：</h3><blockquote>
-<p>[root@localhost]# df -h<br>文件系统 容量 已用 可用 已用% 挂载点<br>/dev/mapper/centos-root 18G 15G 2.9G 84% /<br>devtmpfs 485M 0 485M 0% /dev<br>tmpfs 494M 84K 494M 1% /dev/shm<br>tmpfs 494M 7.1M 487M 2% /run<br>tmpfs 494M 0 494M 0% /sys/fs/cgroup<br>/dev/sda1 497M 119M 379M 24% /boot<br>/dev/sr0 3.9G 3.9G 0 100% /run/media/zoubf/CentOS</p>
-</blockquote>
-<h3 id="2-开始扩展"><a href="#2-开始扩展" class="headerlink" title="2. 开始扩展"></a>2. 开始扩展</h3><h4 id="2-1-扩展VMWare硬盘空间"><a href="#2-1-扩展VMWare硬盘空间" class="headerlink" title="2.1 扩展VMWare硬盘空间"></a>2.1 扩展VMWare硬盘空间</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> 关闭Vmware 的 Linux系统，这样，才能在VMWare菜单中设置需要增加到的磁盘大小</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-<p><strong>如果这个选项是灰色的，说明此虚拟机建有快照，把快照全部删除再试试</strong></p>
-<h4 id="2-2-对新增加的硬盘进行分区、格式化"><a href="#2-2-对新增加的硬盘进行分区、格式化" class="headerlink" title="2.2. 对新增加的硬盘进行分区、格式化"></a>2.2. 对新增加的硬盘进行分区、格式化</h4><blockquote>
-<p>增加了空间的硬盘是 /dev/sda<br>分区：<br>[root@localhost]# fdisk /dev/sda　　　　<br>p　　　　　　　查看已分区数量（我看到有两个 /dev/sda1 /dev/sda2）<br>n　　　　　　　新增加一个分区<br>p　　　　　　　分区类型我们选择为主分区<br>　　　　　　分区号选3（因为1,2已经用过了，见上）<br>回车　　　　　　默认（起始扇区）<br>回车　　　　　　默认（结束扇区）<br>t　　　　　　　修改分区类型<br>　　　　　　 选分区3<br>8e　　　　　　修改为LVM（8e就是LVM）<br>w　　　　　　写分区表<br>q　　　　　　完成，退出fdisk命令</p>
-</blockquote>
-<p><strong>使用partprobe 命令 或者重启机器</strong><br>格式化分区</p>
+        <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg" alt=""></p>
+<a id="more"></a>
+<p>(<a href="https://spmax.top/p-2428/Mmx.html" target="_blank" rel="noopener">转</a>)服务器容量不够用？硬盘一下子就被塞满了？憋担心，阿里云的oss提供了挂载功能，挂载之后就和本地文件一个尿性了，且不占用服务器空间，这不就是扩容吗?。我已经利用这个功能把本站所有图片、视频等文件移到了oss中，而网页文件（js，css，php等）则留在了本地。腾讯云似乎没有提供这种服务。</p>
+<p>你可能会觉得，oss的流量费用特贵，对没错，真的是特贵。因为oss是为自家服务的容器服务，外网流量当然得贵一点。而用阿里云的服务器挂载的话，就只用付储存的钱就够了，储存包年9￥40Gb，不亏，特香。当然，挂载的话流量消耗的是服务器的，也会占用相应的带宽（如果是内网的话仅占用内网带宽）。</p>
+<p>宝塔是有oss挂载插件的，但是特low，我就没用那个插件挂载成功过。</p>
+<h3 id="一、创建Bucket"><a href="#一、创建Bucket" class="headerlink" title="一、创建Bucket"></a><strong>一、创建Bucket</strong></h3><p>首先，你得有一台阿里云的服务器直接挂载或中转，土豪请自便。</p>
+<p>只要你购买了储存包，Bucket是不限数量的，随便创建。购买储存包选择地址的时候最好选择和服务器同一地址的地方。用外网流量的人注意，大陆之外流量贵死 。</p>
+<p>创建时选择私人读写即可，没必要公共读。这里的Bucket的名称后面是要用的，不要乱取。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616174109.png" alt=""></p>
+<h3 id="二、安装ossfs"><a href="#二、安装ossfs" class="headerlink" title="二、安装ossfs"></a><strong>二、安装ossfs</strong></h3><p>阿里云是提供了详细的帮助文档的，一般人都看得懂。</p>
 <blockquote>
-<p>mkfs.ext3 /dev/sda3</p>
+<p><a href="https://help.aliyun.com/document_detail/32196.html" target="_blank" rel="noopener">帮助文档</a></p>
 </blockquote>
-<h4 id="2-3-添加新LVM到已有的LVM组，实现扩容"><a href="#2-3-添加新LVM到已有的LVM组，实现扩容" class="headerlink" title="2.3.添加新LVM到已有的LVM组，实现扩容"></a>2.3.添加新LVM到已有的LVM组，实现扩容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">lvm　　　　　　　　　　　　　　　　　　    进入lvm管理</span><br><span class="line">lvm&gt;pvcreate &#x2F;dev&#x2F;sda3　　　这是初始化刚才的分区，必须的</span><br><span class="line">lvm&gt;vgextend centos &#x2F;dev&#x2F;sda3  将初始化过的分区加入到虚拟卷组centos (卷和卷组的命令可以通过  vgdisplay )</span><br><span class="line">lvm&gt;vgdisplay -v</span><br><span class="line">lvm&gt;lvextend -l+21513 &#x2F;dev&#x2F;mapper&#x2F;centos-root　　扩展已有卷的容量（21513 是通过vgdisplay查看的free的大小）</span><br><span class="line">lvm&gt;pvdisplay   查看卷容量，这时你会看到一个很大的卷了</span><br><span class="line">lvm&gt;quit    　退出</span><br><span class="line">12345678</span><br></pre></td></tr></table></figure>
-<h4 id="2-4-以上只是卷扩容了，下面是文件系统的真正扩容，输入以下命令："><a href="#2-4-以上只是卷扩容了，下面是文件系统的真正扩容，输入以下命令：" class="headerlink" title="2.4.以上只是卷扩容了，下面是文件系统的真正扩容，输入以下命令："></a>2.4.以上只是卷扩容了，下面是文件系统的真正扩容，输入以下命令：</h4><p><strong>CentOS 7 下面 由于使用的是 XFS，所以要用</strong></p>
+<p>我也没什么好补充的，再不会发工单让客服给你装。</p>
+<p>CentOS 7.x 版本：</p>
 <blockquote>
-<p>xfs_growfs /dev/mapper/centos-root</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://gosspublic.alicdn.com/ossfs/ossfs_1.80.6_centos7.0_x86_64.rpm</span><br><span class="line">sudo yum localinstall ossfs_1.80.6_centos7.0_x86_64.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </blockquote>
-<p><strong>CentOS 6 下面 要用</strong></p>
+<p>Debian 9/Ubuntu 16.06+版本：</p>
 <blockquote>
-<p>resize2fs /dev/mapper/centos-root</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/aliyun/ossfs/releases/download/v1.80.5/ossfs_1.80.5_ubuntu16.04_amd64.deb</span><br><span class="line">sudo dpkg -i ossfs_1.80.5_ubuntu16.04_amd64.deb</span><br></pre></td></tr></table></figure>
 </blockquote>
-<h4 id="2-5-查看新的磁盘空间"><a href="#2-5-查看新的磁盘空间" class="headerlink" title="2.5.查看新的磁盘空间"></a>2.5.查看新的磁盘空间</h4><blockquote>
-<p>df -h</p>
+<p>然后就ok了。</p>
+<h3 id="三、挂载Bucket"><a href="#三、挂载Bucket" class="headerlink" title="三、挂载Bucket"></a><strong>三、挂载Bucket</strong></h3><p>阿里的帮助文档也给出了挂载方法。</p>
+<p>但其中还是有一些小错误，比如缺了参数。</p>
+<p>普通直接挂载后，目录所有者是root且权限是640。这使网站程序无权限写操作，压根用不了。</p>
+<p>解决方法帮助文档也给出了，我总结一下</p>
+<ol>
+<li>能同时挂载多个Bucket多个目录，输出多个账号访问信息到<code>/etc/passwd-ossfs</code>然后挂载即可。</li>
+<li>用<code>-o allow_other</code>参数将目录权限设置为777。</li>
+<li>用<code>sudo -u user</code>或用<code>uid/gid</code>信息即可指定用户。</li>
+</ol>
+<p>下面是详细的说明和举例。</p>
+<p>参数说明：</p>
+<p><code>www</code>：需要更改到的用户。</p>
+<p><code>your_bucket</code>：上面创建Bucket时提到的要用的名称，并已经输出到了<code>/etc/passwd-ossfs</code>文件中。</p>
+<p><code>your_mount_point</code>：你需要挂载到的目录，必须是存在的目录（就是要提前创建好该目录），不以<code>/</code>结尾。</p>
+<p><code>your_endpoint</code>：阿里云oss控制台中Bucket概览中给出的EndPoint，选用[ECS 的经典网络访问（内网）]即可，或者你可以用阿里云的服务器反向代理该链接创建的链接以避免费用，供外网服务器使用。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616182722.png" alt=""></p>
+<p><code>your-access-key-id</code>与<code>your-access-key-secret</code>：阿里云账号的密钥，这个东西很重要，不要遇到什么人说帮你配置你就傻傻交出去了。获取位置如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616182917.png" alt=""></p>
+<p>先将Bucket名、密钥等一同输出到<code>/etc/passwd-ossfs</code>中</p>
+<p>示例：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo your_bucket:your-access-key-id:your-access-key-secret &gt;&gt; &#x2F;etc&#x2F;passwd-ossfs</span><br></pre></td></tr></table></figure>
 </blockquote>
+<p><code>/etc/passwd-ossfs</code>文件必须是640权限的，不然ossfs会报错<code>credentials file /etc/passwd-ossfs should not have others permissions.</code>所以挂载前还要更改权限。</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 640 &#x2F;etc&#x2F;passwd-ossfs</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>然后进行挂载</p>
+<h4 id="1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。"><a href="#1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。" class="headerlink" title="1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。"></a><strong>1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。</strong></h4><blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u www ossfs your_bucket your_mount_point -ourl&#x3D;your_endpoint -o allow_other</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="2、-uid-gid信息法。"><a href="#2、-uid-gid信息法。" class="headerlink" title="2、 uid/gid信息法。"></a><strong>2、 uid/gid信息法。</strong></h4><p>先用<code>id www</code>获取<code>uid/gid</code>。</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id www</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/批注-2019-06-16-181429.jpg" alt=""></p>
+<p>然后用其进行挂载</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ossfs your_bucket your_mountpoint -ourl&#x3D;your_endpoint -ouid&#x3D;your_uid -ogid&#x3D;your_gid -o allow_other</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>此时以图中的返回数值为示例，我的<code>your_uid</code>=<code>your_gid</code>=1001</p>
+<p>如此挂载之后的目录就为www用户的777权限目录了，亲测wp媒体库可以随意使用，只是加载媒体库页面时有点慢，加载其他页面没有明显的延缓。</p>
+<h3 id="四、开机自动挂载"><a href="#四、开机自动挂载" class="headerlink" title="四、开机自动挂载"></a><strong>四、开机自动挂载</strong></h3><ol>
+<li><p>将Bucket名称、AccessKeyID、AccessKeySecret等信息写入/etc/passwd-ossfs文件，并将文件权限修改为640。</p>
+<p>配置步骤请参见<a href="https://help.aliyun.com/document_detail/153892.html#concept-kkp-lmb-wdb" target="_blank" rel="noopener">快速安装</a>。</p>
+</li>
+<li><p>设置开机自动挂载。</p>
+<p>针对不同的系统版本，设置开机自动挂载ossfs的方式有所不同。</p>
+<ul>
+<li><p>Ubuntu14.04和CentOS6.5系统版本通过fstab的方式自动挂载</p>
+<ol>
+<li><p>在/etc/fstab中加入如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ossfs#bucket_name mount_point fuse _netdev,url&#x3D;url,allow_other 0 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存/etc/fstab文件。执行<strong>mount -a</strong>命令，如果没有报错，则说明设置正常。</p>
+</li>
+<li><p>上一步执行完成后，Ubuntu14.04就能自动挂载了。CentOS6.5还需要执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig netfs on</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>CentOS7.0及以上的系统通过开机自动启动脚本进行挂载</p>
+<ol>
+<li><p>在/etc/init.d/目录下建立文件ossfs，将<a href="https://github.com/aliyun/ossfs/blob/master/scripts/automount.template" target="_blank" rel="noopener">模板文件</a>中的内容拷贝到这个新文件中。并将其中的your_xxx内容改成您自己的信息。</p>
+</li>
+<li><p>为新建立的ossfs脚本赋予可执行权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod a+x &#x2F;etc&#x2F;init.d&#x2F;ossfs</span><br></pre></td></tr></table></figure>
+<p>命令执行完成后，您可以尝试执行该脚本，如果脚本文件内容无误，那么此时OSS中的Bucket已经挂载到您指定的目录下了。</p>
+</li>
+<li><p>把ossfs启动脚本作为其他服务，开机自动启动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig ossfs on</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行上述步骤后，ossfs就可以开机自动挂载了。</p>
+</li>
+</ol>
+</li>
+<li><p>Ubuntu 16.06/Debian 9可以参照另一篇设置自动开机脚本的教程，即在/etc/rc.local中添加挂载命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ossfs your_bucket your_mountpoint -ourl&#x3D;your_endpoint -ouid&#x3D;your_uid -ogid&#x3D;your_gid -o allow_other</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="五、取消挂载"><a href="#五、取消挂载" class="headerlink" title="五、取消挂载"></a><strong>五、取消挂载</strong></h3><p>帮助文档中提到，若要取消挂载，输入</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fusermount -u your_mountpoint</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>即可取消挂载，但我输了命令之后却提示<code>-bash: fusermount: command not found</code>。后来发了个工单才知道这玩意要单独装。</p>
+<p>输入</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install fuse</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>再进行取消挂载即可。</p>
 
     </div>
 
@@ -313,7 +401,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://xiao5.tk/2019/05/15/%E6%89%A9%E5%A4%A7VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCentOS7%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4/" title="扩大VMware虚拟机中CentOS7的硬盘空间">https://xiao5.tk/2019/05/15/扩大VMware虚拟机中CentOS7的硬盘空间/</a>
+    <a href="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/" title="VPS挂载阿里云OSS">https://xiao5.tk/2020/03/18/VPS挂载阿里云OSS/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -324,7 +412,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/oss/" rel="tag"># OSS</a>
           </div>
 
         
@@ -333,13 +421,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/05/14/Release%E2%80%9C%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E2%80%9Cxxx.exe%E2%80%9D%E7%9A%84%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%E2%80%A6%E2%80%A6%E2%80%9C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="Release“无法找到“xxx.exe”的调试信息……“解决方案">
-      <i class="fa fa-chevron-left"></i> Release“无法找到“xxx.exe”的调试信息……“解决方案
+    <a href="/2020/03/04/%E8%B6%85%E9%9F%B3%E9%80%9F%E6%9D%A5%E6%B5%81%E5%8F%B6%E6%A0%85%E8%BF%9B%E5%8F%A3%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6%E8%AE%BE%E7%BD%AE/" rel="prev" title="超音速来流叶栅进口边界条件设置">
+      <i class="fa fa-chevron-left"></i> 超音速来流叶栅进口边界条件设置
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2019/05/15/%E5%85%B3%E4%BA%8ETeploct%E5%A4%84%E7%90%86%E5%B9%B3%E9%9D%A2%E5%8F%B6%E6%A0%85%E5%91%A8%E6%9C%9F%E6%80%A7%E6%98%BE%E7%A4%BA/" rel="next" title="关于Teploct处理平面叶栅">
-      关于Teploct处理平面叶栅 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -400,7 +485,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-查看挂载点信息："><span class="nav-number">1.</span> <span class="nav-text">1.查看挂载点信息：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-开始扩展"><span class="nav-number">2.</span> <span class="nav-text">2. 开始扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-扩展VMWare硬盘空间"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 扩展VMWare硬盘空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-对新增加的硬盘进行分区、格式化"><span class="nav-number">2.2.</span> <span class="nav-text">2.2. 对新增加的硬盘进行分区、格式化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-添加新LVM到已有的LVM组，实现扩容"><span class="nav-number">2.3.</span> <span class="nav-text">2.3.添加新LVM到已有的LVM组，实现扩容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-以上只是卷扩容了，下面是文件系统的真正扩容，输入以下命令："><span class="nav-number">2.4.</span> <span class="nav-text">2.4.以上只是卷扩容了，下面是文件系统的真正扩容，输入以下命令：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-查看新的磁盘空间"><span class="nav-number">2.5.</span> <span class="nav-text">2.5.查看新的磁盘空间</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、创建Bucket"><span class="nav-number">1.</span> <span class="nav-text">一、创建Bucket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、安装ossfs"><span class="nav-number">2.</span> <span class="nav-text">二、安装ossfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、挂载Bucket"><span class="nav-number">3.</span> <span class="nav-text">三、挂载Bucket</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。"><span class="nav-number">3.1.</span> <span class="nav-text">1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、-uid-gid信息法。"><span class="nav-number">3.2.</span> <span class="nav-text">2、 uid&#x2F;gid信息法。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、开机自动挂载"><span class="nav-number">4.</span> <span class="nav-text">四、开机自动挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、取消挂载"><span class="nav-number">5.</span> <span class="nav-text">五、取消挂载</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -591,7 +676,7 @@
       quicklink({
         timeout: 3000,
         priority: true,
-        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2019/05/15/%E6%89%A9%E5%A4%A7VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCentOS7%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4/',]
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/',]
       });
       });
   </script>
@@ -607,7 +692,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'comments',
       owner: 'xxwu1990',
       admin: ['xxwu1990'],
-      id: 'a227257637603fb8a64c20a7f87329f6',
+      id: '99c20491a9ae99b678bb2a34ab269050',
         language: '',
       distractionFreeMode: true
     });

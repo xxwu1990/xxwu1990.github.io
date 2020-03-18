@@ -1,6 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>VPS挂载阿里云OSS</title>
+    <url>/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg" alt=""></p>
+<a id="more"></a>
+<p>(<a href="https://spmax.top/p-2428/Mmx.html" target="_blank" rel="noopener">转</a>)服务器容量不够用？硬盘一下子就被塞满了？憋担心，阿里云的oss提供了挂载功能，挂载之后就和本地文件一个尿性了，且不占用服务器空间，这不就是扩容吗?。我已经利用这个功能把本站所有图片、视频等文件移到了oss中，而网页文件（js，css，php等）则留在了本地。腾讯云似乎没有提供这种服务。</p>
+<p>你可能会觉得，oss的流量费用特贵，对没错，真的是特贵。因为oss是为自家服务的容器服务，外网流量当然得贵一点。而用阿里云的服务器挂载的话，就只用付储存的钱就够了，储存包年9￥40Gb，不亏，特香。当然，挂载的话流量消耗的是服务器的，也会占用相应的带宽（如果是内网的话仅占用内网带宽）。</p>
+<p>宝塔是有oss挂载插件的，但是特low，我就没用那个插件挂载成功过。</p>
+<h3 id="一、创建Bucket"><a href="#一、创建Bucket" class="headerlink" title="一、创建Bucket"></a><strong>一、创建Bucket</strong></h3><p>首先，你得有一台阿里云的服务器直接挂载或中转，土豪请自便。</p>
+<p>只要你购买了储存包，Bucket是不限数量的，随便创建。购买储存包选择地址的时候最好选择和服务器同一地址的地方。用外网流量的人注意，大陆之外流量贵死 。</p>
+<p>创建时选择私人读写即可，没必要公共读。这里的Bucket的名称后面是要用的，不要乱取。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616174109.png" alt=""></p>
+<h3 id="二、安装ossfs"><a href="#二、安装ossfs" class="headerlink" title="二、安装ossfs"></a><strong>二、安装ossfs</strong></h3><p>阿里云是提供了详细的帮助文档的，一般人都看得懂。</p>
+<blockquote>
+<p><a href="https://help.aliyun.com/document_detail/32196.html" target="_blank" rel="noopener">帮助文档</a></p>
+</blockquote>
+<p>我也没什么好补充的，再不会发工单让客服给你装。</p>
+<p>CentOS 7.x 版本：</p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget http://gosspublic.alicdn.com/ossfs/ossfs_1.80.6_centos7.0_x86_64.rpm</span><br><span class="line">sudo yum localinstall ossfs_1.80.6_centos7.0_x86_64.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>Debian 9/Ubuntu 16.06+版本：</p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget https://github.com/aliyun/ossfs/releases/download/v1.80.5/ossfs_1.80.5_ubuntu16.04_amd64.deb</span><br><span class="line">sudo dpkg -i ossfs_1.80.5_ubuntu16.04_amd64.deb</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>然后就ok了。</p>
+<h3 id="三、挂载Bucket"><a href="#三、挂载Bucket" class="headerlink" title="三、挂载Bucket"></a><strong>三、挂载Bucket</strong></h3><p>阿里的帮助文档也给出了挂载方法。</p>
+<p>但其中还是有一些小错误，比如缺了参数。</p>
+<p>普通直接挂载后，目录所有者是root且权限是640。这使网站程序无权限写操作，压根用不了。</p>
+<p>解决方法帮助文档也给出了，我总结一下</p>
+<ol>
+<li>能同时挂载多个Bucket多个目录，输出多个账号访问信息到<code>/etc/passwd-ossfs</code>然后挂载即可。</li>
+<li>用<code>-o allow_other</code>参数将目录权限设置为777。</li>
+<li>用<code>sudo -u user</code>或用<code>uid/gid</code>信息即可指定用户。</li>
+</ol>
+<p>下面是详细的说明和举例。</p>
+<p>参数说明：</p>
+<p><code>www</code>：需要更改到的用户。</p>
+<p><code>your_bucket</code>：上面创建Bucket时提到的要用的名称，并已经输出到了<code>/etc/passwd-ossfs</code>文件中。</p>
+<p><code>your_mount_point</code>：你需要挂载到的目录，必须是存在的目录（就是要提前创建好该目录），不以<code>/</code>结尾。</p>
+<p><code>your_endpoint</code>：阿里云oss控制台中Bucket概览中给出的EndPoint，选用[ECS 的经典网络访问（内网）]即可，或者你可以用阿里云的服务器反向代理该链接创建的链接以避免费用，供外网服务器使用。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616182722.png" alt=""></p>
+<p><code>your-access-key-id</code>与<code>your-access-key-secret</code>：阿里云账号的密钥，这个东西很重要，不要遇到什么人说帮你配置你就傻傻交出去了。获取位置如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616182917.png" alt=""></p>
+<p>先将Bucket名、密钥等一同输出到<code>/etc/passwd-ossfs</code>中</p>
+<p>示例：</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo your_bucket:your-access-key-id:your-access-key-secret &gt;&gt; &#x2F;etc&#x2F;passwd-ossfs</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><code>/etc/passwd-ossfs</code>文件必须是640权限的，不然ossfs会报错<code>credentials file /etc/passwd-ossfs should not have others permissions.</code>所以挂载前还要更改权限。</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod 640 &#x2F;etc&#x2F;passwd-ossfs</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>然后进行挂载</p>
+<h4 id="1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。"><a href="#1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。" class="headerlink" title="1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。"></a><strong>1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。</strong></h4><blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo -u www ossfs your_bucket your_mount_point -ourl&#x3D;your_endpoint -o allow_other</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="2、-uid-gid信息法。"><a href="#2、-uid-gid信息法。" class="headerlink" title="2、 uid/gid信息法。"></a><strong>2、 uid/gid信息法。</strong></h4><p>先用<code>id www</code>获取<code>uid/gid</code>。</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">id www</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/批注-2019-06-16-181429.jpg" alt=""></p>
+<p>然后用其进行挂载</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ossfs your_bucket your_mountpoint -ourl&#x3D;your_endpoint -ouid&#x3D;your_uid -ogid&#x3D;your_gid -o allow_other</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>此时以图中的返回数值为示例，我的<code>your_uid</code>=<code>your_gid</code>=1001</p>
+<p>如此挂载之后的目录就为www用户的777权限目录了，亲测wp媒体库可以随意使用，只是加载媒体库页面时有点慢，加载其他页面没有明显的延缓。</p>
+<h3 id="四、开机自动挂载"><a href="#四、开机自动挂载" class="headerlink" title="四、开机自动挂载"></a><strong>四、开机自动挂载</strong></h3><ol>
+<li><p>将Bucket名称、AccessKeyID、AccessKeySecret等信息写入/etc/passwd-ossfs文件，并将文件权限修改为640。</p>
+<p>配置步骤请参见<a href="https://help.aliyun.com/document_detail/153892.html#concept-kkp-lmb-wdb" target="_blank" rel="noopener">快速安装</a>。</p>
+</li>
+<li><p>设置开机自动挂载。</p>
+<p>针对不同的系统版本，设置开机自动挂载ossfs的方式有所不同。</p>
+<ul>
+<li><p>Ubuntu14.04和CentOS6.5系统版本通过fstab的方式自动挂载</p>
+<ol>
+<li><p>在/etc/fstab中加入如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ossfs#bucket_name mount_point fuse _netdev,url&#x3D;url,allow_other 0 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>保存/etc/fstab文件。执行<strong>mount -a</strong>命令，如果没有报错，则说明设置正常。</p>
+</li>
+<li><p>上一步执行完成后，Ubuntu14.04就能自动挂载了。CentOS6.5还需要执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chkconfig netfs on</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>CentOS7.0及以上的系统通过开机自动启动脚本进行挂载</p>
+<ol>
+<li><p>在/etc/init.d/目录下建立文件ossfs，将<a href="https://github.com/aliyun/ossfs/blob/master/scripts/automount.template" target="_blank" rel="noopener">模板文件</a>中的内容拷贝到这个新文件中。并将其中的your_xxx内容改成您自己的信息。</p>
+</li>
+<li><p>为新建立的ossfs脚本赋予可执行权限：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod a+x &#x2F;etc&#x2F;init.d&#x2F;ossfs</span><br></pre></td></tr></table></figure>
+<p>命令执行完成后，您可以尝试执行该脚本，如果脚本文件内容无误，那么此时OSS中的Bucket已经挂载到您指定的目录下了。</p>
+</li>
+<li><p>把ossfs启动脚本作为其他服务，开机自动启动：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chkconfig ossfs on</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行上述步骤后，ossfs就可以开机自动挂载了。</p>
+</li>
+</ol>
+</li>
+<li><p>Ubuntu 16.06/Debian 9可以参照另一篇设置自动开机脚本的教程，即在/etc/rc.local中添加挂载命令：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ossfs your_bucket your_mountpoint -ourl&#x3D;your_endpoint -ouid&#x3D;your_uid -ogid&#x3D;your_gid -o allow_other</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="五、取消挂载"><a href="#五、取消挂载" class="headerlink" title="五、取消挂载"></a><strong>五、取消挂载</strong></h3><p>帮助文档中提到，若要取消挂载，输入</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">fusermount -u your_mountpoint</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>即可取消挂载，但我输了命令之后却提示<code>-bash: fusermount: command not found</code>。后来发了个工单才知道这玩意要单独装。</p>
+<p>输入</p>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum -y install fuse</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>再进行取消挂载即可。</p>
+]]></content>
+      <categories>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>OSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>超音速来流叶栅进口边界条件设置</title>
     <url>/2020/03/04/%E8%B6%85%E9%9F%B3%E9%80%9F%E6%9D%A5%E6%B5%81%E5%8F%B6%E6%A0%85%E8%BF%9B%E5%8F%A3%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<p>在计算平面叶栅工况时，亚音速来流的边界条件通常和整机仿真相同，即进口给定<strong>总温，总压，来流方向和湍流粘度</strong>，出口指定<strong>静压</strong>或者<strong>流量</strong>。然而由于无因次密流函数的非单调性，同一流量对应超音速和亚音速两种工况，所以来流超音的情况下的边界条件设置和亚音速有所不同。<a id="more"></a></p>
