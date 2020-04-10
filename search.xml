@@ -33,7 +33,7 @@
 <p>如果要安装MySQL而不是MariaDB，请查看我们的<a href="https://linux265.com/news/3368.html" target="_blank" rel="noopener">教程</a>以获取安装说明。</p>
 </blockquote>
 <h3 id="步骤三、安装PHP"><a href="#步骤三、安装PHP" class="headerlink" title="步骤三、安装PHP"></a>步骤三、安装PHP</h3><p>Debian 9 附带 PHP 7.0 版。 要安装PHP FPM和最常见的PHP模块类型：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt install php-fpm php-opcache php-cli php-gd php-curl php-mysql</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt install php-fpm php-opcache php-cli php-gd php-curl php-mysql php-mbstring</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>要安装PHP 7.2，请访问本<a href="https://linux265.com/news/3366.html" target="_blank" rel="noopener">教程</a>。</p>
 </blockquote>
