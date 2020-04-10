@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>如何在 Debian 9 上搭建 LNMP 环境</title>
+    <url>/2020/04/10/%E5%A6%82%E4%BD%95%E5%9C%A8-Debian-9-%E4%B8%8A%E6%90%AD%E5%BB%BA-LNMP-%E7%8E%AF%E5%A2%83/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-04/how-to-install-lemp-stack-on-debian-9-featured.jpg" alt=""></p>
+<p>LNMP 是其四个开源组件名称的首字母缩写简称，当然根据读音也可以成为LEMP，使用PHP开发的web程序通常需要搭建 LNMP 环境来更好支持web运行<a id="more"></a>， 如果你购买了一台 VPS 服务器 不管是 <a href="https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=nw5f572d" target="_blank" rel="noopener">阿里云ECS</a> 服务器还是 <a href="https://www.vultr.com/?ref=7390907" target="_blank" rel="noopener">VULTR VPS</a> 服务器，如果你选择安装 <a href="https://linux265.com/distro/10.html" target="_blank" rel="noopener">Debian</a> 系统并要安装LNMP环境，这篇文章将会对你有所帮助。 </p>
+<ul>
+<li>L - Linux操作系统</li>
+<li>N - Nginx [引擎x]一个HTTP和反向代理服务器</li>
+<li>M - MySQL或MariaDB关系数据库管理系统</li>
+<li>P - PHP编程语言。</li>
+</ul>
+<p>本系列教程将向您展示如何安装Nginx，创建Nginx服务器块，生成免费的Let’s Encrypt SSL证书，安装和保护MariaDB以及安装PHP。</p>
+<p>本系列末尾列出了本系列的详细教程。</p>
+<p>如果您赶时间并且不想阅读更详细的文档，可以按照快速入门部分在 Debian 9 服务器上安装LNMP 环境。</p>
+<h3 id="在Debian-9上安装LNMP环境-快速入门"><a href="#在Debian-9上安装LNMP环境-快速入门" class="headerlink" title="在Debian 9上安装LNMP环境[快速入门]"></a>在Debian 9上安装LNMP环境[快速入门]</h3><p>本快速入门将向您展示在Debian 9服务器上安装LNMP环境所需的基本步骤。</p>
+<h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>您登录的用户必须具有sudo权限才能安装软件包。</p>
+<p>在开始本教程之前，您可能需要一台 Debian 9 服务器：</p>
+<ul>
+<li>至少 1GB 的 RAM</li>
+<li>具有<a href="https://linux265.com/news/3599.html" target="_blank" rel="noopener">sudo权限</a>的非root用户</li>
+</ul>
+<p>没有服务器的同学，国内可以在<a href="https://linux265.com/go/aliyun" target="_blank" rel="noopener">这里购买</a>，国外可以在<a href="https://linux265.com/go/vultr" target="_blank" rel="noopener">这里购买</a> VPS服务器。</p>
+<h3 id="步骤一、安装Nginx"><a href="#步骤一、安装Nginx" class="headerlink" title="步骤一、安装Nginx"></a><strong>步骤一、安装Nginx</strong></h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install nginx</span><br></pre></td></tr></table></figure>
+<p>安装过程完成后，Nginx服务将自动启动。</p>
+<h3 id="步骤二、安装MariaDB"><a href="#步骤二、安装MariaDB" class="headerlink" title="步骤二、安装MariaDB"></a>步骤二、安装MariaDB</h3><p>随着Debian 9的发布，MySQL被MariaDB替换为默认数据库系统。 通过运行以下命令安装MariaDB：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt install mariadb-server</span><br></pre></td></tr></table></figure>
+<p>安装完成后，执行mysql_secure_installation命令以提高MySQL的安全性：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mysql_secure_installation</span><br></pre></td></tr></table></figure>
+<p>系统将要求您设置root密码，删除匿名用户，限制root用户访问本地计算机并删除测试数据库。 你应该对所有问题回答“是”。</p>
+<blockquote>
+<p>如果要安装MySQL而不是MariaDB，请查看我们的<a href="https://linux265.com/news/3368.html" target="_blank" rel="noopener">教程</a>以获取安装说明。</p>
+</blockquote>
+<h3 id="步骤三、安装PHP"><a href="#步骤三、安装PHP" class="headerlink" title="步骤三、安装PHP"></a>步骤三、安装PHP</h3><p>Debian 9 附带 PHP 7.0 版。 要安装PHP FPM和最常见的PHP模块类型：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt install php-fpm php-opcache php-cli php-gd php-curl php-mysql</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>要安装PHP 7.2，请访问本<a href="https://linux265.com/news/3366.html" target="_blank" rel="noopener">教程</a>。</p>
+</blockquote>
+<h3 id="步骤四、配置Nginx以处理PHP页面"><a href="#步骤四、配置Nginx以处理PHP页面" class="headerlink" title="步骤四、配置Nginx以处理PHP页面"></a>步骤四、配置Nginx以处理PHP页面</h3><p>现在我们已经安装了所有LEMP组件，我们可以编辑Nginx虚拟主机配置文件并添加以下行，以便Nginx可以处理PHP文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">    # . . . other code</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        include snippets&#x2F;fastcgi-php.conf;</span><br><span class="line">        fastcgi_pass unix:&#x2F;run&#x2F;php&#x2F;php7.0-fpm.sock;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不要忘记重新启动Nginx服务以使更改生效：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
+<h3 id="步骤五、配置phpmyadmin（可选）"><a href="#步骤五、配置phpmyadmin（可选）" class="headerlink" title="步骤五、配置phpmyadmin（可选）"></a>步骤五、配置phpmyadmin（可选）</h3><p>phpMyAdmin 提供了一个 Web 界面，可以管理 MySQL / MariaDB 数据库。</p>
+<p><strong>网站：</strong></p>
+<p><a href="https://www.phpmyadmin.net/" target="_blank" rel="noopener">https://www.phpmyadmin.net/</a></p>
+<p>下载：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;www&#x2F;web</span><br><span class="line">curl -O https:&#x2F;&#x2F;files.phpmyadmin.net&#x2F;phpMyAdmin&#x2F;4.7.0&#x2F;phpMyAdmin-4.7.0-all-languages.zip</span><br></pre></td></tr></table></figure>
+<p>解压：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">unzip phpMyAdmin*.zip</span><br></pre></td></tr></table></figure>
+<p>删除：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rm -rf phpMyAdmin*.zip</span><br></pre></td></tr></table></figure>
+<p>重命名解压之后的目录：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mv phpMyAdmin* phpmyadmin</span><br></pre></td></tr></table></figure>
+<p>配置nginx：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;php.conf</span><br><span class="line"></span><br><span class="line">#输入</span><br><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  YOUR_DOMAIN;</span><br><span class="line">    root &#x2F;www&#x2F;web&#x2F;phpmyadmin</span><br><span class="line">    index index.php</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启nginx：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
+<p>访问：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;YOUR_DOMAIN</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-04/phpmyadmin.png" alt=""></p>
+<h3 id="步骤6、v2ray-https证书"><a href="#步骤6、v2ray-https证书" class="headerlink" title="步骤6、v2ray+https证书"></a>步骤6、v2ray+https证书</h3><p>安装certbot自动申请：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt -y update</span><br><span class="line">apt -y install nginx python-certbot-nginx</span><br></pre></td></tr></table></figure>
+<p>安装v2ray/清空默认的配置文件/生成一个uuid：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https:&#x2F;&#x2F;install.direct&#x2F;go.sh)</span><br><span class="line">echo &gt; &#x2F;etc&#x2F;v2ray&#x2F;config.json</span><br><span class="line">cat &#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;random&#x2F;uuid</span><br></pre></td></tr></table></figure>
+<p>编辑配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nano &#x2F;etc&#x2F;v2ray&#x2F;config.json</span><br></pre></td></tr></table></figure>
+<p>写入如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;log&quot;: &#123;</span><br><span class="line">    &quot;loglevel&quot;: &quot;info&quot;,</span><br><span class="line">    &quot;access&quot;: &quot;&#x2F;var&#x2F;log&#x2F;v2ray&#x2F;access.log&quot;,</span><br><span class="line">    &quot;error&quot;: &quot;&#x2F;var&#x2F;log&#x2F;v2ray&#x2F;error.log&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;inbounds&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;port&quot;: 10000,</span><br><span class="line">      &quot;listen&quot;:&quot;127.0.0.1&quot;,</span><br><span class="line">      &quot;protocol&quot;: &quot;vmess&quot;,</span><br><span class="line">      &quot;settings&quot;: &#123;</span><br><span class="line">        &quot;clients&quot;: [</span><br><span class="line">          &#123;</span><br><span class="line">            &quot;id&quot;: &quot;你生成的UUID&quot;,</span><br><span class="line">            &quot;alterId&quot;: 64</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;streamSettings&quot;: &#123;</span><br><span class="line">        &quot;network&quot;: &quot;ws&quot;,</span><br><span class="line">        &quot;wsSettings&quot;: &#123;</span><br><span class="line">        &quot;path&quot;: &quot;&#x2F;sometimesnaive&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  &quot;outbounds&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;protocol&quot;: &quot;freedom&quot;,</span><br><span class="line">      &quot;settings&quot;: &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检查v2ray配置是否有误：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;v2ray&#x2F;v2ray -config &#x2F;etc&#x2F;v2ray&#x2F;config.json -test</span><br></pre></td></tr></table></figure>
+<p>没问题的话重启v2ray使新的配置生效：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray</span><br></pre></td></tr></table></figure>
+<p>接着新建nginx配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nano &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;v2ray.conf</span><br></pre></td></tr></table></figure>
+<p>写入如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       [::]:80;</span><br><span class="line">    listen       [::]:443 ssl;</span><br><span class="line">    server_name  dns64.233.fi;</span><br><span class="line"></span><br><span class="line">location &#x2F;sometimesnaive &#123;</span><br><span class="line">    proxy_pass       http:&#x2F;&#x2F;127.0.0.1:10000;</span><br><span class="line">    proxy_redirect             off;</span><br><span class="line">    proxy_http_version         1.1;</span><br><span class="line">    proxy_set_header Upgrade   $http_upgrade;</span><br><span class="line">    proxy_set_header Connection &quot;upgrade&quot;;</span><br><span class="line">    proxy_set_header Host      $http_host;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>检查nginx配置是否有误：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
+<p>没问题的话使用certbot签发一个ssl证书：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">certbot --nginx --agree-tos --no-eff-email --email xxxx@qq.com</span><br></pre></td></tr></table></figure>
+<p>certbot是一个非常方便的ssl证书申请工具，可以自动为nginx配置证书/自动续期，按照下面的步骤选择即可：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Which names would you like to activate HTTPS for?</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">1: dns64.233.fi</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Select the appropriate numbers separated by commas and&#x2F;or spaces, or leave input</span><br><span class="line">blank to select all options shown (Enter &#39;c&#39; to cancel): 1</span><br><span class="line">Cert not yet due for renewal</span><br><span class="line"></span><br><span class="line">You have an existing certificate that has exactly the same domains or certificate name you requested and isn&#39;t close to expiry.</span><br><span class="line">(ref: &#x2F;etc&#x2F;letsencrypt&#x2F;renewal&#x2F;dns64.233.fi.conf)</span><br><span class="line"></span><br><span class="line">What would you like to do?</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">1: Attempt to reinstall this existing certificate</span><br><span class="line">2: Renew &amp; replace the cert (limit ~5 per 7 days)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Select the appropriate number [1-2] then [enter] (press &#39;c&#39; to cancel): 1</span><br><span class="line">Keeping the existing certificate</span><br><span class="line">Deploying Certificate to VirtualHost &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;v2ray.conf</span><br><span class="line"></span><br><span class="line">Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">1: No redirect - Make no further changes to the webserver configuration.</span><br><span class="line">2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for</span><br><span class="line">new sites, or if you&#39;re confident your site works on HTTPS. You can undo this</span><br><span class="line">change by editing your web server&#39;s configuration.</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Select the appropriate number [1-2] then [enter] (press &#39;c&#39; to cancel): 2</span><br><span class="line">Traffic on port 80 already redirecting to ssl in &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;v2ray.conf</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Congratulations! You have successfully enabled https:&#x2F;&#x2F;dns64.233.fi</span><br></pre></td></tr></table></figure>
+<p>设置v2ray/nginx开机自启：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl enable v2ray nginx</span><br></pre></td></tr></table></figure>
+<p>最后修改机器的DNS服务器地址：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nano &#x2F;etc&#x2F;resolv.conf</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>LNMP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>VPS挂载阿里云OSS</title>
     <url>/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg" alt=""></p>
