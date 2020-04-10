@@ -56,7 +56,9 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;php.conf</span><br><span class="line"></span><br><span class="line">#输入</span><br><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  YOUR_DOMAIN;</span><br><span class="line">    root &#x2F;www&#x2F;web&#x2F;phpmyadmin</span><br><span class="line">    index index.php</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重启nginx：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
-<p>访问：</p>
+<p>配置用户名密码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mysql -p -u root</span><br><span class="line">CREATE USER &#39;pmauser&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;password_here&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#39;pmauser&#39;@&#39;localhost&#39; WITH GRANT OPTION;</span><br></pre></td></tr></table></figure>
+<p>用刚配置的用户名密码访问：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;YOUR_DOMAIN</span><br></pre></td></tr></table></figure>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-04/phpmyadmin.png" alt=""></p>
 <h3 id="步骤6、v2ray-https证书"><a href="#步骤6、v2ray-https证书" class="headerlink" title="步骤6、v2ray+https证书"></a>步骤6、v2ray+https证书</h3><p>安装certbot自动申请：</p>
