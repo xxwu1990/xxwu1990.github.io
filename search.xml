@@ -39,6 +39,8 @@
 </blockquote>
 <h3 id="步骤四、配置Nginx以处理PHP页面"><a href="#步骤四、配置Nginx以处理PHP页面" class="headerlink" title="步骤四、配置Nginx以处理PHP页面"></a>步骤四、配置Nginx以处理PHP页面</h3><p>现在我们已经安装了所有LEMP组件，我们可以编辑Nginx虚拟主机配置文件并添加以下行，以便Nginx可以处理PHP文件：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">    # . . . other code</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        include snippets&#x2F;fastcgi-php.conf;</span><br><span class="line">        fastcgi_pass unix:&#x2F;run&#x2F;php&#x2F;php7.0-fpm.sock;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于Centos，配置为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location ~ \.php$ &#123;  </span><br><span class="line">           # root           html;  根目录路径</span><br><span class="line">           fastcgi_pass   127.0.0.1:9000;  </span><br><span class="line">           fastcgi_index  index.php;  </span><br><span class="line">           fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;  </span><br><span class="line">           include        fastcgi_params;  </span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
 <p>不要忘记重新启动Nginx服务以使更改生效：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
 <h3 id="步骤五、配置phpmyadmin（可选）"><a href="#步骤五、配置phpmyadmin（可选）" class="headerlink" title="步骤五、配置phpmyadmin（可选）"></a>步骤五、配置phpmyadmin（可选）</h3><p>phpMyAdmin 提供了一个 Web 界面，可以管理 MySQL / MariaDB 数据库。</p>

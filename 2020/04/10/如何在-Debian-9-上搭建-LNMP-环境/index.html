@@ -58,7 +58,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-04/how-to-install-lemp-stack-on-debian-9-featured.jpg">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-04/phpmyadmin.png">
 <meta property="article:published_time" content="2020-04-09T22:00:00.000Z">
-<meta property="article:modified_time" content="2020-04-14T10:21:13.813Z">
+<meta property="article:modified_time" content="2020-04-14T10:46:17.107Z">
 <meta property="article:author" content="蘑菇熊">
 <meta property="article:tag" content="LNMP">
 <meta name="twitter:card" content="summary">
@@ -244,7 +244,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-04-14 12:21:13" itemprop="dateModified" datetime="2020-04-14T12:21:13+02:00">2020-04-14</time>
+                <time title="修改时间：2020-04-14 12:46:17" itemprop="dateModified" datetime="2020-04-14T12:46:17+02:00">2020-04-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -312,6 +312,8 @@
 </blockquote>
 <h3 id="步骤四、配置Nginx以处理PHP页面"><a href="#步骤四、配置Nginx以处理PHP页面" class="headerlink" title="步骤四、配置Nginx以处理PHP页面"></a>步骤四、配置Nginx以处理PHP页面</h3><p>现在我们已经安装了所有LEMP组件，我们可以编辑Nginx虚拟主机配置文件并添加以下行，以便Nginx可以处理PHP文件：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">    # . . . other code</span><br><span class="line"></span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        include snippets&#x2F;fastcgi-php.conf;</span><br><span class="line">        fastcgi_pass unix:&#x2F;run&#x2F;php&#x2F;php7.0-fpm.sock;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于Centos，配置为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;  </span><br><span class="line">           # root           html;  根目录路径</span><br><span class="line">           fastcgi_pass   127.0.0.1:9000;  </span><br><span class="line">           fastcgi_index  index.php;  </span><br><span class="line">           fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;  </span><br><span class="line">           include        fastcgi_params;  </span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
 <p>不要忘记重新启动Nginx服务以使更改生效：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
 <h3 id="步骤五、配置phpmyadmin（可选）"><a href="#步骤五、配置phpmyadmin（可选）" class="headerlink" title="步骤五、配置phpmyadmin（可选）"></a>步骤五、配置phpmyadmin（可选）</h3><p>phpMyAdmin 提供了一个 Web 界面，可以管理 MySQL / MariaDB 数据库。</p>
