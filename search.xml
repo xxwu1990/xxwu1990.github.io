@@ -1056,6 +1056,82 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
+    <title>配置Bash on Windows (WSL)并自定义安装位置</title>
+    <url>/2019/10/22/%E9%85%8D%E7%BD%AEBash-on-Windows-(WSL)%E5%B9%B6%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/3efd3b39277381bea6f52115ab4a749306ef511b.png_1320w_814h.jpg" alt=""></p>
+<a id="more"></a>
+<p>本文转自<a href="https://www.bilibili.com/read/cv1429071/" target="_blank" rel="noopener">B站</a></p>
+<p>Windows 10<strong>专业版（其它版本不支持）</strong>中集成了Bash on Windows功能，可以在默认的命令行中直接使用Linux的命令来处理Windows的文件，对于仅支持Linux的软件也可以直接运行，此工具在编程和仿真方面都非常方便。那么如何配置Bash on Windows？本文将对此进行详细的说明。</p>
+<ol>
+<li>打开设置-&gt;安全和更新-&gt;开发者选项，选择为“开发人员模式”</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/9c61942273b0837f7600676a6d7baed7f791bb0f.png_818w_772h.jpg" alt=""></p>
+<p>设置开发人员模式</p>
+<ol>
+<li>在设置中直接搜索“Windows功能”，选择“启用或关闭Windows功能”</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/01c4e65d9b6679e0194c7ae6784f5e188d3a09c0.png_782w_318h.jpg" alt=""></p>
+<p>打开Windows功能设置对话框</p>
+<ol>
+<li>勾选“适用于Linux的Windows子系统”，并单击确定。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/e59a9492b6b4ef35a9da4d2318eeb20929828720.png_858w_850h.jpg" alt=""></p>
+<p>启用功能</p>
+<p>一般流程中，接下来需要在命令行中输入bash并按照提示走。但是，官方的方法会默认把Linux安装到系统盘，无法自定义位置。因此，这里使用开源工具，自定义安装。</p>
+<ol>
+<li><p>下载LxRunOffline: <a href="https://github.com/DDoSolitary/LxRunOffline/releases，下载文件LxRunOffline-vxxxx.zip" target="_blank" rel="noopener">https://github.com/DDoSolitary/LxRunOffline/releases，下载文件LxRunOffline-vxxxx.zip</a> (下载最新版本即可，笔者下载的是3.3.0）</p>
+</li>
+<li><p>将LxRunOffline解压到一个目录中，右击”此电脑“-&gt;属性-&gt;高级系统设置，在高级面板中选择环境变量。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/086305ad5455cd5f8875af14d8b4400fa58d8d26.png_986w_1210h.jpg" alt=""></p>
+<p>打开环境变量设置对话框</p>
+<ol>
+<li>选择系统变量中的Path变量，点击编辑按钮。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/3b65c73195e8b3e7e27e33264a28733f7eb50028.png_1264w_1332h.jpg" alt=""></p>
+<ol>
+<li>点击新建，并把刚刚LxRunOffline的解压地址粘贴到新的项目中。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/9480dd1557b04cd017f34694c2821bc65bf063fc.png_1082w_1140h.jpg" alt=""></p>
+<p>此处的目录中应该包含LxRunOffline.exe文件</p>
+<ol>
+<li><p>打开命令行，输入LxRunOffline，如果显示：[Error] No action is specified，并列出帮助列表，则表明安装成功。如果显示找不到此命令，则表明环境变量设置错误。</p>
+</li>
+<li><p>在Windows商店中搜索Linux，选择自己喜欢的发行版获取并运行，笔者安装的是Ubuntu 18.04 LTS。按照提示步骤，填好用户名和密码。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/0ffc18d94d88815bde5c7513080eb12dee3f314a.png_628w_110h.jpg" alt=""></p>
+<p>第一次执行的效果</p>
+<ol>
+<li><p>现在在命令行中输入bash，就可以打开一个Linux终端进行操作了。</p>
+</li>
+<li><p>退出bash，执行LxRunOffline move -n {version} -d {dir}，将Linux移动到指定的目录。其中，{version}是版本号，可以通过LxRunOffline list来查看，{dir}是目标目录。例如，笔者执行的是：LxRunOffline move -n Ubuntu-18.04 -d ./ubuntu</p>
+</li>
+<li><p>安装XServer：在<a href="https://sourceforge.net/projects/xming/中下载Xming软件。" target="_blank" rel="noopener">https://sourceforge.net/projects/xming/中下载Xming软件。</a></p>
+</li>
+<li><p>将下载好的软件正常安装即可，第一次打开软件时默认选项就好，后续打开也无需更改默认配置。</p>
+</li>
+<li><p>输入nano ~/.bashrc或者vi ~/.bashrc（如果不熟悉vi或者vim，建议使用nano，其中下方有操作说明，\^对应Ctrl，例如保存是\^O，就是Ctrl+O），在最后一行输入：export DISPLAY=:0，并保存。</p>
+</li>
+<li><p>输入source ~/.bashrc，将刚刚输入的命令激活。</p>
+</li>
+<li><p>安装一个图形软件进行测试：sudo apt-get install vim-gtk。</p>
+</li>
+<li><p>在XMing打开的情况下，执行：gvim，如果一切都配置成功的话，就可以看到图形界面的窗口了。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/32d374366932ef508eeee7c150899980ae7a7ce1.jpg_1075w_602h.jpg" alt=""></p>
+<p>题外话：Windows自带的CMD在Windows 10中有所加强，然而还是很不好用。因此，建议使用第三方的命令行，例如cmder或者hyper.js等。笔者一直用的cmder。</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Win下必备神器之Cmder</title>
     <url>/2019/10/21/Win%E4%B8%8B%E5%BF%85%E5%A4%87%E7%A5%9E%E5%99%A8%E4%B9%8BCmder/</url>
     <content><![CDATA[<p>本文转自<a href="https://www.jeffjade.com/2016/01/13/2016-01-13-windows-software-cmder/" target="_blank" rel="noopener">晚晴幽草轩</a></p>
@@ -1881,6 +1957,44 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
+    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
+    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
+    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
+<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
+<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
+<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<p>查看可用内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
+<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
+<p>先检查有什么已经下载过的内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核安装</p>
+<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
+<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
+<p>查看内核安装情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
+<p>卸载内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
+<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
+<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<p>如果要重新启用内核更新：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考：</p>
+<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Use Gmsh and SU2 to simulate 2D compressor cascade</title>
     <url>/2019/05/22/Use-Gmsh-and-SU2-to-simulate-2D-compressor-cascade/</url>
     <content><![CDATA[<p>This article describle simulation of 2D compressor cascade with Gmsh for grid generation and SU2 for flowfield. <a id="more"></a></p>
@@ -1945,41 +2059,29 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
-    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
-    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
-    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
-<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
-<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
-<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-<p>查看可用内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
-<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
-<p>先检查有什么已经下载过的内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核安装</p>
-<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
-<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
-<p>查看内核安装情况：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
-<p>卸载内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
-<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
-<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<p>如果要重新启用内核更新：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考：</p>
-<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
+    <title>关于Teploct处理平面叶栅</title>
+    <url>/2019/05/15/%E5%85%B3%E4%BA%8ETeploct%E5%A4%84%E7%90%86%E5%B9%B3%E9%9D%A2%E5%8F%B6%E6%A0%85%E5%91%A8%E6%9C%9F%E6%80%A7%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<p>本文记录使用Tecplot后处理平面叶栅流场过程中的一些注意事项。<a id="more"></a></p>
+<h4 id="周期性显示"><a href="#周期性显示" class="headerlink" title="周期性显示"></a>周期性显示</h4><p>1) Use duplicate zones for the desired zones to duplicate<br>2) Use Data&gt;alter&gt;specify equations with something like<br>{y} = {y} + offset_value.</p>
+<p> Offset is the solidity and y follows the periodic direction.</p>
+<h4 id="设置Vector分量"><a href="#设置Vector分量" class="headerlink" title="设置Vector分量"></a>设置Vector分量</h4><blockquote>
+<p>Plot =&gt; Vector =&gt; Varaibles </p>
+<p>U =&gt; Momentum_x, V =&gt; Momentum_y</p>
+</blockquote>
+<h4 id="画云图和等高线，并标出等高线值"><a href="#画云图和等高线，并标出等高线值" class="headerlink" title="画云图和等高线，并标出等高线值"></a>画云图和等高线，并标出等高线值</h4><blockquote>
+<p>Zone Style &gt; Contour &gt; Contour Type &gt; Both Lines and Flood</p>
+<p>Plot &gt; Contour &amp; Multi-Coloring &gt; Labels &gt; Show Labels</p>
+</blockquote>
+<h4 id="Linux环境Tecplot出图闪退"><a href="#Linux环境Tecplot出图闪退" class="headerlink" title="Linux环境Tecplot出图闪退"></a>Linux环境Tecplot出图闪退</h4><blockquote>
+<p>Options &gt; Performance &gt; Rendering &gt; Image Export Options 选Fast</p>
+<p>或命令行 tec360 -mesa 启动Tecplot</p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>linux</category>
+        <category>CFD</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>tecplot</tag>
       </tags>
   </entry>
   <entry>
@@ -2016,32 +2118,6 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于Teploct处理平面叶栅</title>
-    <url>/2019/05/15/%E5%85%B3%E4%BA%8ETeploct%E5%A4%84%E7%90%86%E5%B9%B3%E9%9D%A2%E5%8F%B6%E6%A0%85%E5%91%A8%E6%9C%9F%E6%80%A7%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<p>本文记录使用Tecplot后处理平面叶栅流场过程中的一些注意事项。<a id="more"></a></p>
-<h4 id="周期性显示"><a href="#周期性显示" class="headerlink" title="周期性显示"></a>周期性显示</h4><p>1) Use duplicate zones for the desired zones to duplicate<br>2) Use Data&gt;alter&gt;specify equations with something like<br>{y} = {y} + offset_value.</p>
-<p> Offset is the solidity and y follows the periodic direction.</p>
-<h4 id="设置Vector分量"><a href="#设置Vector分量" class="headerlink" title="设置Vector分量"></a>设置Vector分量</h4><blockquote>
-<p>Plot =&gt; Vector =&gt; Varaibles </p>
-<p>U =&gt; Momentum_x, V =&gt; Momentum_y</p>
-</blockquote>
-<h4 id="画云图和等高线，并标出等高线值"><a href="#画云图和等高线，并标出等高线值" class="headerlink" title="画云图和等高线，并标出等高线值"></a>画云图和等高线，并标出等高线值</h4><blockquote>
-<p>Zone Style &gt; Contour &gt; Contour Type &gt; Both Lines and Flood</p>
-<p>Plot &gt; Contour &amp; Multi-Coloring &gt; Labels &gt; Show Labels</p>
-</blockquote>
-<h4 id="Linux环境Tecplot出图闪退"><a href="#Linux环境Tecplot出图闪退" class="headerlink" title="Linux环境Tecplot出图闪退"></a>Linux环境Tecplot出图闪退</h4><blockquote>
-<p>Options &gt; Performance &gt; Rendering &gt; Image Export Options 选Fast</p>
-<p>或命令行 tec360 -mesa 启动Tecplot</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>tecplot</tag>
       </tags>
   </entry>
   <entry>

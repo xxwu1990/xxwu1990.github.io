@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://xiao5.tk/2019/10/22/%E9%85%8D%E7%BD%AEBash-on-Windows-(WSL)%E5%B9%B6%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE/</loc>
+    
+    <lastmod>2020-05-04T23:34:33.393Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://xiao5.tk/2019/03/18/%E5%90%91Hexo%E4%B8%AD%E6%8F%92%E5%85%A5%E8%A7%86%E9%A2%91/</loc>
     
     <lastmod>2020-05-04T12:22:18.414Z</lastmod>
@@ -86,20 +93,6 @@
   </url>
   
   <url>
-    <loc>https://xiao5.tk/2019/12/07/%E5%88%A9%E7%94%A8forpy%E5%9C%A8Fortran%E4%BB%A3%E7%A0%81%E4%B8%AD%E8%B0%83%E7%94%A8Python%E8%84%9A%E6%9C%AC/</loc>
-    
-    <lastmod>2020-02-17T13:21:51.649Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://xiao5.tk/2019/04/06/PyCharm%E9%95%BF%E6%97%B6%E9%97%B4%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
-    
-    <lastmod>2020-02-17T13:21:51.649Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://xiao5.tk/2018/12/12/Ctypes%E8%B0%83%E7%94%A8FORTRAN-DLL%E7%A4%BA%E4%BE%8B/</loc>
     
     <lastmod>2020-02-17T13:21:51.649Z</lastmod>
@@ -108,6 +101,20 @@
   
   <url>
     <loc>https://xiao5.tk/2018/03/06/Python%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8FPYTHONPATH%E8%AE%BE%E7%BD%AE%E5%AF%BC%E5%85%A5%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97/</loc>
+    
+    <lastmod>2020-02-17T13:21:51.649Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://xiao5.tk/2019/12/07/%E5%88%A9%E7%94%A8forpy%E5%9C%A8Fortran%E4%BB%A3%E7%A0%81%E4%B8%AD%E8%B0%83%E7%94%A8Python%E8%84%9A%E6%9C%AC/</loc>
+    
+    <lastmod>2020-02-17T13:21:51.649Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://xiao5.tk/2019/04/06/PyCharm%E9%95%BF%E6%97%B6%E9%97%B4%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2020-02-17T13:21:51.649Z</lastmod>
     
@@ -156,13 +163,6 @@
   </url>
   
   <url>
-    <loc>https://xiao5.tk/2019/06/03/Linux-Tips/</loc>
-    
-    <lastmod>2020-02-17T13:20:30.528Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://xiao5.tk/2019/05/15/%E6%89%A9%E5%A4%A7VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCentOS7%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4/</loc>
     
     <lastmod>2020-02-17T13:20:30.528Z</lastmod>
@@ -170,7 +170,14 @@
   </url>
   
   <url>
-    <loc>https://xiao5.tk/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
+    <loc>https://xiao5.tk/2020/02/10/Ubuntu-18.04Debian-10%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</loc>
+    
+    <lastmod>2020-02-17T13:20:30.528Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://xiao5.tk/2019/06/03/Linux-Tips/</loc>
     
     <lastmod>2020-02-17T13:20:30.528Z</lastmod>
     
@@ -184,7 +191,7 @@
   </url>
   
   <url>
-    <loc>https://xiao5.tk/2020/02/10/Ubuntu-18.04Debian-10%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC/</loc>
+    <loc>https://xiao5.tk/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</loc>
     
     <lastmod>2020-02-17T13:20:30.528Z</lastmod>
     

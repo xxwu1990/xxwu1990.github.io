@@ -48,17 +48,28 @@
   };
 </script>
 
-  <meta name="description" content="我们的征途是星辰大海">
-<meta property="og:type" content="website">
-<meta property="og:title" content="蘑菇熊星球">
-<meta property="og:url" content="https://xiao5.tk/tags/fluent/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="配置Bash on Windows (WSL)并自定义安装位置">
+<meta property="og:url" content="https://xiao5.tk/2019/10/22/%E9%85%8D%E7%BD%AEBash-on-Windows-(WSL)%E5%B9%B6%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE/index.html">
 <meta property="og:site_name" content="蘑菇熊星球">
-<meta property="og:description" content="我们的征途是星辰大海">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/3efd3b39277381bea6f52115ab4a749306ef511b.png_1320w_814h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/9c61942273b0837f7600676a6d7baed7f791bb0f.png_818w_772h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/01c4e65d9b6679e0194c7ae6784f5e188d3a09c0.png_782w_318h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/e59a9492b6b4ef35a9da4d2318eeb20929828720.png_858w_850h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/086305ad5455cd5f8875af14d8b4400fa58d8d26.png_986w_1210h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/3b65c73195e8b3e7e27e33264a28733f7eb50028.png_1264w_1332h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/9480dd1557b04cd017f34694c2821bc65bf063fc.png_1082w_1140h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/0ffc18d94d88815bde5c7513080eb12dee3f314a.png_628w_110h.jpg">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/32d374366932ef508eeee7c150899980ae7a7ce1.jpg_1075w_602h.jpg">
+<meta property="article:published_time" content="2019-10-21T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-04T23:34:33.393Z">
 <meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/3efd3b39277381bea6f52115ab4a749306ef511b.png_1320w_814h.jpg">
 
-<link rel="canonical" href="https://xiao5.tk/tags/fluent/">
+<link rel="canonical" href="https://xiao5.tk/2019/10/22/%E9%85%8D%E7%BD%AEBash-on-Windows-(WSL)%E5%B9%B6%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE/">
 
 
 <script id="page-configurations">
@@ -66,11 +77,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>标签: fluent | 蘑菇熊星球</title>
+  <title>配置Bash on Windows (WSL)并自定义安装位置 | 蘑菇熊星球</title>
   
 
 
@@ -203,54 +214,194 @@
           <div class="content">
             
 
+  <div class="posts-expand">
+      
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h1 class="collection-header">fluent
-          <small>标签</small>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/10/22/%E9%85%8D%E7%BD%AEBash-on-Windows-(WSL)%E5%B9%B6%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          配置Bash on Windows (WSL)并自定义安装位置
         </h1>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-10-22 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-22T00:00:00+02:00">2019-10-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-05 01:34:33" itemprop="dateModified" datetime="2020-05-05T01:34:33+02:00">2020-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <h1 class="collection-header">2019</h1>
+        <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/3efd3b39277381bea6f52115ab4a749306ef511b.png_1320w_814h.jpg" alt=""></p>
+<a id="more"></a>
+<p>本文转自<a href="https://www.bilibili.com/read/cv1429071/" target="_blank" rel="noopener">B站</a></p>
+<p>Windows 10<strong>专业版（其它版本不支持）</strong>中集成了Bash on Windows功能，可以在默认的命令行中直接使用Linux的命令来处理Windows的文件，对于仅支持Linux的软件也可以直接运行，此工具在编程和仿真方面都非常方便。那么如何配置Bash on Windows？本文将对此进行详细的说明。</p>
+<ol>
+<li>打开设置-&gt;安全和更新-&gt;开发者选项，选择为“开发人员模式”</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/9c61942273b0837f7600676a6d7baed7f791bb0f.png_818w_772h.jpg" alt=""></p>
+<p>设置开发人员模式</p>
+<ol>
+<li>在设置中直接搜索“Windows功能”，选择“启用或关闭Windows功能”</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/01c4e65d9b6679e0194c7ae6784f5e188d3a09c0.png_782w_318h.jpg" alt=""></p>
+<p>打开Windows功能设置对话框</p>
+<ol>
+<li>勾选“适用于Linux的Windows子系统”，并单击确定。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/e59a9492b6b4ef35a9da4d2318eeb20929828720.png_858w_850h.jpg" alt=""></p>
+<p>启用功能</p>
+<p>一般流程中，接下来需要在命令行中输入bash并按照提示走。但是，官方的方法会默认把Linux安装到系统盘，无法自定义位置。因此，这里使用开源工具，自定义安装。</p>
+<ol>
+<li><p>下载LxRunOffline: <a href="https://github.com/DDoSolitary/LxRunOffline/releases，下载文件LxRunOffline-vxxxx.zip" target="_blank" rel="noopener">https://github.com/DDoSolitary/LxRunOffline/releases，下载文件LxRunOffline-vxxxx.zip</a> (下载最新版本即可，笔者下载的是3.3.0）</p>
+</li>
+<li><p>将LxRunOffline解压到一个目录中，右击”此电脑“-&gt;属性-&gt;高级系统设置，在高级面板中选择环境变量。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/086305ad5455cd5f8875af14d8b4400fa58d8d26.png_986w_1210h.jpg" alt=""></p>
+<p>打开环境变量设置对话框</p>
+<ol>
+<li>选择系统变量中的Path变量，点击编辑按钮。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/3b65c73195e8b3e7e27e33264a28733f7eb50028.png_1264w_1332h.jpg" alt=""></p>
+<ol>
+<li>点击新建，并把刚刚LxRunOffline的解压地址粘贴到新的项目中。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/9480dd1557b04cd017f34694c2821bc65bf063fc.png_1082w_1140h.jpg" alt=""></p>
+<p>此处的目录中应该包含LxRunOffline.exe文件</p>
+<ol>
+<li><p>打开命令行，输入LxRunOffline，如果显示：[Error] No action is specified，并列出帮助列表，则表明安装成功。如果显示找不到此命令，则表明环境变量设置错误。</p>
+</li>
+<li><p>在Windows商店中搜索Linux，选择自己喜欢的发行版获取并运行，笔者安装的是Ubuntu 18.04 LTS。按照提示步骤，填好用户名和密码。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/0ffc18d94d88815bde5c7513080eb12dee3f314a.png_628w_110h.jpg" alt=""></p>
+<p>第一次执行的效果</p>
+<ol>
+<li><p>现在在命令行中输入bash，就可以打开一个Linux终端进行操作了。</p>
+</li>
+<li><p>退出bash，执行LxRunOffline move -n {version} -d {dir}，将Linux移动到指定的目录。其中，{version}是版本号，可以通过LxRunOffline list来查看，{dir}是目标目录。例如，笔者执行的是：LxRunOffline move -n Ubuntu-18.04 -d ./ubuntu</p>
+</li>
+<li><p>安装XServer：在<a href="https://sourceforge.net/projects/xming/中下载Xming软件。" target="_blank" rel="noopener">https://sourceforge.net/projects/xming/中下载Xming软件。</a></p>
+</li>
+<li><p>将下载好的软件正常安装即可，第一次打开软件时默认选项就好，后续打开也无需更改默认配置。</p>
+</li>
+<li><p>输入nano ~/.bashrc或者vi ~/.bashrc（如果不熟悉vi或者vim，建议使用nano，其中下方有操作说明，\^对应Ctrl，例如保存是\^O，就是Ctrl+O），在最后一行输入：export DISPLAY=:0，并保存。</p>
+</li>
+<li><p>输入source ~/.bashrc，将刚刚输入的命令激活。</p>
+</li>
+<li><p>安装一个图形软件进行测试：sudo apt-get install vim-gtk。</p>
+</li>
+<li><p>在XMing打开的情况下，执行：gvim，如果一切都配置成功的话，就可以看到图形界面的窗口了。</p>
+</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/32d374366932ef508eeee7c150899980ae7a7ce1.jpg_1075w_602h.jpg" alt=""></p>
+<p>题外话：Windows自带的CMD在Windows 10中有所加强，然而还是很不好用。因此，建议使用第三方的命令行，例如cmder或者hyper.js等。笔者一直用的cmder。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
+        
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2019-05-11T00:00:00+02:00"
-              content="2019-05-11">
-          05-11
-        </time>
-      </div>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2019/10/22/%E9%85%8D%E7%BD%AEBash-on-Windows-(WSL)%E5%B9%B6%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE/" title="配置Bash on Windows (WSL)并自定义安装位置">https://xiao5.tk/2019/10/22/配置Bash-on-Windows-(WSL)并自定义安装位置/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
 
-      <h2 class="post-title">
-          <a class="post-title-link" href="/2019/05/11/ICEM-CFD%E7%94%BB2D%E5%8F%B6%E6%A0%85%E7%BD%91%E6%A0%BC/" itemprop="url">
-            <span itemprop="name">ICEM CFD画2D叶栅网格</span>
-          </a>
-      </h2>
 
-    </header>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/21/Win%E4%B8%8B%E5%BF%85%E5%A4%87%E7%A5%9E%E5%99%A8%E4%B9%8BCmder/" rel="prev" title="Win下必备神器之Cmder">
+      <i class="fa fa-chevron-left"></i> Win下必备神器之Cmder
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/06/Windows-10-%E8%BF%90%E8%A1%8CSU2%E5%B9%B6%E8%A1%8C%E7%89%88%E6%9C%AC/" rel="next" title="Windows 10 运行SU2并行版本">
+      Windows 10 运行SU2并行版本 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
 
-    </div>
   </div>
-  
-  
-  
-
-  
-
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -487,11 +638,30 @@
       quicklink({
         timeout: 3000,
         priority: true,
-        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/tags/fluent/',]
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2019/10/22/%E9%85%8D%E7%BD%AEBash-on-Windows-(WSL)%E5%B9%B6%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%89%E8%A3%85%E4%BD%8D%E7%BD%AE/',]
       });
       });
   </script>
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: '7ea4882b09c15e2a95086eee62737db3',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
