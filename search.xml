@@ -182,7 +182,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224045.png" alt=""></p>
 <p>可以看到frp客户端已正常运行</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224347.png" alt=""></p>
-<p>访问a.com:8096即可远程使用jellyfin服务了，连接的速度取决于VPS的网络环境。</p>
+<p>访问<code>a.com:8096</code>即可远程使用jellyfin服务了，连接的速度取决于VPS的网络环境。</p>
 <h4 id="客户端设置-1"><a href="#客户端设置-1" class="headerlink" title="客户端设置"></a>客户端设置</h4><p>由于在一般浏览器和客户端上部分视频无法硬转码，而软解又极度消耗CPU，只有上面兼容表里<code>Kodi</code>和 <code>Jellyfin MPV Shim</code>两种客户端可以实现完美硬解，下面分别介绍两种方法。</p>
 <h5 id="Kodi"><a href="#Kodi" class="headerlink" title="Kodi"></a>Kodi</h5><p>安装方法参考<a href="https://jellyfin.org/docs/general/clients/kodi.html" target="_blank" rel="noopener">参考文档</a></p>
 <p>The recommended install method is to use the official Jellyfin add-on repository. This allows for easy install of the Jellyfin for Kodi add-on, as well as automatically keeping the add-on up to date with the latest version. Any other Jellyfin related add-ons that may be built in the future will also be available in this repository.</p>
@@ -311,7 +311,7 @@
 <p>MPV使用非常简单，双击启动，填入服务器信息添加成功即可。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232236.png" alt=""></p>
 <p>从浏览器打开jellyfin页面，点击右上角<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232654.png" alt="">符号，选择带<code>Jellyfin MPV Shim</code>字样的客户端，此时弹出一个新的播放器窗口播放视频，可以完美兼容几乎所有格式。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232939.png" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528233813.png" alt=""></p>
 ]]></content>
       <categories>
         <category>NAS</category>
