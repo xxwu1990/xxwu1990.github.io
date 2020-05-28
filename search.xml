@@ -1,6 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>基于Windows平台媒体服务器Jellyfin的配置指南</title>
+    <url>/2020/05/28/%E5%9F%BA%E4%BA%8EWindows%E5%B9%B3%E5%8F%B0%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8Jellyfin%E7%9A%84%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/jellyfin.png" alt=""></p>
+<a id="more"></a>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://jellyfin.org/" target="_blank" rel="noopener">Jellyfin</a>是一个免费软件媒体系统，可让您控制媒体的管理和流式传输。 它是专有Emby和Plex的替代产品，可以通过多个应用程序将媒体从专用服务器提供给最终用户设备。Jellyfin拥有对应多系统和架构的版本，根据说明下载<a href="https://jellyfin.org/downloads/" target="_blank" rel="noopener">对应版本</a>。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>我的安装平台配置为G4560，Windows10系统，由于是intel处理器可以使用CPU的intel quick sync(qsv)进行转码。</p>
+<h5 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h5><ul>
+<li><p>将集显驱动更新到最新；</p>
+</li>
+<li><p>安装intel提供的<a href="https://software.intel.com/content/www/us/en/develop/tools/media-sdk/choose-download.html" target="_blank" rel="noopener">MediaSDK</a>套件（以保证qsv能够成功启用），登陆后选择Windows版本下载。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528211255.png" alt=""></p>
+</li>
+</ul>
+<h5 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h5><p>访问Jellyfin官网下载Portable安装包，直接解压到安装目录，<strong>可将安装目录添加到环境变量Path</strong>。可以看到目录中包含jellyfin.exe和ffmpeg.exe两个可执行文件，前者为主程序，后者为转码程序。我们这里手动配置服务，采用nssm作为jellyfin的进程守护，其作用类似linux系统下的systemctl，在程序意外终止时重启程序，保持媒体服务器始终在线。方法为在安装目录下打开命令行安装一个名为jellyfin的服务，输入以下命令，弹出一个设置窗口。</p>
+<p>选择jellyfin程序路径，第一次安装Arguments留空即可，若更新安装有旧的媒体数据库可填入以下内容，启动后则会自动导入现存媒体数据。点击install service完成守护配置。</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">-d &lt;--Your data <span class="built_in">path</span>--&gt;\jellyfin\data -noautorunwebapp</span><br></pre></td></tr></table></figure>
+<p>设置开机启动，在目录下分别新建两个文件jellyfin.bat和autostart.vbs，将autostart.vbs创建的快捷方式放入启动文件夹中，启动文件夹可通过运行<code>shell:startup</code>前往。双击jellyfin.bat即可启动服务。</p>
+<p><strong>jellyfin.bat</strong></p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">nssm <span class="built_in">start</span> jellyfin</span><br></pre></td></tr></table></figure>
+<p><strong>autostart.vbs</strong></p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">CreateObject("WScript.Shell").Run "jellyfin.bat",<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><img src="C:\Users\wxx\AppData\Roaming\Typora\typora-user-images\image-20200528213558987.png" alt="image-20200528213558987"></p>
+<p>若要停止或移除守护进程，在命令行输入</p>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">nssm stop jellyfin</span><br><span class="line">nssm remove jellyfin</span><br></pre></td></tr></table></figure>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>按照提示一步一步配置即可，需要注意部分地区<code>http://api.themoviedb.org/</code>域名似乎无法访问使得TMDB搜刮器无法获得影片信息，需要设置代理黑名单。这里主要说明以下方面。</p>
+<h5 id="转码配置"><a href="#转码配置" class="headerlink" title="转码配置"></a>转码配置</h5><p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528214104.png" alt=""></p>
+<p>如图所示在<strong>控制台-播放</strong>选项中开启硬件加速，硬件转码相比软解码可以有效降低CPU负荷，该功能在Plex和Emby中需要开通高级会员才可获得，在jellyfin中直接可用，感谢良心开发者。不过需要注意的是由于某些特殊的字幕在播放时需要重新编码视频，并不是所有客户端都能支持各种格式，查看解码<a href="https://jellyfin.org/docs/general/clients/codec-support.html" target="_blank" rel="noopener">兼容性列表</a>可以发现有部分编码格式（如H265）在常规客户端上没法硬解，这也是开启了硬解播放有的影片卡住的原因，解决方案在后文讨论。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Sorted by efficency (excluding bit depth)</td>
+<td style="text-align:center">Chrome</td>
+<td style="text-align:center">Firefox</td>
+<td style="text-align:center">Safari</td>
+<td style="text-align:center">Android</td>
+<td style="text-align:center">iOS</td>
+<td style="text-align:center">AndroidTV</td>
+<td style="text-align:center"><a href="https://developer.roku.com/docs/specs/streaming.md" target="_blank" rel="noopener">Roku</a></td>
+<td style="text-align:center">Kodi</td>
+<td style="text-align:center"><a href="https://docs.jellyfin.org/general/clients/index.html#jellyfin-mpv-shim" target="_blank" rel="noopener">MPV Shim</a></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://en.wikipedia.org/wiki/DivX" target="_blank" rel="noopener">MPEG-4 Part 2/SP</a></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://en.wikipedia.org/wiki/MPEG-4_Part_2#Advanced_Simple_Profile_(ASP" target="_blank" rel="noopener">MPEG-4 Part 2/ASP</a>)</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=mpeg4" target="_blank" rel="noopener">H.264 8Bit</a></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=mpeg4" target="_blank" rel="noopener">H.264 10Bit</a></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=hevc" target="_blank" rel="noopener">H.265 8Bit</a></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌1</td>
+<td style="text-align:center">🔶2</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=hevc" target="_blank" rel="noopener">H.265 10Bit</a></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌1</td>
+<td style="text-align:center">🔶2</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#VP9" target="_blank" rel="noopener">VP9</a></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">✅3</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">🔶3</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#AV1" target="_blank" rel="noopener">AV1</a>4</td>
+<td style="text-align:center">🔶</td>
+<td style="text-align:center">🔶</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="IPTV配置"><a href="#IPTV配置" class="headerlink" title="IPTV配置"></a>IPTV配置</h5><p>首先IPTV需要一个M3U格式的直播源，可以保持在本地也可以线上，这里我制作好后保存到github仓库并记下<a href="https://raw.githubusercontent.com/wuxiaoxiong1990/IPTVsource/master/tv.m3u" target="_blank" rel="noopener">地址</a>后面会用到。</p>
+<p>然后配置Xteve，Xteve类似于调制解调器，将直播源与节目信息整合后供IPTV客户端访问。访问<a href="https://xteve.de/" target="_blank" rel="noopener">官方网站</a>下载对应版本，Xteve为可执行文件，windows环境直接运行即可，也可以在群晖Docker中采用Xteve镜像安装，访问端口为34400。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7778805a8150.png_e680.png" alt=""></p>
+<p> 打开网页后，TUNERS表示同时允许几台客户端访问，默认即可，NEXT。 </p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7a21e50d5882.png_e680.png" alt=""></p>
+<p> 选择M3U并填入刚刚记下的地址。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221319.png" alt=""></p>
+<p>选择EPG提供方并填入xml地址，这里选外部的EPG，网上有<a href="http://epg.51zmt.top:8000/" target="_blank" rel="noopener">大神的EPG</a>提供很全的节目信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7f70990d5672.png_e680.png" alt=""></p>
+<p><strong>Settings-Stream Buffer</strong>选择Xteve，配置完成后可以在Mapping选项中看到对应的频道信息，绿色表示已批配，红色的表示未找到节目信息，可按需自行设置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221626.png" alt=""></p>
+<p>完成后进入Jellyfin电视直播选项，添加调谐器设备和电视指南，分别对应Xteve的 <strong>DVR IP</strong> 和 <strong>XEPG URL</strong> 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221813.png" alt=""></p>
+<p>完成后在主页进入电视直播即可以愉快的看电视了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528222207.png" alt=""></p>
+<h4 id="外部访问"><a href="#外部访问" class="headerlink" title="外部访问"></a>外部访问</h4><h5 id="服务端设置"><a href="#服务端设置" class="headerlink" title="服务端设置"></a>服务端设置</h5><p>这里采用使用广泛配置简单灵活的frp实现内网穿透服务。下载对应系统的<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">安装文件</a>解压，将frps文件放到VPS的<code>/usr/bin</code>目录，frps.ini放到<code>/etc/frp</code>目录，将frps.service放到<code>/etc/systemd/system</code>目录下，frps.ini写入必要配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port &#x3D; 绑定端口</span><br><span class="line">bind_udp_port &#x3D; udp绑定端口</span><br><span class="line">kcp_bind_port &#x3D; kcp绑定端口（一般和bind_port相同）</span><br><span class="line">vhost_http_port &#x3D; 自定义http端口</span><br><span class="line">vhost_https_port &#x3D; 自定义https端口</span><br><span class="line">dashboard_port &#x3D; 管理面板端口</span><br><span class="line">dashboard_user &#x3D; 管理面板用户名</span><br><span class="line">dashboard_pwd &#x3D; 管理面板密码</span><br><span class="line">enable_prometheus &#x3D; true</span><br><span class="line">log_file &#x3D; .&#x2F;frps.log</span><br><span class="line">log_level &#x3D; info</span><br><span class="line">log_max_days &#x3D; 3</span><br><span class="line">disable_log_color &#x3D; false</span><br><span class="line">detailed_errors_to_client &#x3D; true</span><br><span class="line">token &#x3D; 连接的密码</span><br><span class="line">subdomain_host &#x3D; 配置好DNS的二级域名,如a.com</span><br><span class="line">tcp_mux &#x3D; true</span><br></pre></td></tr></table></figure>
+<p>完成后启动frps并开机自启</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">systemctl start frps</span><br><span class="line">systemctl enable frps</span><br></pre></td></tr></table></figure>
+<h5 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h5><p>在docker文件夹新建一个frp文件夹，将frpc.ini放在该文件夹中。为避免莫名其妙的权限问题，最好将该文件夹权限修改为everyone可读写。frpc配置文件内容为</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr &#x3D; VPS的IP</span><br><span class="line">server_port &#x3D; 绑定端口</span><br><span class="line">token &#x3D; 连接的密码</span><br><span class="line">pool_count &#x3D; 50</span><br><span class="line">tcp_mux &#x3D; true</span><br><span class="line"></span><br><span class="line">[http]</span><br><span class="line">type &#x3D; http</span><br><span class="line">local_ip &#x3D; 192.168.1.1</span><br><span class="line">local_port &#x3D; 80</span><br><span class="line">subdomain &#x3D; 域名前缀，如rt</span><br><span class="line"></span><br><span class="line">[jellyfin]</span><br><span class="line">type &#x3D; tcp</span><br><span class="line">local_ip &#x3D; 192.168.1.2</span><br><span class="line">local_port &#x3D; 8096</span><br><span class="line">remote_port &#x3D; 8096</span><br></pre></td></tr></table></figure>
+<p>这里采用群晖的docker镜像配置，搜索frp，选择一个镜像，拉取latest版本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528223417.png" alt=""></p>
+<p>下载完成后到映像中双击frpc进行配置，勾选<strong>使用高权限执行容器</strong>，点击<strong>高级设置</strong>，勾选<strong>启动自动重新启动</strong>，切换到<strong>卷</strong>选项卡，添加刚才建立的配置文件，装载路径填写<strong>/frp/frpc.ini</strong>，<strong>网络</strong>选项勾选<strong>使用与Docker Hosts相同的网络</strong>，其余选项默认，点应用即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224045.png" alt=""></p>
+<p>可以看到frp客户端已正常运行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224347.png" alt=""></p>
+<p>访问a.com:8096即可远程使用jellyfin服务了，连接的速度取决于VPS的网络环境。</p>
+<h4 id="客户端设置-1"><a href="#客户端设置-1" class="headerlink" title="客户端设置"></a>客户端设置</h4><p>由于在一般浏览器和客户端上部分视频无法硬转码，而软解又极度消耗CPU，只有上面兼容表里<code>Kodi</code>和 <code>Jellyfin MPV Shim</code>两种客户端可以实现完美硬解，下面分别介绍两种方法。</p>
+<h5 id="Kodi"><a href="#Kodi" class="headerlink" title="Kodi"></a>Kodi</h5><p>安装方法参考<a href="https://jellyfin.org/docs/general/clients/kodi.html" target="_blank" rel="noopener">参考文档</a></p>
+<p>The recommended install method is to use the official Jellyfin add-on repository. This allows for easy install of the Jellyfin for Kodi add-on, as well as automatically keeping the add-on up to date with the latest version. Any other Jellyfin related add-ons that may be built in the future will also be available in this repository.</p>
+<p>The installation method for the repository varies depending on what kind of device you’re using, outlined below.</p>
+<h6 id="General-Use-Devices-PCs-and-Tablets"><a href="#General-Use-Devices-PCs-and-Tablets" class="headerlink" title="General Use Devices (PCs and Tablets)"></a>General Use Devices (PCs and Tablets)</h6><ol>
+<li>Download the repository installer found <a href="https://kodi.jellyfin.org/repository.jellyfin.kodi.zip" target="_blank" rel="noopener">here</a>.<ul>
+<li>It will be saved as <code>repository.jellyfin.kodi.zip</code></li>
+</ul>
+</li>
+<li>Install the Jellyfin repository.<ul>
+<li>Open Kodi, go to the settings menu, and navigate to “Add-On Browser”</li>
+<li>Select “Install from Zip File”<ul>
+<li>If prompted, enter settings and enable “Unknown Sources”, then go back to the Add-On Browser</li>
+</ul>
+</li>
+<li>Select the newly downloaded file and it will be installed</li>
+</ul>
+</li>
+<li>Proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#install-jellyfin-for-kodi-add-on" target="_blank" rel="noopener">Install Jellyfin for Kodi Add-On</a></li>
+</ol>
+<h6 id="“Embedded”-Devices-Android-TV-Firestick-and-other-TV-Boxes"><a href="#“Embedded”-Devices-Android-TV-Firestick-and-other-TV-Boxes" class="headerlink" title="“Embedded” Devices (Android TV, Firestick, and other TV Boxes)"></a>“Embedded” Devices (Android TV, Firestick, and other TV Boxes)</h6><ol>
+<li>Open Kodi, go to the settings menu, and navigate to “File manager”<ul>
+<li>Select “Add source”</li>
+<li>In the text box, enter <code>https://kodi.jellyfin.org</code></li>
+<li>Enter a name for the data source, such as “Jellyfin Repo” and select Ok</li>
+</ul>
+</li>
+<li>From the settings menu, navigate to “Add-On Browser”<ul>
+<li>Select “Install from Zip File”<ul>
+<li>If prompted, enter settings and enable “Unknown Sources”, then go back to the Add-On Browser</li>
+</ul>
+</li>
+<li>Select the data source you just added</li>
+<li>Install <code>repository.jellyfin.kodi.zip</code></li>
+</ul>
+</li>
+<li>Proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#install-jellyfin-for-kodi-add-on" target="_blank" rel="noopener">Install Jellyfin for Kodi Add-On</a></li>
+</ol>
+<h6 id="Install-Jellyfin-for-Kodi-Add-On"><a href="#Install-Jellyfin-for-Kodi-Add-On" class="headerlink" title="Install Jellyfin for Kodi Add-On"></a>Install Jellyfin for Kodi Add-On</h6><ol>
+<li><p>Install Jellyfin for Kodi.</p>
+<ul>
+<li>From within Kodi, navigate back to “Add-On Browser”</li>
+<li>Select “Install from Repository”</li>
+<li>Choose “Kodi Jellyfin Addons”, followed by “Video Add-ons”</li>
+<li>Select the Jellyfin add-on and choose install</li>
+</ul>
+</li>
+<li><p>Within a few seconds you should be prompted for your server details.</p>
+<ul>
+<li>If a Jellyfin server is detected on your local network, it will displayed in a dialog</li>
+<li>If a Jellyfin server is not detected on your local network, select “Manually Add Server”. Enter your server info into the text field.<ul>
+<li>Enter the server name or IP address and the port number (default value is 8096)<ul>
+<li>Host: <code>192.168.1.10:8096</code></li>
+</ul>
+</li>
+<li>If using SSL and a reverse proxy, enter the full URL in the “Host” field<ul>
+<li>Host: <code>https://jellyfin.example.com</code></li>
+</ul>
+</li>
+<li>Note that if you have a baseurl set, you should append that value to the end of the host field.<ul>
+<li>Host: <code>192.168.0.10:8096/jellyfin</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Select user account and input password, or select “Manual Login” and fill in your user infomation</li>
+</ul>
+</li>
+<li><p>Once you’re succesfully authenticated with the server, you’ll be asked about which mode you’d like to use, Add-on vs Native, which are outlined below.</p>
+</li>
+</ol>
+<h6 id="Add-on-Mode"><a href="#Add-on-Mode" class="headerlink" title="Add-on Mode"></a>Add-on Mode</h6><p>   Add-on mode uses the Jellyfin server to translate media files from the filesystem to Kodi. This is the default setting for the add-on, and is sufficient for most use cases. It will work both on the local network and over the Internet through a reverse proxy or VPN connection. Providing network speed is sufficient, Kodi will direct play nearly all files and put little overhead on the Jellyfin server. Exceptions to this rule are files with 7.1 audio tracks and some 4k content, which will be transcoded by the server.</p>
+<p>   To use Add-on mode, simply choose “Add-on” at the dialog and proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#library-syncing" target="_blank" rel="noopener">Library Syncing</a></p>
+<h6 id="Native-Mode"><a href="#Native-Mode" class="headerlink" title="Native Mode"></a>Native Mode</h6><p>   Native mode accesses your media files directly from the filesystem, bypassing the Jellyfin server during playback. Native mode needs more setup and configuration, but it can lead to better performance as everything will direct play no matter what format or encoding is used. It requires your media to be available to the device Kodi is running on over either NFS or Samba, and therefore should only be used on a LAN or over a VPN connection.</p>
+<p>   To use Native mode, first set up your libraries in Jellyfin with a remote path.</p>
+<ol>
+<li><p>In the Jellyfin server, navigate to the Libraries section of the admin dashboard.</p>
+<ul>
+<li><p>Select an existing library (or create a new one)</p>
+</li>
+<li><p>Select the media folder</p>
+</li>
+<li><p>Enter the path to your network share in the “Shared network folder” textbox</p>
+</li>
+<li><p>Possible formats:</p>
+<ul>
+<li><p>NFS</p>
+<ul>
+<li><code>nfs://192.168.0.10:/path/to/media</code></li>
+</ul>
+</li>
+<li><p>Samba</p>
+<ul>
+<li><p>Guest User - <code>\\192.168.0.10\share_name</code></p>
+</li>
+<li><p>Custom User (Not Recommended) -</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code>        <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\\user:password@192.168.0.10\share_name</span><br></pre></td></tr></table></figure>
+
+        - It&#39;s more secure to use the generic Guest mapping here and specify credentials from within Kodi
+</code></pre><ol>
+<li><p>Configure libraries in Kodi</p>
+<ul>
+<li>Skip the initial library selection. We need to add file shares to Kodi first</li>
+<li>Within Kodi, navigate to the settings menu and select “File manager”</li>
+<li>Select “Add source”</li>
+<li>Select “Browse” and “Add network location”</li>
+<li>Create either a NFS or SMB location from the selection box and fill in the necessary information about your network share</li>
+<li>Select your newly created location and choose “Ok”</li>
+<li>Give your media source a name and choose “Ok”</li>
+<li>Go to Add-Ons -&gt; Jellyfin -&gt; Manage Libraries -&gt; Add Libraries</li>
+</ul>
+</li>
+<li><p>Proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#library-syncing" target="_blank" rel="noopener">Library Syncing</a></p>
+</li>
+</ol>
+<h5 id="Jellyfin-MPV-Shim"><a href="#Jellyfin-MPV-Shim" class="headerlink" title="Jellyfin MPV Shim"></a>Jellyfin MPV Shim</h5><p><a href="https://jellyfin.org/docs/general/clients/index.html#jellyfin-mpv-shim" target="_blank" rel="noopener">Jellyfin MPV Shim</a>是一个简单轻巧的Jellyfin客户端，支持Windows和Linux。 将其视为Jellyfin的开源Chromecast。 您可以从Jellyfin投放几乎所有内容，并且可以直接播放。 完全支持字幕，并且有其他字幕工具可以像其他Jellyfin客户端一样来管理字幕。</p>
+<p>下载<a href="https://github.com/iwalton3/jellyfin-mpv-shim/releases" target="_blank" rel="noopener">可执行程序</a>，有两个版本，您不需要管理员权限即可安装桌面版本，该桌面版本包括了shim版本。 （它在开始菜单中有一个单独的快捷方式。）为避免每次启动便携式shim版本时收到安全警告，请右键单击并选择“属性”。 单击页面底部的“取消阻止”，然后单击“确定”。这里我们选择体积更小的shim版本。</p>
+<p>MPV使用非常简单，双击启动，填入服务器信息添加成功即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232236.png" alt=""></p>
+<p>从浏览器打开jellyfin页面，点击右上角<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232654.png" alt="">符号，选择带<code>Jellyfin MPV Shim</code>字样的客户端，此时弹出一个新的播放器窗口播放视频，可以完美兼容几乎所有格式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232939.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>NAS</category>
+      </categories>
+      <tags>
+        <tag>内网穿透</tag>
+        <tag>Jellyfin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>康威生命游戏Python小练习</title>
     <url>/2020/05/04/%E5%BA%B7%E5%A8%81%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8FPython%E5%B0%8F%E7%BB%83%E4%B9%A0/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/Gospers_glider_gun.gif" alt=""></p>
@@ -1227,6 +1548,102 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
+    <title>Windows10 + WSL + vscode编程环境配置</title>
+    <url>/2019/10/21/Windows10-+-WSL-+-vscode%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p>Windows Subsystem Linux是微软在Windows10平台推出的Linux子系统方案，可以实现VMware虚拟机安装Linux系统的大部分功能，并且运行效率更高。同时相较于模拟Linux开发环境的MinGW方案，WSL几乎就是原生的Linux系统，能够兼容大部分Linux版本的软件，因此作为开发环境配置也更加灵活。同时VScode官方推出了WSL远程开发套件，使得在Windows平台使用Linux开发环境变得十分容易。<a id="more"></a></p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
+<li><p>Visual Studio Code</p>
+<p>下载<a href="https://code.visualstudio.com/" target="_blank" rel="noopener">vscode</a>安装</p>
+</li>
+<li><p>Windows Subsystem Linux</p>
+<p>使用Windows商店或者LxRunOffline安装Ubuntu-18.04lts</p>
+</li>
+</ol>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>打开vsvode，选择extension，安装Remote Development，获得Remote WSL.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g8647b8gh7j21hc0slwiy.jpg" alt="1.png"></p>
+<p>此时左下角显示WSL字样，点击选择Remote-WSL:New Window，稍等片刻即连接到WSL</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g8649dvf3ij20lv08r74f.jpg" alt="2.png"></p>
+<p>终端已切换至Linux命令行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g864c1luu3j218q0cb3ym.jpg" alt="3.png"></p>
+<p>在WSL中安装<strong>C/C++</strong>插件：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g864e77ldkj21hc0slwi3.jpg" alt="4.png"></p>
+<p>打开终端安装编译器</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get intall build-essential gdb</span><br></pre></td></tr></table></figure>
+<h2 id="测试算例"><a href="#测试算例" class="headerlink" title="测试算例"></a>测试算例</h2><p>新建一个项目目录，项目根目录添加文件夹命名为<code>.vscode</code>,在<code>.vscode</code>下新建两个文件<code>launch.json</code>和<code>tasks.json</code>，文件内容如下</p>
+<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Use IntelliSense to learn about possible attributes.</span></span><br><span class="line">    <span class="comment">// Hover to view descriptions of existing attributes.</span></span><br><span class="line">    <span class="comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"(gdb) Launch"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"cppdbg"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [],</span><br><span class="line">            <span class="attr">"stopAtEntry"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"environment"</span>: [],</span><br><span class="line">            <span class="attr">"externalConsole"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">"MIMode"</span>: <span class="string">"gdb"</span>,</span><br><span class="line">            <span class="attr">"setupCommands"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="string">"Enable pretty-printing for gdb"</span>,</span><br><span class="line">                    <span class="attr">"text"</span>: <span class="string">"-enable-pretty-printing"</span>,</span><br><span class="line">                    <span class="attr">"ignoreFailures"</span>: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>注意：externalConsole的作用是调用外部终端显示结果，针对WSL需设为falese，否则在调试时会卡住并出现Wait for connection completion.的问题。在launch.json中可以添加 “logging”: { “engineLogging”: true, “trace”: true, “traceResponse”: true }显示详细信息。</em></p>
+<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"2.0.0"</span>,</span><br><span class="line">    <span class="attr">"tasks"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"shell"</span>,</span><br><span class="line">            <span class="attr">"label"</span>: <span class="string">"gcc build active file"</span>,</span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"/usr/bin/g++"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [</span><br><span class="line">                <span class="string">"-g"</span>,</span><br><span class="line">                <span class="string">"$&#123;file&#125;"</span>,</span><br><span class="line">                <span class="string">"-o"</span>,</span><br><span class="line">                <span class="string">"$&#123;fileDirname&#125;/$&#123;fileBasenameNoExtension&#125;"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"options"</span>: &#123;</span><br><span class="line">                <span class="attr">"cwd"</span>: <span class="string">"/usr/bin"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"problemMatcher"</span>: [</span><br><span class="line">                <span class="string">"$gcc"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"group"</span>: <span class="string">"build"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"shell"</span>,</span><br><span class="line">            <span class="attr">"label"</span>: <span class="string">"g++ build active file"</span>,</span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"/usr/bin/g++"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [</span><br><span class="line">                <span class="string">"-g"</span>,</span><br><span class="line">                <span class="string">"$&#123;file&#125;"</span>,</span><br><span class="line">                <span class="string">"-o"</span>,</span><br><span class="line">                <span class="string">"$&#123;fileDirname&#125;/$&#123;fileBasenameNoExtension&#125;"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"options"</span>: &#123;</span><br><span class="line">                <span class="attr">"cwd"</span>: <span class="string">"/usr/bin"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两个文件也可以在Debug时根据自动生成的模板按实际情况修改。</p>
+<h3 id="添加测试代码"><a href="#添加测试代码" class="headerlink" title="添加测试代码"></a>添加测试代码</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;<span class="string">"hello world"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>添加断点，按F5进行调试</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g864ucusp1j21hc0sljty.jpg" alt="5.png"></p>
+<h2 id="调用MKL函数库"><a href="#调用MKL函数库" class="headerlink" title="调用MKL函数库"></a>调用MKL函数库</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p><a href="https://software.intel.com/en-us/mkl" target="_blank" rel="noopener">https://software.intel.com/en-us/mkl</a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li><p>解压至任意目录（安装后可删除）</p>
+</li>
+<li><p>执行 <code>sudo sh ./install.sh</code> 默认安装至 /opt/, 可配置安装路径。</p>
+</li>
+<li><p>在 /etc/ld.so.conf.d 下创建名为 intel-mkl.conf 的文件，内容为</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/opt/intel/mkl/lib/intel64</span><br><span class="line">/opt/intel/lib/intel64</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ldconfig -v</span><br><span class="line">/opt/intel/mkl/bin/mklvars.sh intel64 mod</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>具体可参考<a href="https://software.intel.com/en-us/mkl-linux-developer-guide-scripts-to-set-environment-variables" target="_blank" rel="noopener">官方说明</a></p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>测试代码<a href="https://software.intel.com/en-us/product-code-samples" target="_blank" rel="noopener">下载地址</a>，以dgemm_example.c为例</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> min(x,y) (((x) &lt; (y)) ? (x) : (y))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"mkl.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> *A, *B, *C;</span><br><span class="line">    <span class="keyword">int</span> m, n, p, i, j;</span><br><span class="line">    <span class="keyword">double</span> alpha, beta;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n This example computes real matrix C=alpha*A*B+beta*C using \n"</span></span><br><span class="line">            <span class="string">" Intel(R) MKL function dgemm, where A, B, and  C are matrices and \n"</span></span><br><span class="line">            <span class="string">" alpha and beta are double precision scalars\n\n"</span>);</span><br><span class="line"> </span><br><span class="line">    m = <span class="number">2000</span>, p = <span class="number">200</span>, n = <span class="number">1000</span>;</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Initializing data for matrix multiplication C=A*B for matrix \n"</span></span><br><span class="line">            <span class="string">" A(%ix%i) and matrix B(%ix%i)\n\n"</span>, m, p, p, n);</span><br><span class="line">    alpha = <span class="number">1.0</span>; beta = <span class="number">0.0</span>;</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Allocating memory for matrices aligned on 64-byte boundary for better \n"</span></span><br><span class="line">            <span class="string">" performance \n\n"</span>);</span><br><span class="line">    A = (<span class="keyword">double</span> *)mkl_malloc( m*p*<span class="keyword">sizeof</span>( <span class="keyword">double</span> ), <span class="number">64</span> );</span><br><span class="line">    B = (<span class="keyword">double</span> *)mkl_malloc( p*n*<span class="keyword">sizeof</span>( <span class="keyword">double</span> ), <span class="number">64</span> );</span><br><span class="line">    C = (<span class="keyword">double</span> *)mkl_malloc( m*n*<span class="keyword">sizeof</span>( <span class="keyword">double</span> ), <span class="number">64</span> );</span><br><span class="line">    <span class="keyword">if</span> (A == <span class="literal">NULL</span> || B == <span class="literal">NULL</span> || C == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>( <span class="string">"\n ERROR: Can't allocate memory for matrices. Aborting... \n\n"</span>);</span><br><span class="line">        mkl_free(A);</span><br><span class="line">        mkl_free(B);</span><br><span class="line">        mkl_free(C);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Intializing matrix data \n\n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; (m*p); i++) &#123;</span><br><span class="line">        A[i] = (<span class="keyword">double</span>)(i+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; (p*n); i++) &#123;</span><br><span class="line">        B[i] = (<span class="keyword">double</span>)(-i<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; (m*n); i++) &#123;</span><br><span class="line">        C[i] = <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Computing matrix product using Intel(R) MKL dgemm function via CBLAS interface \n\n"</span>);</span><br><span class="line">    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, </span><br><span class="line">                m, n, p, alpha, A, p, B, n, beta, C, n);</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Computations completed.\n\n"</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Top left corner of matrix A: \n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;min(m,<span class="number">6</span>); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;min(p,<span class="number">6</span>); j++) &#123;</span><br><span class="line">            <span class="built_in">printf</span> (<span class="string">"%12.0f"</span>, A[j+i*p]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span> (<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Top left corner of matrix B: \n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;min(p,<span class="number">6</span>); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;min(n,<span class="number">6</span>); j++) &#123;</span><br><span class="line">            <span class="built_in">printf</span> (<span class="string">"%12.0f"</span>, B[j+i*n]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span> (<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Top left corner of matrix C: \n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;min(m,<span class="number">6</span>); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;min(n,<span class="number">6</span>); j++) &#123;</span><br><span class="line">            <span class="built_in">printf</span> (<span class="string">"%12.5G"</span>, C[j+i*n]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span> (<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Deallocating memory \n\n"</span>);</span><br><span class="line">    mkl_free(A);</span><br><span class="line">    mkl_free(B);</span><br><span class="line">    mkl_free(C);</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Example completed. \n\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译链接命令可参考Intel官方工具<a href="https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/" target="_blank" rel="noopener">Intel® Math Kernel Library Link Line Advisor | Intel® Software</a></p>
+<p>在环境变量中设置MKLROOT变量为MKL安装目录，并source生效</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> MKLROOT=<span class="string">"/opt/intel/mkl"</span></span><br></pre></td></tr></table></figure>
+<p>编译命令</p>
+<blockquote>
+<p>g++ -c dgemm_example.c -fdefault-integer-8 -m64 -I${MKLROOT}/include</p>
+</blockquote>
+<p>链接命令</p>
+<blockquote>
+<p>g++ -o mkl_first.out dgemm_example.o  -L${MKLROOT}/lib/intel64 -Wl,—no-as-needed -lmkl_gf_ilp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl </p>
+</blockquote>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><p>.<br>├── .vscode<br>│   ├── launch.json<br>│   └── tasks.json<br>├── Makefile<br>├── release<br>│   ├── dgemm_example<br>│   └── dgemm_example.o<br>└── src<br>​    └── dgemm_example.f</p>
+<p>可由tree生成结构树，在wsl中输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install tree</span><br></pre></td></tr></table></figure>
+<ul>
+<li>tree -a 显示包括隐藏文件的所有文件</li>
+<li>tree -d 只显示文件夹；</li>
+<li>tree -L n 显示项目的层级。n表示层级数。比如想要显示项目三层结构，可以用tree -l 3；</li>
+<li>tree -I pattern 用于过滤不想要显示的文件或者文件夹。比如你想要过滤项目中的node_modules文件夹，可以使用tree -I “node_modules”；</li>
+<li>tree &gt; tree.md 将项目结构输出到tree.md这个文件。</li>
+</ul>
+<h3 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h3><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment">#==============================================================</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># SAMPLE SOURCE CODE - SUBJECT TO THE TERMS OF SAMPLE CODE LICENSE AGREEMENT,</span></span><br><span class="line"><span class="comment"># http://software.intel.com/en-us/articles/intel-sample-source-code-license-agreement/</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Copyright 2005-2018 Intel Corporation</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># THIS FILE IS PROVIDED "AS IS" WITH NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT</span></span><br><span class="line"><span class="comment"># NOT LIMITED TO ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR</span></span><br><span class="line"><span class="comment"># PURPOSE, NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># =============================================================</span></span><br><span class="line"></span><br><span class="line">FC := gfortran</span><br><span class="line">SRCDIR := src</span><br><span class="line">BUILDDIR := release</span><br><span class="line">LIBFLAGS_LINK :=  -L$&#123;MKLROOT&#125;/lib/intel64 -Wl,--no-as-needed -lmkl_gf_ilp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl</span><br><span class="line">LIBFLAGS_COMPILER :=  -fdefault-integer-8 -m64 -I$&#123;MKLROOT&#125;/<span class="keyword">include</span></span><br><span class="line"></span><br><span class="line"><span class="section">all: <span class="variable">$(BUILDDIR)</span>/dgemm_example</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(BUILDDIR)</span>/%: <span class="variable">$(BUILDDIR)</span>/%.o</span><br><span class="line">	<span class="variable">$(FC)</span> -g <span class="variable">$&lt;</span> <span class="variable">$(LIBFLAGS_LINK)</span> -o <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(BUILDDIR)</span>/%.o: <span class="variable">$(SRCDIR)</span>/%.f</span><br><span class="line">	@mkdir -p <span class="variable">$(BUILDDIR)</span></span><br><span class="line">	<span class="variable">$(FC)</span> -g -c <span class="variable">$&lt;</span> <span class="variable">$(LIBFLAGS_COMPILER)</span> -o <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="section">run_dgemm_example: <span class="variable">$(BUILDDIR)</span>/dgemm_example</span></span><br><span class="line">	./<span class="variable">$(BUILDDIR)</span>/dgemm_example</span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	@echo <span class="string">" Cleaning..."</span></span><br><span class="line">	@rm -fr <span class="variable">$(BUILDDIR)</span> 2&gt;/dev/null || true</span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: clean</span></span><br><span class="line"><span class="section">.PRECIOUS: <span class="variable">$(BUILDDIR)</span>/%.o</span></span><br></pre></td></tr></table></figure>
+<p>dgemm_example.f</p>
+<figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="comment">!==============================================================</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! SAMPLE SOURCE CODE - SUBJECT TO THE TERMS OF SAMPLE CODE LICENSE AGREEMENT,</span></span><br><span class="line"><span class="comment">! http://software.intel.com/en-us/articles/intel-sample-source-code-license-agreement/</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! Copyright 2016-2018 Intel Corporation</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! THIS FILE IS PROVIDED "AS IS" WITH NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT</span></span><br><span class="line"><span class="comment">! NOT LIMITED TO ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR</span></span><br><span class="line"><span class="comment">! PURPOSE, NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS.</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! =============================================================</span></span><br><span class="line"><span class="comment">!*******************************************************************************</span></span><br><span class="line"><span class="comment">!   This example computes real matrix C=alpha*A*B+beta*C using Intel(R) MKL </span></span><br><span class="line"><span class="comment">!   subroutine DGEMM, where A,B, and C are matrices and alpha and beta are </span></span><br><span class="line"><span class="comment">!   double precision scalars. </span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">!   In this simple example, practices such as memory management, data alignment, </span></span><br><span class="line"><span class="comment">!   and I/O that are necessary for good programming style and high Intel(R) MKL </span></span><br><span class="line"><span class="comment">!   performance are omitted to improve readability.</span></span><br><span class="line"><span class="comment">!*******************************************************************************</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">PROGRAM</span></span>   MAIN</span><br><span class="line"></span><br><span class="line">      <span class="keyword">IMPLICIT</span> <span class="keyword">NONE</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span> ALPHA, BETA</span><br><span class="line">      <span class="keyword">INTEGER</span>          M, P, N, I, J</span><br><span class="line">      <span class="keyword">PARAMETER</span>        (M=<span class="number">2000</span>, P=<span class="number">200</span>, N=<span class="number">1000</span>)</span><br><span class="line">      <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span> A(M,P), B(P,N), C(M,N)</span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"This example computes real matrix C=alpha*A*B+beta*C"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"using Intel(R) MKL function dgemm, where A, B, and C"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"are matrices and alpha and beta are double precision "</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"scalars"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Initializing data for matrix multiplication C=A*B for "</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">10</span>, <span class="string">" matrix A("</span>,M,<span class="string">" x"</span>,P, <span class="string">") and matrix B("</span>, P,<span class="string">" x"</span>, N, <span class="string">")"</span></span><br><span class="line"><span class="number">10</span>    <span class="keyword">FORMAT</span>(a,I5,a,I5,a,I5,a,I5,a)</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line">      ALPHA = <span class="number">1.0</span> </span><br><span class="line">      BETA = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Intializing matrix data"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line">      <span class="keyword">DO</span> I = <span class="number">1</span>, M</span><br><span class="line">          <span class="keyword">DO</span> J = <span class="number">1</span>, P</span><br><span class="line">              A(I,J) = (I-<span class="number">1</span>) * P + J</span><br><span class="line">          <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">DO</span> I = <span class="number">1</span>, P</span><br><span class="line">          <span class="keyword">DO</span> J = <span class="number">1</span>, N</span><br><span class="line">              B(I,J) = -((I-<span class="number">1</span>) * N + J)</span><br><span class="line">          <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">DO</span> I = <span class="number">1</span>, M</span><br><span class="line">          <span class="keyword">DO</span> J = <span class="number">1</span>, N</span><br><span class="line">              C(I,J) = <span class="number">0.0</span></span><br><span class="line">          <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Computing matrix product using Intel(R) MKL DGEMM "</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"subroutine"</span></span><br><span class="line">      <span class="keyword">CALL</span> DGEMM(<span class="string">'N'</span>,<span class="string">'N'</span>,M,N,P,ALPHA,A,M,B,P,BETA,C,M)</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Computations completed."</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Top left corner of matrix A:"</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">20</span>, ((A(I,J), J = <span class="number">1</span>,<span class="built_in">MIN</span>(P,<span class="number">6</span>)), I = <span class="number">1</span>,<span class="built_in">MIN</span>(M,<span class="number">6</span>))</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Top left corner of matrix B:"</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">20</span>, ((B(I,J),J = <span class="number">1</span>,<span class="built_in">MIN</span>(N,<span class="number">6</span>)), I = <span class="number">1</span>,<span class="built_in">MIN</span>(P,<span class="number">6</span>))</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line"> <span class="number">20</span>   <span class="keyword">FORMAT</span>(<span class="number">6</span>(F12<span class="number">.0</span>,<span class="number">1</span>x))</span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Top left corner of matrix C:"</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">30</span>, ((C(I,J), J = <span class="number">1</span>,<span class="built_in">MIN</span>(N,<span class="number">6</span>)), I = <span class="number">1</span>,<span class="built_in">MIN</span>(M,<span class="number">6</span>))</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line"> <span class="number">30</span>   <span class="keyword">FORMAT</span>(<span class="number">6</span>(ES12<span class="number">.4</span>,<span class="number">1</span>x))</span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Example completed."</span></span><br><span class="line">      <span class="keyword">STOP</span> </span><br><span class="line"></span><br><span class="line">      <span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+<h3 id="launch-json-1"><a href="#launch-json-1" class="headerlink" title="launch.json"></a>launch.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Use IntelliSense to learn about possible attributes.</span></span><br><span class="line">    <span class="comment">// Hover to view descriptions of existing attributes.</span></span><br><span class="line">    <span class="comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"(gdb) Launch"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"cppdbg"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/release/dgemm_example"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [],</span><br><span class="line">            <span class="attr">"stopAtEntry"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"environment"</span>: [],</span><br><span class="line">            <span class="attr">"externalConsole"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">"MIMode"</span>: <span class="string">"gdb"</span>,</span><br><span class="line">            <span class="attr">"preLaunchTask"</span>: <span class="string">"shell"</span>,</span><br><span class="line">            <span class="attr">"setupCommands"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="string">"Enable pretty-printing for gdb"</span>,</span><br><span class="line">                    <span class="attr">"text"</span>: <span class="string">"-enable-pretty-printing"</span>,</span><br><span class="line">                    <span class="attr">"ignoreFailures"</span>: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="tasks-json-1"><a href="#tasks-json-1" class="headerlink" title="tasks.json"></a>tasks.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"2.0.0"</span>,</span><br><span class="line">    <span class="attr">"tasks"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"label"</span>: <span class="string">"shell"</span>, <span class="comment">// 任务名称，与launch.json的preLaunchTask相对应</span></span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"make"</span>, <span class="comment">// 在shell中使用命令，如需加参数，可再添加args属性</span></span><br><span class="line">            <span class="attr">"type"</span>:<span class="string">"shell"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>打开makefile，F5调试</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g867pmwpz2j21hc0sl0xj.jpg" alt="6.png"></p>
+<h2 id="Python环境搭建"><a href="#Python环境搭建" class="headerlink" title="Python环境搭建"></a>Python环境搭建</h2><ol>
+<li><p>首先在WSL下安装Anaconda</p>
+</li>
+<li><p>在vscode扩展插件商店里搜索python并安装至WSL</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g9l7ysuyl9j21af0kvwgx.jpg" alt="1.JPG"></p>
+</li>
+<li><p>Ctrl+Shift+P打开搜索栏，输入Remote Settings</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g9l7ysp93bj20gx0dkzkv.jpg" alt="2.JPG"></p>
+</li>
+<li><p>配置pylint和python路径pylintPath和pythonPath</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g9l7yslgtaj20k009oq3c.jpg" alt="3.JPG"></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>vscode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Windows 10 环境 Windows Sub Linux 安装和使用</title>
     <url>/2019/10/21/Windows-10-%E7%8E%AF%E5%A2%83-Windows-Sub-Linux-%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>虽然 WSL ( Windows Subsystem for Linux ) 可以直接访问 Windows 下的文件，但是因为文件权限的问题，把需要在 WSL 中使用的文件放在 WSL 的用户主目录是最好的解决方案没有之一。为了不撑爆系统盘，除了修改 Windows 应用安装位置，还可以把 WSL 整个安装目录进行转移，使用<code>wsl --export</code>和<code>wsl --import</code>这两个命令可以对 WSL 进行打包再自定义目录安装，就相当于转移。我以为这已经是相当完美的解决方案了，但最近发现了一款非常实用的 WSL 管理软件：<a href="https://p3terx.com/go/aHR0cHM6Ly9naXRodWIuY29tL0REb1NvbGl0YXJ5L0x4UnVuT2ZmbGluZQ==" target="_blank" rel="noopener">LxRunOffline</a>，它可以安装任意发行版到任意目录、转移已安装的 WSL 目录、备份 WSL、设置默认用户和修改环境变量等操作，完全碾压 <code>wsl</code>、<code>wslconfig</code> 这些简陋原生管理命令。<a id="more"></a></p>
@@ -1329,102 +1746,6 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Windows10 + WSL + vscode编程环境配置</title>
-    <url>/2019/10/21/Windows10-+-WSL-+-vscode%E7%BC%96%E7%A8%8B%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p>Windows Subsystem Linux是微软在Windows10平台推出的Linux子系统方案，可以实现VMware虚拟机安装Linux系统的大部分功能，并且运行效率更高。同时相较于模拟Linux开发环境的MinGW方案，WSL几乎就是原生的Linux系统，能够兼容大部分Linux版本的软件，因此作为开发环境配置也更加灵活。同时VScode官方推出了WSL远程开发套件，使得在Windows平台使用Linux开发环境变得十分容易。<a id="more"></a></p>
-<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ol>
-<li><p>Visual Studio Code</p>
-<p>下载<a href="https://code.visualstudio.com/" target="_blank" rel="noopener">vscode</a>安装</p>
-</li>
-<li><p>Windows Subsystem Linux</p>
-<p>使用Windows商店或者LxRunOffline安装Ubuntu-18.04lts</p>
-</li>
-</ol>
-<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>打开vsvode，选择extension，安装Remote Development，获得Remote WSL.</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g8647b8gh7j21hc0slwiy.jpg" alt="1.png"></p>
-<p>此时左下角显示WSL字样，点击选择Remote-WSL:New Window，稍等片刻即连接到WSL</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g8649dvf3ij20lv08r74f.jpg" alt="2.png"></p>
-<p>终端已切换至Linux命令行</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g864c1luu3j218q0cb3ym.jpg" alt="3.png"></p>
-<p>在WSL中安装<strong>C/C++</strong>插件：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g864e77ldkj21hc0slwi3.jpg" alt="4.png"></p>
-<p>打开终端安装编译器</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get intall build-essential gdb</span><br></pre></td></tr></table></figure>
-<h2 id="测试算例"><a href="#测试算例" class="headerlink" title="测试算例"></a>测试算例</h2><p>新建一个项目目录，项目根目录添加文件夹命名为<code>.vscode</code>,在<code>.vscode</code>下新建两个文件<code>launch.json</code>和<code>tasks.json</code>，文件内容如下</p>
-<h3 id="launch-json"><a href="#launch-json" class="headerlink" title="launch.json"></a>launch.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Use IntelliSense to learn about possible attributes.</span></span><br><span class="line">    <span class="comment">// Hover to view descriptions of existing attributes.</span></span><br><span class="line">    <span class="comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"(gdb) Launch"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"cppdbg"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/$&#123;fileBasenameNoExtension&#125;"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [],</span><br><span class="line">            <span class="attr">"stopAtEntry"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"environment"</span>: [],</span><br><span class="line">            <span class="attr">"externalConsole"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">"MIMode"</span>: <span class="string">"gdb"</span>,</span><br><span class="line">            <span class="attr">"setupCommands"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="string">"Enable pretty-printing for gdb"</span>,</span><br><span class="line">                    <span class="attr">"text"</span>: <span class="string">"-enable-pretty-printing"</span>,</span><br><span class="line">                    <span class="attr">"ignoreFailures"</span>: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><em>注意：externalConsole的作用是调用外部终端显示结果，针对WSL需设为falese，否则在调试时会卡住并出现Wait for connection completion.的问题。在launch.json中可以添加 “logging”: { “engineLogging”: true, “trace”: true, “traceResponse”: true }显示详细信息。</em></p>
-<h3 id="tasks-json"><a href="#tasks-json" class="headerlink" title="tasks.json"></a>tasks.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"2.0.0"</span>,</span><br><span class="line">    <span class="attr">"tasks"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"shell"</span>,</span><br><span class="line">            <span class="attr">"label"</span>: <span class="string">"gcc build active file"</span>,</span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"/usr/bin/g++"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [</span><br><span class="line">                <span class="string">"-g"</span>,</span><br><span class="line">                <span class="string">"$&#123;file&#125;"</span>,</span><br><span class="line">                <span class="string">"-o"</span>,</span><br><span class="line">                <span class="string">"$&#123;fileDirname&#125;/$&#123;fileBasenameNoExtension&#125;"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"options"</span>: &#123;</span><br><span class="line">                <span class="attr">"cwd"</span>: <span class="string">"/usr/bin"</span></span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">"problemMatcher"</span>: [</span><br><span class="line">                <span class="string">"$gcc"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"group"</span>: <span class="string">"build"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"shell"</span>,</span><br><span class="line">            <span class="attr">"label"</span>: <span class="string">"g++ build active file"</span>,</span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"/usr/bin/g++"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [</span><br><span class="line">                <span class="string">"-g"</span>,</span><br><span class="line">                <span class="string">"$&#123;file&#125;"</span>,</span><br><span class="line">                <span class="string">"-o"</span>,</span><br><span class="line">                <span class="string">"$&#123;fileDirname&#125;/$&#123;fileBasenameNoExtension&#125;"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"options"</span>: &#123;</span><br><span class="line">                <span class="attr">"cwd"</span>: <span class="string">"/usr/bin"</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这两个文件也可以在Debug时根据自动生成的模板按实际情况修改。</p>
-<h3 id="添加测试代码"><a href="#添加测试代码" class="headerlink" title="添加测试代码"></a>添加测试代码</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;<span class="string">"hello world"</span>&lt;&lt;<span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>添加断点，按F5进行调试</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g864ucusp1j21hc0sljty.jpg" alt="5.png"></p>
-<h2 id="调用MKL函数库"><a href="#调用MKL函数库" class="headerlink" title="调用MKL函数库"></a>调用MKL函数库</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p><a href="https://software.intel.com/en-us/mkl" target="_blank" rel="noopener">https://software.intel.com/en-us/mkl</a></p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
-<li><p>解压至任意目录（安装后可删除）</p>
-</li>
-<li><p>执行 <code>sudo sh ./install.sh</code> 默认安装至 /opt/, 可配置安装路径。</p>
-</li>
-<li><p>在 /etc/ld.so.conf.d 下创建名为 intel-mkl.conf 的文件，内容为</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/opt/intel/mkl/lib/intel64</span><br><span class="line">/opt/intel/lib/intel64</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ldconfig -v</span><br><span class="line">/opt/intel/mkl/bin/mklvars.sh intel64 mod</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>具体可参考<a href="https://software.intel.com/en-us/mkl-linux-developer-guide-scripts-to-set-environment-variables" target="_blank" rel="noopener">官方说明</a></p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>测试代码<a href="https://software.intel.com/en-us/product-code-samples" target="_blank" rel="noopener">下载地址</a>，以dgemm_example.c为例</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> min(x,y) (((x) &lt; (y)) ? (x) : (y))</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"mkl.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">double</span> *A, *B, *C;</span><br><span class="line">    <span class="keyword">int</span> m, n, p, i, j;</span><br><span class="line">    <span class="keyword">double</span> alpha, beta;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n This example computes real matrix C=alpha*A*B+beta*C using \n"</span></span><br><span class="line">            <span class="string">" Intel(R) MKL function dgemm, where A, B, and  C are matrices and \n"</span></span><br><span class="line">            <span class="string">" alpha and beta are double precision scalars\n\n"</span>);</span><br><span class="line"> </span><br><span class="line">    m = <span class="number">2000</span>, p = <span class="number">200</span>, n = <span class="number">1000</span>;</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Initializing data for matrix multiplication C=A*B for matrix \n"</span></span><br><span class="line">            <span class="string">" A(%ix%i) and matrix B(%ix%i)\n\n"</span>, m, p, p, n);</span><br><span class="line">    alpha = <span class="number">1.0</span>; beta = <span class="number">0.0</span>;</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Allocating memory for matrices aligned on 64-byte boundary for better \n"</span></span><br><span class="line">            <span class="string">" performance \n\n"</span>);</span><br><span class="line">    A = (<span class="keyword">double</span> *)mkl_malloc( m*p*<span class="keyword">sizeof</span>( <span class="keyword">double</span> ), <span class="number">64</span> );</span><br><span class="line">    B = (<span class="keyword">double</span> *)mkl_malloc( p*n*<span class="keyword">sizeof</span>( <span class="keyword">double</span> ), <span class="number">64</span> );</span><br><span class="line">    C = (<span class="keyword">double</span> *)mkl_malloc( m*n*<span class="keyword">sizeof</span>( <span class="keyword">double</span> ), <span class="number">64</span> );</span><br><span class="line">    <span class="keyword">if</span> (A == <span class="literal">NULL</span> || B == <span class="literal">NULL</span> || C == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="built_in">printf</span>( <span class="string">"\n ERROR: Can't allocate memory for matrices. Aborting... \n\n"</span>);</span><br><span class="line">        mkl_free(A);</span><br><span class="line">        mkl_free(B);</span><br><span class="line">        mkl_free(C);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Intializing matrix data \n\n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; (m*p); i++) &#123;</span><br><span class="line">        A[i] = (<span class="keyword">double</span>)(i+<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; (p*n); i++) &#123;</span><br><span class="line">        B[i] = (<span class="keyword">double</span>)(-i<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; (m*n); i++) &#123;</span><br><span class="line">        C[i] = <span class="number">0.0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Computing matrix product using Intel(R) MKL dgemm function via CBLAS interface \n\n"</span>);</span><br><span class="line">    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasNoTrans, </span><br><span class="line">                m, n, p, alpha, A, p, B, n, beta, C, n);</span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Computations completed.\n\n"</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Top left corner of matrix A: \n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;min(m,<span class="number">6</span>); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;min(p,<span class="number">6</span>); j++) &#123;</span><br><span class="line">            <span class="built_in">printf</span> (<span class="string">"%12.0f"</span>, A[j+i*p]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span> (<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Top left corner of matrix B: \n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;min(p,<span class="number">6</span>); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;min(n,<span class="number">6</span>); j++) &#123;</span><br><span class="line">            <span class="built_in">printf</span> (<span class="string">"%12.0f"</span>, B[j+i*n]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span> (<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Top left corner of matrix C: \n"</span>);</span><br><span class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;min(m,<span class="number">6</span>); i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (j=<span class="number">0</span>; j&lt;min(n,<span class="number">6</span>); j++) &#123;</span><br><span class="line">            <span class="built_in">printf</span> (<span class="string">"%12.5G"</span>, C[j+i*n]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span> (<span class="string">"\n"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">"\n Deallocating memory \n\n"</span>);</span><br><span class="line">    mkl_free(A);</span><br><span class="line">    mkl_free(B);</span><br><span class="line">    mkl_free(C);</span><br><span class="line"> </span><br><span class="line">    <span class="built_in">printf</span> (<span class="string">" Example completed. \n\n"</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>编译链接命令可参考Intel官方工具<a href="https://software.intel.com/en-us/articles/intel-mkl-link-line-advisor/" target="_blank" rel="noopener">Intel® Math Kernel Library Link Line Advisor | Intel® Software</a></p>
-<p>在环境变量中设置MKLROOT变量为MKL安装目录，并source生效</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> MKLROOT=<span class="string">"/opt/intel/mkl"</span></span><br></pre></td></tr></table></figure>
-<p>编译命令</p>
-<blockquote>
-<p>g++ -c dgemm_example.c -fdefault-integer-8 -m64 -I${MKLROOT}/include</p>
-</blockquote>
-<p>链接命令</p>
-<blockquote>
-<p>g++ -o mkl_first.out dgemm_example.o  -L${MKLROOT}/lib/intel64 -Wl,—no-as-needed -lmkl_gf_ilp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl </p>
-</blockquote>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="项目结构"><a href="#项目结构" class="headerlink" title="项目结构"></a>项目结构</h3><p>.<br>├── .vscode<br>│   ├── launch.json<br>│   └── tasks.json<br>├── Makefile<br>├── release<br>│   ├── dgemm_example<br>│   └── dgemm_example.o<br>└── src<br>​    └── dgemm_example.f</p>
-<p>可由tree生成结构树，在wsl中输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo apt-get install tree</span><br></pre></td></tr></table></figure>
-<ul>
-<li>tree -a 显示包括隐藏文件的所有文件</li>
-<li>tree -d 只显示文件夹；</li>
-<li>tree -L n 显示项目的层级。n表示层级数。比如想要显示项目三层结构，可以用tree -l 3；</li>
-<li>tree -I pattern 用于过滤不想要显示的文件或者文件夹。比如你想要过滤项目中的node_modules文件夹，可以使用tree -I “node_modules”；</li>
-<li>tree &gt; tree.md 将项目结构输出到tree.md这个文件。</li>
-</ul>
-<h3 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h3><figure class="highlight makefile"><table><tr><td class="code"><pre><span class="line"><span class="comment">#==============================================================</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># SAMPLE SOURCE CODE - SUBJECT TO THE TERMS OF SAMPLE CODE LICENSE AGREEMENT,</span></span><br><span class="line"><span class="comment"># http://software.intel.com/en-us/articles/intel-sample-source-code-license-agreement/</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Copyright 2005-2018 Intel Corporation</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># THIS FILE IS PROVIDED "AS IS" WITH NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT</span></span><br><span class="line"><span class="comment"># NOT LIMITED TO ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR</span></span><br><span class="line"><span class="comment"># PURPOSE, NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># =============================================================</span></span><br><span class="line"></span><br><span class="line">FC := gfortran</span><br><span class="line">SRCDIR := src</span><br><span class="line">BUILDDIR := release</span><br><span class="line">LIBFLAGS_LINK :=  -L$&#123;MKLROOT&#125;/lib/intel64 -Wl,--no-as-needed -lmkl_gf_ilp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl</span><br><span class="line">LIBFLAGS_COMPILER :=  -fdefault-integer-8 -m64 -I$&#123;MKLROOT&#125;/<span class="keyword">include</span></span><br><span class="line"></span><br><span class="line"><span class="section">all: <span class="variable">$(BUILDDIR)</span>/dgemm_example</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(BUILDDIR)</span>/%: <span class="variable">$(BUILDDIR)</span>/%.o</span><br><span class="line">	<span class="variable">$(FC)</span> -g <span class="variable">$&lt;</span> <span class="variable">$(LIBFLAGS_LINK)</span> -o <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$(BUILDDIR)</span>/%.o: <span class="variable">$(SRCDIR)</span>/%.f</span><br><span class="line">	@mkdir -p <span class="variable">$(BUILDDIR)</span></span><br><span class="line">	<span class="variable">$(FC)</span> -g -c <span class="variable">$&lt;</span> <span class="variable">$(LIBFLAGS_COMPILER)</span> -o <span class="variable">$@</span></span><br><span class="line"></span><br><span class="line"><span class="section">run_dgemm_example: <span class="variable">$(BUILDDIR)</span>/dgemm_example</span></span><br><span class="line">	./<span class="variable">$(BUILDDIR)</span>/dgemm_example</span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">	@echo <span class="string">" Cleaning..."</span></span><br><span class="line">	@rm -fr <span class="variable">$(BUILDDIR)</span> 2&gt;/dev/null || true</span><br><span class="line"></span><br><span class="line"><span class="meta"><span class="meta-keyword">.PHONY</span>: clean</span></span><br><span class="line"><span class="section">.PRECIOUS: <span class="variable">$(BUILDDIR)</span>/%.o</span></span><br></pre></td></tr></table></figure>
-<p>dgemm_example.f</p>
-<figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="comment">!==============================================================</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! SAMPLE SOURCE CODE - SUBJECT TO THE TERMS OF SAMPLE CODE LICENSE AGREEMENT,</span></span><br><span class="line"><span class="comment">! http://software.intel.com/en-us/articles/intel-sample-source-code-license-agreement/</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! Copyright 2016-2018 Intel Corporation</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! THIS FILE IS PROVIDED "AS IS" WITH NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT</span></span><br><span class="line"><span class="comment">! NOT LIMITED TO ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR</span></span><br><span class="line"><span class="comment">! PURPOSE, NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS.</span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">! =============================================================</span></span><br><span class="line"><span class="comment">!*******************************************************************************</span></span><br><span class="line"><span class="comment">!   This example computes real matrix C=alpha*A*B+beta*C using Intel(R) MKL </span></span><br><span class="line"><span class="comment">!   subroutine DGEMM, where A,B, and C are matrices and alpha and beta are </span></span><br><span class="line"><span class="comment">!   double precision scalars. </span></span><br><span class="line"><span class="comment">!</span></span><br><span class="line"><span class="comment">!   In this simple example, practices such as memory management, data alignment, </span></span><br><span class="line"><span class="comment">!   and I/O that are necessary for good programming style and high Intel(R) MKL </span></span><br><span class="line"><span class="comment">!   performance are omitted to improve readability.</span></span><br><span class="line"><span class="comment">!*******************************************************************************</span></span><br><span class="line"></span><br><span class="line">      <span class="function"><span class="keyword">PROGRAM</span></span>   MAIN</span><br><span class="line"></span><br><span class="line">      <span class="keyword">IMPLICIT</span> <span class="keyword">NONE</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span> ALPHA, BETA</span><br><span class="line">      <span class="keyword">INTEGER</span>          M, P, N, I, J</span><br><span class="line">      <span class="keyword">PARAMETER</span>        (M=<span class="number">2000</span>, P=<span class="number">200</span>, N=<span class="number">1000</span>)</span><br><span class="line">      <span class="keyword">DOUBLE</span> <span class="keyword">PRECISION</span> A(M,P), B(P,N), C(M,N)</span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"This example computes real matrix C=alpha*A*B+beta*C"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"using Intel(R) MKL function dgemm, where A, B, and C"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"are matrices and alpha and beta are double precision "</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"scalars"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Initializing data for matrix multiplication C=A*B for "</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">10</span>, <span class="string">" matrix A("</span>,M,<span class="string">" x"</span>,P, <span class="string">") and matrix B("</span>, P,<span class="string">" x"</span>, N, <span class="string">")"</span></span><br><span class="line"><span class="number">10</span>    <span class="keyword">FORMAT</span>(a,I5,a,I5,a,I5,a,I5,a)</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line">      ALPHA = <span class="number">1.0</span> </span><br><span class="line">      BETA = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Intializing matrix data"</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line">      <span class="keyword">DO</span> I = <span class="number">1</span>, M</span><br><span class="line">          <span class="keyword">DO</span> J = <span class="number">1</span>, P</span><br><span class="line">              A(I,J) = (I-<span class="number">1</span>) * P + J</span><br><span class="line">          <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">DO</span> I = <span class="number">1</span>, P</span><br><span class="line">          <span class="keyword">DO</span> J = <span class="number">1</span>, N</span><br><span class="line">              B(I,J) = -((I-<span class="number">1</span>) * N + J)</span><br><span class="line">          <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">DO</span> I = <span class="number">1</span>, M</span><br><span class="line">          <span class="keyword">DO</span> J = <span class="number">1</span>, N</span><br><span class="line">              C(I,J) = <span class="number">0.0</span></span><br><span class="line">          <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">DO</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Computing matrix product using Intel(R) MKL DGEMM "</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"subroutine"</span></span><br><span class="line">      <span class="keyword">CALL</span> DGEMM(<span class="string">'N'</span>,<span class="string">'N'</span>,M,N,P,ALPHA,A,M,B,P,BETA,C,M)</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Computations completed."</span></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Top left corner of matrix A:"</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">20</span>, ((A(I,J), J = <span class="number">1</span>,<span class="built_in">MIN</span>(P,<span class="number">6</span>)), I = <span class="number">1</span>,<span class="built_in">MIN</span>(M,<span class="number">6</span>))</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Top left corner of matrix B:"</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">20</span>, ((B(I,J),J = <span class="number">1</span>,<span class="built_in">MIN</span>(N,<span class="number">6</span>)), I = <span class="number">1</span>,<span class="built_in">MIN</span>(P,<span class="number">6</span>))</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line"> <span class="number">20</span>   <span class="keyword">FORMAT</span>(<span class="number">6</span>(F12<span class="number">.0</span>,<span class="number">1</span>x))</span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Top left corner of matrix C:"</span></span><br><span class="line">      <span class="built_in">PRINT</span> <span class="number">30</span>, ((C(I,J), J = <span class="number">1</span>,<span class="built_in">MIN</span>(N,<span class="number">6</span>)), I = <span class="number">1</span>,<span class="built_in">MIN</span>(M,<span class="number">6</span>))</span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">""</span></span><br><span class="line"></span><br><span class="line"> <span class="number">30</span>   <span class="keyword">FORMAT</span>(<span class="number">6</span>(ES12<span class="number">.4</span>,<span class="number">1</span>x))</span><br><span class="line"></span><br><span class="line">      <span class="built_in">PRINT</span> *, <span class="string">"Example completed."</span></span><br><span class="line">      <span class="keyword">STOP</span> </span><br><span class="line"></span><br><span class="line">      <span class="keyword">END</span></span><br></pre></td></tr></table></figure>
-<h3 id="launch-json-1"><a href="#launch-json-1" class="headerlink" title="launch.json"></a>launch.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Use IntelliSense to learn about possible attributes.</span></span><br><span class="line">    <span class="comment">// Hover to view descriptions of existing attributes.</span></span><br><span class="line">    <span class="comment">// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387</span></span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"(gdb) Launch"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"cppdbg"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">            <span class="attr">"program"</span>: <span class="string">"$&#123;workspaceFolder&#125;/release/dgemm_example"</span>,</span><br><span class="line">            <span class="attr">"args"</span>: [],</span><br><span class="line">            <span class="attr">"stopAtEntry"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="attr">"cwd"</span>: <span class="string">"$&#123;workspaceFolder&#125;"</span>,</span><br><span class="line">            <span class="attr">"environment"</span>: [],</span><br><span class="line">            <span class="attr">"externalConsole"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="attr">"MIMode"</span>: <span class="string">"gdb"</span>,</span><br><span class="line">            <span class="attr">"preLaunchTask"</span>: <span class="string">"shell"</span>,</span><br><span class="line">            <span class="attr">"setupCommands"</span>: [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="string">"Enable pretty-printing for gdb"</span>,</span><br><span class="line">                    <span class="attr">"text"</span>: <span class="string">"-enable-pretty-printing"</span>,</span><br><span class="line">                    <span class="attr">"ignoreFailures"</span>: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="tasks-json-1"><a href="#tasks-json-1" class="headerlink" title="tasks.json"></a>tasks.json</h3><figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"2.0.0"</span>,</span><br><span class="line">    <span class="attr">"tasks"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"label"</span>: <span class="string">"shell"</span>, <span class="comment">// 任务名称，与launch.json的preLaunchTask相对应</span></span><br><span class="line">            <span class="attr">"command"</span>: <span class="string">"make"</span>, <span class="comment">// 在shell中使用命令，如需加参数，可再添加args属性</span></span><br><span class="line">            <span class="attr">"type"</span>:<span class="string">"shell"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><p>打开makefile，F5调试</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g867pmwpz2j21hc0sl0xj.jpg" alt="6.png"></p>
-<h2 id="Python环境搭建"><a href="#Python环境搭建" class="headerlink" title="Python环境搭建"></a>Python环境搭建</h2><ol>
-<li><p>首先在WSL下安装Anaconda</p>
-</li>
-<li><p>在vscode扩展插件商店里搜索python并安装至WSL</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g9l7ysuyl9j21af0kvwgx.jpg" alt="1.JPG"></p>
-</li>
-<li><p>Ctrl+Shift+P打开搜索栏，输入Remote Settings</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g9l7ysp93bj20gx0dkzkv.jpg" alt="2.JPG"></p>
-</li>
-<li><p>配置pylint和python路径pylintPath和pythonPath</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/71717971gy1g9l7yslgtaj20k009oq3c.jpg" alt="3.JPG"></p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>vscode</tag>
       </tags>
   </entry>
   <entry>
@@ -2121,20 +2442,6 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
-    <title>Release“无法找到“xxx.exe”的调试信息……“解决方案</title>
-    <url>/2019/05/14/Release%E2%80%9C%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E2%80%9Cxxx.exe%E2%80%9D%E7%9A%84%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%E2%80%A6%E2%80%A6%E2%80%9C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
-    <content><![CDATA[<p>Windows平台采用Microsoft Visual Studio在Release模式下调试代码遇到的问题<a id="more"></a></p>
-<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>VS2012环境中调试FORTRAN项目，debug模式下一切正常，调整为release模式则出现“无法找到“xxx.exe”的调试信息，或者调试信息不匹配。未使用调试信息生成二进制文件。”</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>首先打开菜单 项目-&gt;项目属性页<br>1。选择 配置属性-&gt;链接器-&gt;调试-&gt;生成调试信息 改为 是<br>2。选择 配置属性-&gt;Fortran -&gt;常规-&gt;调试信息格式 改为 Line Numbers Only或者Full<br>3。选择 配置属性-&gt;Fortran-&gt;优化-&gt;优化 改为 禁用(/Od) </p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>fortran</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Win10添加右键打开cmd和Powershell窗口（管理员/非管理员）</title>
     <url>/2019/05/14/Win10%E6%B7%BB%E5%8A%A0%E5%8F%B3%E9%94%AE%E6%89%93%E5%BC%80cmd%E5%92%8CPowershell%E7%AA%97%E5%8F%A3%EF%BC%88%E7%AE%A1%E7%90%86%E5%91%98%E9%9D%9E%E7%AE%A1%E7%90%86%E5%91%98%EF%BC%89/</url>
     <content><![CDATA[<p>向Windows右键菜单添加打开cmd命令，实现类似Linux系统下在指定目录打开Terminal的功能。<a id="more"></a></p>
@@ -2183,6 +2490,20 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </categories>
       <tags>
         <tag>命令行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Release“无法找到“xxx.exe”的调试信息……“解决方案</title>
+    <url>/2019/05/14/Release%E2%80%9C%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E2%80%9Cxxx.exe%E2%80%9D%E7%9A%84%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%E2%80%A6%E2%80%A6%E2%80%9C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<p>Windows平台采用Microsoft Visual Studio在Release模式下调试代码遇到的问题<a id="more"></a></p>
+<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>VS2012环境中调试FORTRAN项目，debug模式下一切正常，调整为release模式则出现“无法找到“xxx.exe”的调试信息，或者调试信息不匹配。未使用调试信息生成二进制文件。”</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>首先打开菜单 项目-&gt;项目属性页<br>1。选择 配置属性-&gt;链接器-&gt;调试-&gt;生成调试信息 改为 是<br>2。选择 配置属性-&gt;Fortran -&gt;常规-&gt;调试信息格式 改为 Line Numbers Only或者Full<br>3。选择 配置属性-&gt;Fortran-&gt;优化-&gt;优化 改为 禁用(/Od) </p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>fortran</tag>
       </tags>
   </entry>
   <entry>

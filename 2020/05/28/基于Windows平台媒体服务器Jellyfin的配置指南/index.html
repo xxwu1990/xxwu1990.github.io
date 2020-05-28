@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="qEdgqO13X5Z5sZwkt6GMVScMlJgTtyWSIaszLQZTqc4">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://xiao5.tk').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},
+    copycode: {"enable":true,"show_result":true,"style":null},
+    back2top: {"enable":true,"sidebar":true,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="基于Windows平台媒体服务器Jellyfin的配置指南">
+<meta property="og:url" content="https://xiao5.tk/2020/05/28/%E5%9F%BA%E4%BA%8EWindows%E5%B9%B3%E5%8F%B0%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8Jellyfin%E7%9A%84%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="蘑菇熊星球">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/jellyfin.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528211255.png">
+<meta property="og:image" content="c:/Users/wxx/AppData/Roaming/Typora/typora-user-images/image-20200528213558987.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528214104.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7778805a8150.png_e680.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7a21e50d5882.png_e680.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221319.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7f70990d5672.png_e680.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221626.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221813.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528222207.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528223417.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224045.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224347.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232236.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232654.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232939.png">
+<meta property="article:published_time" content="2020-05-27T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-28T21:37:29.382Z">
+<meta property="article:author" content="蘑菇熊">
+<meta property="article:tag" content="内网穿透">
+<meta property="article:tag" content="Jellyfin">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/jellyfin.png">
+
+<link rel="canonical" href="https://xiao5.tk/2020/05/28/%E5%9F%BA%E4%BA%8EWindows%E5%B9%B3%E5%8F%B0%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8Jellyfin%E7%9A%84%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>基于Windows平台媒体服务器Jellyfin的配置指南 | 蘑菇熊星球</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">蘑菇熊星球</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Hakuna Matata</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+
+  <a href="https://github.com/xxwu1990/" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2020/05/28/%E5%9F%BA%E4%BA%8EWindows%E5%B9%B3%E5%8F%B0%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8Jellyfin%E7%9A%84%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于Windows平台媒体服务器Jellyfin的配置指南
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-05-28 00:00:00 / 修改时间：23:37:29" itemprop="dateCreated datePublished" datetime="2020-05-28T00:00:00+02:00">2020-05-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/nas/" itemprop="url" rel="index">
+                    <span itemprop="name">NAS</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/jellyfin.png" alt=""></p>
+<a id="more"></a>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p><a href="https://jellyfin.org/" target="_blank" rel="noopener">Jellyfin</a>是一个免费软件媒体系统，可让您控制媒体的管理和流式传输。 它是专有Emby和Plex的替代产品，可以通过多个应用程序将媒体从专用服务器提供给最终用户设备。Jellyfin拥有对应多系统和架构的版本，根据说明下载<a href="https://jellyfin.org/downloads/" target="_blank" rel="noopener">对应版本</a>。</p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>我的安装平台配置为G4560，Windows10系统，由于是intel处理器可以使用CPU的intel quick sync(qsv)进行转码。</p>
+<h5 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h5><ul>
+<li><p>将集显驱动更新到最新；</p>
+</li>
+<li><p>安装intel提供的<a href="https://software.intel.com/content/www/us/en/develop/tools/media-sdk/choose-download.html" target="_blank" rel="noopener">MediaSDK</a>套件（以保证qsv能够成功启用），登陆后选择Windows版本下载。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528211255.png" alt=""></p>
+</li>
+</ul>
+<h5 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h5><p>访问Jellyfin官网下载Portable安装包，直接解压到安装目录，<strong>可将安装目录添加到环境变量Path</strong>。可以看到目录中包含jellyfin.exe和ffmpeg.exe两个可执行文件，前者为主程序，后者为转码程序。我们这里手动配置服务，采用nssm作为jellyfin的进程守护，其作用类似linux系统下的systemctl，在程序意外终止时重启程序，保持媒体服务器始终在线。方法为在安装目录下打开命令行安装一个名为jellyfin的服务，输入以下命令，弹出一个设置窗口。</p>
+<p>选择jellyfin程序路径，第一次安装Arguments留空即可，若更新安装有旧的媒体数据库可填入以下内容，启动后则会自动导入现存媒体数据。点击install service完成守护配置。</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-d &lt;--Your data <span class="built_in">path</span>--&gt;\jellyfin\data -noautorunwebapp</span><br></pre></td></tr></table></figure>
+<p>设置开机启动，在目录下分别新建两个文件jellyfin.bat和autostart.vbs，将autostart.vbs创建的快捷方式放入启动文件夹中，启动文件夹可通过运行<code>shell:startup</code>前往。双击jellyfin.bat即可启动服务。</p>
+<p><strong>jellyfin.bat</strong></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nssm <span class="built_in">start</span> jellyfin</span><br></pre></td></tr></table></figure>
+<p><strong>autostart.vbs</strong></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CreateObject("WScript.Shell").Run "jellyfin.bat",<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p><img src="C:\Users\wxx\AppData\Roaming\Typora\typora-user-images\image-20200528213558987.png" alt="image-20200528213558987"></p>
+<p>若要停止或移除守护进程，在命令行输入</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nssm stop jellyfin</span><br><span class="line">nssm remove jellyfin</span><br></pre></td></tr></table></figure>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>按照提示一步一步配置即可，需要注意部分地区<code>http://api.themoviedb.org/</code>域名似乎无法访问使得TMDB搜刮器无法获得影片信息，需要设置代理黑名单。这里主要说明以下方面。</p>
+<h5 id="转码配置"><a href="#转码配置" class="headerlink" title="转码配置"></a>转码配置</h5><p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528214104.png" alt=""></p>
+<p>如图所示在<strong>控制台-播放</strong>选项中开启硬件加速，硬件转码相比软解码可以有效降低CPU负荷，该功能在Plex和Emby中需要开通高级会员才可获得，在jellyfin中直接可用，感谢良心开发者。不过需要注意的是由于某些特殊的字幕在播放时需要重新编码视频，并不是所有客户端都能支持各种格式，查看解码<a href="https://jellyfin.org/docs/general/clients/codec-support.html" target="_blank" rel="noopener">兼容性列表</a>可以发现有部分编码格式（如H265）在常规客户端上没法硬解，这也是开启了硬解播放有的影片卡住的原因，解决方案在后文讨论。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Sorted by efficency (excluding bit depth)</td>
+<td style="text-align:center">Chrome</td>
+<td style="text-align:center">Firefox</td>
+<td style="text-align:center">Safari</td>
+<td style="text-align:center">Android</td>
+<td style="text-align:center">iOS</td>
+<td style="text-align:center">AndroidTV</td>
+<td style="text-align:center"><a href="https://developer.roku.com/docs/specs/streaming.md" target="_blank" rel="noopener">Roku</a></td>
+<td style="text-align:center">Kodi</td>
+<td style="text-align:center"><a href="https://docs.jellyfin.org/general/clients/index.html#jellyfin-mpv-shim" target="_blank" rel="noopener">MPV Shim</a></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://en.wikipedia.org/wiki/DivX" target="_blank" rel="noopener">MPEG-4 Part 2/SP</a></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://en.wikipedia.org/wiki/MPEG-4_Part_2#Advanced_Simple_Profile_(ASP" target="_blank" rel="noopener">MPEG-4 Part 2/ASP</a>)</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=mpeg4" target="_blank" rel="noopener">H.264 8Bit</a></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=mpeg4" target="_blank" rel="noopener">H.264 10Bit</a></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=hevc" target="_blank" rel="noopener">H.265 8Bit</a></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌1</td>
+<td style="text-align:center">🔶2</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://caniuse.com/#feat=hevc" target="_blank" rel="noopener">H.265 10Bit</a></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">❌1</td>
+<td style="text-align:center">🔶2</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#VP9" target="_blank" rel="noopener">VP9</a></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center">✅3</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">🔶3</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">✅</td>
+<td style="text-align:center">✅</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#AV1" target="_blank" rel="noopener">AV1</a>4</td>
+<td style="text-align:center">🔶</td>
+<td style="text-align:center">🔶</td>
+<td style="text-align:center">❌</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h5 id="IPTV配置"><a href="#IPTV配置" class="headerlink" title="IPTV配置"></a>IPTV配置</h5><p>首先IPTV需要一个M3U格式的直播源，可以保持在本地也可以线上，这里我制作好后保存到github仓库并记下<a href="https://raw.githubusercontent.com/wuxiaoxiong1990/IPTVsource/master/tv.m3u" target="_blank" rel="noopener">地址</a>后面会用到。</p>
+<p>然后配置Xteve，Xteve类似于调制解调器，将直播源与节目信息整合后供IPTV客户端访问。访问<a href="https://xteve.de/" target="_blank" rel="noopener">官方网站</a>下载对应版本，Xteve为可执行文件，windows环境直接运行即可，也可以在群晖Docker中采用Xteve镜像安装，访问端口为34400。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7778805a8150.png_e680.png" alt=""></p>
+<p> 打开网页后，TUNERS表示同时允许几台客户端访问，默认即可，NEXT。 </p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7a21e50d5882.png_e680.png" alt=""></p>
+<p> 选择M3U并填入刚刚记下的地址。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221319.png" alt=""></p>
+<p>选择EPG提供方并填入xml地址，这里选外部的EPG，网上有<a href="http://epg.51zmt.top:8000/" target="_blank" rel="noopener">大神的EPG</a>提供很全的节目信息。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/5d2ad7f70990d5672.png_e680.png" alt=""></p>
+<p><strong>Settings-Stream Buffer</strong>选择Xteve，配置完成后可以在Mapping选项中看到对应的频道信息，绿色表示已批配，红色的表示未找到节目信息，可按需自行设置。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221626.png" alt=""></p>
+<p>完成后进入Jellyfin电视直播选项，添加调谐器设备和电视指南，分别对应Xteve的 <strong>DVR IP</strong> 和 <strong>XEPG URL</strong> 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528221813.png" alt=""></p>
+<p>完成后在主页进入电视直播即可以愉快的看电视了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528222207.png" alt=""></p>
+<h4 id="外部访问"><a href="#外部访问" class="headerlink" title="外部访问"></a>外部访问</h4><h5 id="服务端设置"><a href="#服务端设置" class="headerlink" title="服务端设置"></a>服务端设置</h5><p>这里采用使用广泛配置简单灵活的frp实现内网穿透服务。下载对应系统的<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">安装文件</a>解压，将frps文件放到VPS的<code>/usr/bin</code>目录，frps.ini放到<code>/etc/frp</code>目录，将frps.service放到<code>/etc/systemd/system</code>目录下，frps.ini写入必要配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">bind_port &#x3D; 绑定端口</span><br><span class="line">bind_udp_port &#x3D; udp绑定端口</span><br><span class="line">kcp_bind_port &#x3D; kcp绑定端口（一般和bind_port相同）</span><br><span class="line">vhost_http_port &#x3D; 自定义http端口</span><br><span class="line">vhost_https_port &#x3D; 自定义https端口</span><br><span class="line">dashboard_port &#x3D; 管理面板端口</span><br><span class="line">dashboard_user &#x3D; 管理面板用户名</span><br><span class="line">dashboard_pwd &#x3D; 管理面板密码</span><br><span class="line">enable_prometheus &#x3D; true</span><br><span class="line">log_file &#x3D; .&#x2F;frps.log</span><br><span class="line">log_level &#x3D; info</span><br><span class="line">log_max_days &#x3D; 3</span><br><span class="line">disable_log_color &#x3D; false</span><br><span class="line">detailed_errors_to_client &#x3D; true</span><br><span class="line">token &#x3D; 连接的密码</span><br><span class="line">subdomain_host &#x3D; 配置好DNS的二级域名,如a.com</span><br><span class="line">tcp_mux &#x3D; true</span><br></pre></td></tr></table></figure>
+<p>完成后启动frps并开机自启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl start frps</span><br><span class="line">systemctl enable frps</span><br></pre></td></tr></table></figure>
+<h5 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h5><p>在docker文件夹新建一个frp文件夹，将frpc.ini放在该文件夹中。为避免莫名其妙的权限问题，最好将该文件夹权限修改为everyone可读写。frpc配置文件内容为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[common]</span><br><span class="line">server_addr &#x3D; VPS的IP</span><br><span class="line">server_port &#x3D; 绑定端口</span><br><span class="line">token &#x3D; 连接的密码</span><br><span class="line">pool_count &#x3D; 50</span><br><span class="line">tcp_mux &#x3D; true</span><br><span class="line"></span><br><span class="line">[http]</span><br><span class="line">type &#x3D; http</span><br><span class="line">local_ip &#x3D; 192.168.1.1</span><br><span class="line">local_port &#x3D; 80</span><br><span class="line">subdomain &#x3D; 域名前缀，如rt</span><br><span class="line"></span><br><span class="line">[jellyfin]</span><br><span class="line">type &#x3D; tcp</span><br><span class="line">local_ip &#x3D; 192.168.1.2</span><br><span class="line">local_port &#x3D; 8096</span><br><span class="line">remote_port &#x3D; 8096</span><br></pre></td></tr></table></figure>
+<p>这里采用群晖的docker镜像配置，搜索frp，选择一个镜像，拉取latest版本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528223417.png" alt=""></p>
+<p>下载完成后到映像中双击frpc进行配置，勾选<strong>使用高权限执行容器</strong>，点击<strong>高级设置</strong>，勾选<strong>启动自动重新启动</strong>，切换到<strong>卷</strong>选项卡，添加刚才建立的配置文件，装载路径填写<strong>/frp/frpc.ini</strong>，<strong>网络</strong>选项勾选<strong>使用与Docker Hosts相同的网络</strong>，其余选项默认，点应用即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224045.png" alt=""></p>
+<p>可以看到frp客户端已正常运行</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528224347.png" alt=""></p>
+<p>访问a.com:8096即可远程使用jellyfin服务了，连接的速度取决于VPS的网络环境。</p>
+<h4 id="客户端设置-1"><a href="#客户端设置-1" class="headerlink" title="客户端设置"></a>客户端设置</h4><p>由于在一般浏览器和客户端上部分视频无法硬转码，而软解又极度消耗CPU，只有上面兼容表里<code>Kodi</code>和 <code>Jellyfin MPV Shim</code>两种客户端可以实现完美硬解，下面分别介绍两种方法。</p>
+<h5 id="Kodi"><a href="#Kodi" class="headerlink" title="Kodi"></a>Kodi</h5><p>安装方法参考<a href="https://jellyfin.org/docs/general/clients/kodi.html" target="_blank" rel="noopener">参考文档</a></p>
+<p>The recommended install method is to use the official Jellyfin add-on repository. This allows for easy install of the Jellyfin for Kodi add-on, as well as automatically keeping the add-on up to date with the latest version. Any other Jellyfin related add-ons that may be built in the future will also be available in this repository.</p>
+<p>The installation method for the repository varies depending on what kind of device you’re using, outlined below.</p>
+<h6 id="General-Use-Devices-PCs-and-Tablets"><a href="#General-Use-Devices-PCs-and-Tablets" class="headerlink" title="General Use Devices (PCs and Tablets)"></a>General Use Devices (PCs and Tablets)</h6><ol>
+<li>Download the repository installer found <a href="https://kodi.jellyfin.org/repository.jellyfin.kodi.zip" target="_blank" rel="noopener">here</a>.<ul>
+<li>It will be saved as <code>repository.jellyfin.kodi.zip</code></li>
+</ul>
+</li>
+<li>Install the Jellyfin repository.<ul>
+<li>Open Kodi, go to the settings menu, and navigate to “Add-On Browser”</li>
+<li>Select “Install from Zip File”<ul>
+<li>If prompted, enter settings and enable “Unknown Sources”, then go back to the Add-On Browser</li>
+</ul>
+</li>
+<li>Select the newly downloaded file and it will be installed</li>
+</ul>
+</li>
+<li>Proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#install-jellyfin-for-kodi-add-on" target="_blank" rel="noopener">Install Jellyfin for Kodi Add-On</a></li>
+</ol>
+<h6 id="“Embedded”-Devices-Android-TV-Firestick-and-other-TV-Boxes"><a href="#“Embedded”-Devices-Android-TV-Firestick-and-other-TV-Boxes" class="headerlink" title="“Embedded” Devices (Android TV, Firestick, and other TV Boxes)"></a>“Embedded” Devices (Android TV, Firestick, and other TV Boxes)</h6><ol>
+<li>Open Kodi, go to the settings menu, and navigate to “File manager”<ul>
+<li>Select “Add source”</li>
+<li>In the text box, enter <code>https://kodi.jellyfin.org</code></li>
+<li>Enter a name for the data source, such as “Jellyfin Repo” and select Ok</li>
+</ul>
+</li>
+<li>From the settings menu, navigate to “Add-On Browser”<ul>
+<li>Select “Install from Zip File”<ul>
+<li>If prompted, enter settings and enable “Unknown Sources”, then go back to the Add-On Browser</li>
+</ul>
+</li>
+<li>Select the data source you just added</li>
+<li>Install <code>repository.jellyfin.kodi.zip</code></li>
+</ul>
+</li>
+<li>Proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#install-jellyfin-for-kodi-add-on" target="_blank" rel="noopener">Install Jellyfin for Kodi Add-On</a></li>
+</ol>
+<h6 id="Install-Jellyfin-for-Kodi-Add-On"><a href="#Install-Jellyfin-for-Kodi-Add-On" class="headerlink" title="Install Jellyfin for Kodi Add-On"></a>Install Jellyfin for Kodi Add-On</h6><ol>
+<li><p>Install Jellyfin for Kodi.</p>
+<ul>
+<li>From within Kodi, navigate back to “Add-On Browser”</li>
+<li>Select “Install from Repository”</li>
+<li>Choose “Kodi Jellyfin Addons”, followed by “Video Add-ons”</li>
+<li>Select the Jellyfin add-on and choose install</li>
+</ul>
+</li>
+<li><p>Within a few seconds you should be prompted for your server details.</p>
+<ul>
+<li>If a Jellyfin server is detected on your local network, it will displayed in a dialog</li>
+<li>If a Jellyfin server is not detected on your local network, select “Manually Add Server”. Enter your server info into the text field.<ul>
+<li>Enter the server name or IP address and the port number (default value is 8096)<ul>
+<li>Host: <code>192.168.1.10:8096</code></li>
+</ul>
+</li>
+<li>If using SSL and a reverse proxy, enter the full URL in the “Host” field<ul>
+<li>Host: <code>https://jellyfin.example.com</code></li>
+</ul>
+</li>
+<li>Note that if you have a baseurl set, you should append that value to the end of the host field.<ul>
+<li>Host: <code>192.168.0.10:8096/jellyfin</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Select user account and input password, or select “Manual Login” and fill in your user infomation</li>
+</ul>
+</li>
+<li><p>Once you’re succesfully authenticated with the server, you’ll be asked about which mode you’d like to use, Add-on vs Native, which are outlined below.</p>
+</li>
+</ol>
+<h6 id="Add-on-Mode"><a href="#Add-on-Mode" class="headerlink" title="Add-on Mode"></a>Add-on Mode</h6><p>   Add-on mode uses the Jellyfin server to translate media files from the filesystem to Kodi. This is the default setting for the add-on, and is sufficient for most use cases. It will work both on the local network and over the Internet through a reverse proxy or VPN connection. Providing network speed is sufficient, Kodi will direct play nearly all files and put little overhead on the Jellyfin server. Exceptions to this rule are files with 7.1 audio tracks and some 4k content, which will be transcoded by the server.</p>
+<p>   To use Add-on mode, simply choose “Add-on” at the dialog and proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#library-syncing" target="_blank" rel="noopener">Library Syncing</a></p>
+<h6 id="Native-Mode"><a href="#Native-Mode" class="headerlink" title="Native Mode"></a>Native Mode</h6><p>   Native mode accesses your media files directly from the filesystem, bypassing the Jellyfin server during playback. Native mode needs more setup and configuration, but it can lead to better performance as everything will direct play no matter what format or encoding is used. It requires your media to be available to the device Kodi is running on over either NFS or Samba, and therefore should only be used on a LAN or over a VPN connection.</p>
+<p>   To use Native mode, first set up your libraries in Jellyfin with a remote path.</p>
+<ol>
+<li><p>In the Jellyfin server, navigate to the Libraries section of the admin dashboard.</p>
+<ul>
+<li><p>Select an existing library (or create a new one)</p>
+</li>
+<li><p>Select the media folder</p>
+</li>
+<li><p>Enter the path to your network share in the “Shared network folder” textbox</p>
+</li>
+<li><p>Possible formats:</p>
+<ul>
+<li><p>NFS</p>
+<ul>
+<li><code>nfs://192.168.0.10:/path/to/media</code></li>
+</ul>
+</li>
+<li><p>Samba</p>
+<ul>
+<li><p>Guest User - <code>\\192.168.0.10\share_name</code></p>
+</li>
+<li><p>Custom User (Not Recommended) -</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<pre><code>        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\\user:password@192.168.0.10\share_name</span><br></pre></td></tr></table></figure>
+
+        - It&#39;s more secure to use the generic Guest mapping here and specify credentials from within Kodi
+</code></pre><ol>
+<li><p>Configure libraries in Kodi</p>
+<ul>
+<li>Skip the initial library selection. We need to add file shares to Kodi first</li>
+<li>Within Kodi, navigate to the settings menu and select “File manager”</li>
+<li>Select “Add source”</li>
+<li>Select “Browse” and “Add network location”</li>
+<li>Create either a NFS or SMB location from the selection box and fill in the necessary information about your network share</li>
+<li>Select your newly created location and choose “Ok”</li>
+<li>Give your media source a name and choose “Ok”</li>
+<li>Go to Add-Ons -&gt; Jellyfin -&gt; Manage Libraries -&gt; Add Libraries</li>
+</ul>
+</li>
+<li><p>Proceed to <a href="https://jellyfin.org/docs/general/clients/kodi.html#library-syncing" target="_blank" rel="noopener">Library Syncing</a></p>
+</li>
+</ol>
+<h5 id="Jellyfin-MPV-Shim"><a href="#Jellyfin-MPV-Shim" class="headerlink" title="Jellyfin MPV Shim"></a>Jellyfin MPV Shim</h5><p><a href="https://jellyfin.org/docs/general/clients/index.html#jellyfin-mpv-shim" target="_blank" rel="noopener">Jellyfin MPV Shim</a>是一个简单轻巧的Jellyfin客户端，支持Windows和Linux。 将其视为Jellyfin的开源Chromecast。 您可以从Jellyfin投放几乎所有内容，并且可以直接播放。 完全支持字幕，并且有其他字幕工具可以像其他Jellyfin客户端一样来管理字幕。</p>
+<p>下载<a href="https://github.com/iwalton3/jellyfin-mpv-shim/releases" target="_blank" rel="noopener">可执行程序</a>，有两个版本，您不需要管理员权限即可安装桌面版本，该桌面版本包括了shim版本。 （它在开始菜单中有一个单独的快捷方式。）为避免每次启动便携式shim版本时收到安全警告，请右键单击并选择“属性”。 单击页面底部的“取消阻止”，然后单击“确定”。这里我们选择体积更小的shim版本。</p>
+<p>MPV使用非常简单，双击启动，填入服务器信息添加成功即可。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232236.png" alt=""></p>
+<p>从浏览器打开jellyfin页面，点击右上角<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232654.png" alt="">符号，选择带<code>Jellyfin MPV Shim</code>字样的客户端，此时弹出一个新的播放器窗口播放视频，可以完美兼容几乎所有格式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232939.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>蘑菇熊
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://xiao5.tk/2020/05/28/%E5%9F%BA%E4%BA%8EWindows%E5%B9%B3%E5%8F%B0%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8Jellyfin%E7%9A%84%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/" title="基于Windows平台媒体服务器Jellyfin的配置指南">https://xiao5.tk/2020/05/28/基于Windows平台媒体服务器Jellyfin的配置指南/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag"># 内网穿透</a>
+              <a href="/tags/jellyfin/" rel="tag"># Jellyfin</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/04/%E5%BA%B7%E5%A8%81%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8FPython%E5%B0%8F%E7%BB%83%E4%B9%A0/" rel="prev" title="康威生命游戏Python小练习">
+      <i class="fa fa-chevron-left"></i> 康威生命游戏Python小练习
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#准备工作"><span class="nav-number">2.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#手动安装"><span class="nav-number">2.2.</span> <span class="nav-text">手动安装</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#转码配置"><span class="nav-number">3.1.</span> <span class="nav-text">转码配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#IPTV配置"><span class="nav-number">3.2.</span> <span class="nav-text">IPTV配置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#外部访问"><span class="nav-number">4.</span> <span class="nav-text">外部访问</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#服务端设置"><span class="nav-number">4.1.</span> <span class="nav-text">服务端设置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#客户端设置"><span class="nav-number">4.2.</span> <span class="nav-text">客户端设置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#客户端设置-1"><span class="nav-number">5.</span> <span class="nav-text">客户端设置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Kodi"><span class="nav-number">5.1.</span> <span class="nav-text">Kodi</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#General-Use-Devices-PCs-and-Tablets"><span class="nav-number">5.1.1.</span> <span class="nav-text">General Use Devices (PCs and Tablets)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#“Embedded”-Devices-Android-TV-Firestick-and-other-TV-Boxes"><span class="nav-number">5.1.2.</span> <span class="nav-text">“Embedded” Devices (Android TV, Firestick, and other TV Boxes)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Install-Jellyfin-for-Kodi-Add-On"><span class="nav-number">5.1.3.</span> <span class="nav-text">Install Jellyfin for Kodi Add-On</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Add-on-Mode"><span class="nav-number">5.1.4.</span> <span class="nav-text">Add-on Mode</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#Native-Mode"><span class="nav-number">5.1.5.</span> <span class="nav-text">Native Mode</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Jellyfin-MPV-Shim"><span class="nav-number">5.2.</span> <span class="nav-text">Jellyfin MPV Shim</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="蘑菇熊"
+      src="/img/avatar.jpg">
+  <p class="site-author-name" itemprop="name">蘑菇熊</p>
+  <div class="site-description" itemprop="description">我们的征途是星辰大海</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/xxwu1990" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;xxwu1990" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wuxiaoxiong1990@gmail.com" title="E-Mail → mailto:wuxiaoxiong1990@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://www.nwpu.edu.cn/" title="http:&#x2F;&#x2F;www.nwpu.edu.cn&#x2F;" rel="noopener" target="_blank">NPU</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">蘑菇熊</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+<span style="float:medium;"><a href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral" target="_blank" rel="nofollow">
+<img src="/img/upyun.png">
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+  <script>
+    (function(d, w, c) {
+      w.ChatraID = 'SnFWeZoaPRmRgfAZt';
+      var s = d.createElement('script');
+      w[c] = w[c] || function() {
+        (w[c].q = w[c].q || []).push(arguments);
+      };
+      s.async = true;
+      s.src = 'https://call.chatra.io/chatra.js';
+      if (d.head) d.head.appendChild(s);
+    })(document, window, 'Chatra');
+  </script>
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout: 3000,
+        priority: true,
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2020/05/28/%E5%9F%BA%E4%BA%8EWindows%E5%B9%B3%E5%8F%B0%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8Jellyfin%E7%9A%84%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID: '73d334f78774738f9e7c',
+      clientSecret: '2f3554b911a6a72f1ede46db04030fb20256b84b',
+      repo: 'comments',
+      owner: 'xxwu1990',
+      admin: ['xxwu1990'],
+      id: '90a8cbf04f97bb74df08878a44cefa29',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+</body>
+</html>
