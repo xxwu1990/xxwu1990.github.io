@@ -29,7 +29,7 @@
 <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">nssm stop jellyfin</span><br><span class="line">nssm remove jellyfin</span><br></pre></td></tr></table></figure>
 <h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>按照提示一步一步配置即可，需要注意部分地区<code>http://api.themoviedb.org/</code>域名似乎无法访问使得TMDB搜刮器无法获得影片信息，需要设置代理黑名单。这里主要说明以下方面。</p>
 <h5 id="转码配置"><a href="#转码配置" class="headerlink" title="转码配置"></a>转码配置</h5><p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528214104.png" alt=""></p>
-<p>如图所示在<strong>控制台-播放</strong>选项中开启硬件加速，硬件转码相比软解码可以有效降低CPU负荷，该功能在Plex和Emby中需要开通高级会员才可获得，在jellyfin中直接可用，感谢良心开发者。不过需要注意的是由于某些特殊的字幕在播放时需要重新编码视频，并不是所有客户端都能支持各种格式，查看解码<a href="https://jellyfin.org/docs/general/clients/codec-support.html" target="_blank" rel="noopener">兼容性列表</a>可以发现有部分编码格式（如H265）在常规客户端上没法硬解，这也是开启了硬解播放有的影片卡住的原因，解决方案在后文讨论。</p>
+<p>如图所示在<strong>控制台-播放</strong>选项中开启硬件加速，硬件转码相比软解码可以有效降低CPU负荷，该功能在Plex和Emby中需要开通高级会员才可获得，在jellyfin中直接可用，感谢良心开发者。不过需要注意的是由于某些特殊的字幕在播放时需要重新编码视频，并不是所有客户端都能支持各种格式，例如PGS格式字幕会强制转码，可能导致jellyfin报错。查看解码<a href="https://jellyfin.org/docs/general/clients/codec-support.html" target="_blank" rel="noopener">兼容性列表</a>可以发现有部分编码格式（如H265）在常规客户端上没法硬解，这也是开启了硬解播放有的影片卡住的原因，解决方案在后文讨论。</p>
 <div class="table-container">
 <table>
 <thead>
