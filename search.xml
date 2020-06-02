@@ -14,11 +14,11 @@
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528211255.png" alt=""></p>
 </li>
 </ul>
-<h5 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h5><p>访问Jellyfin官网下载Portable安装包，直接解压到安装目录，<strong>可将安装目录添加到环境变量Path</strong>。可以看到目录中包含jellyfin.exe和ffmpeg.exe两个可执行文件，前者为主程序，后者为转码程序。我们这里手动配置服务，采用<strong>nssm</strong>作为jellyfin的进程守护，其作用类似linux系统下的systemctl，在程序意外终止时重启程序，保持媒体服务器始终在线。方法为在安装目录下打开命令行安装一个名为jellyfin的服务，输入以下命令，弹出一个设置窗口。</p>
+<h5 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h5><p>访问Jellyfin官网下载Portable安装包，直接解压到安装目录，<strong>可将安装目录添加到环境变量Path</strong>。可以看到目录中包含jellyfin.exe和ffmpeg.exe两个可执行文件，前者为主程序，后者为转码程序。我们这里手动配置服务，采用<strong>nssm</strong>作为jellyfin的进程守护，其作用类似linux系统下的systemctl，在程序意外终止时重启程序，保持媒体服务器始终在线。方法为在安装目录下打开命令行安装一个名为jellyfin的服务，输入以下命令，弹出一个设置窗口。(<strong>注意：nssm服务启动的jellyfin无法使用硬件转码，若要硬转只能使用批处理脚本或直接运行方式启动</strong>)</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nssm install jellyfin</span><br></pre></td></tr></table></figure>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/nssm_2020-05-28_21-28-21.png" alt=""></p>
 <p>选择jellyfin程序路径，第一次安装Arguments留空即可，若更新安装有旧的媒体数据库可填入以下内容，启动后则会自动导入现存媒体数据。点击install service完成守护配置。</p>
-<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">-d &lt;--Your data <span class="built_in">path</span>--&gt;\jellyfin\data -noautorunwebapp</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">-d &lt;--Your data <span class="built_in">path</span>--&gt;\jellyfin -noautorunwebapp</span><br></pre></td></tr></table></figure>
 <p>设置开机启动，在目录下分别新建两个文件jellyfin.bat和autostart.vbs，将autostart.vbs创建的快捷方式放入启动文件夹中，启动文件夹可通过运行<code>shell:startup</code>前往。双击jellyfin.bat即可启动服务。</p>
 <p><strong>jellyfin.bat</strong></p>
 <figure class="highlight cmd"><table><tr><td class="code"><pre><span class="line">nssm <span class="built_in">start</span> jellyfin</span><br></pre></td></tr></table></figure>
@@ -311,6 +311,7 @@
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232236.png" alt=""></p>
 <p>从浏览器打开jellyfin页面，点击右上角<img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528232654.png" alt="">符号，选择带<code>Jellyfin MPV Shim</code>字样的客户端，此时弹出一个新的播放器窗口播放视频，可以完美兼容几乎所有格式。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-05/20200528233813.png" alt=""></p>
+<h5 id="关于转码的说明"><a href="#关于转码的说明" class="headerlink" title="关于转码的说明"></a>关于转码的说明</h5><p>根据该<a href="https://github.com/jellyfin/jellyfin/issues/2626#issuecomment-600981367" target="_blank" rel="noopener">issue</a>，jellyfin在采用nssm开启的服务模式(service)下硬件转码无法工作，因此若要GPU转码需关闭关闭nssm守护服务(<code>nssm remove jellyfin</code>)后直接运行jellyfin(<code>jellyfin -d &lt;path&gt;\jellyfin\data noautorunwebapp</code>)。</p>
 ]]></content>
       <categories>
         <category>NAS</category>
@@ -410,7 +411,7 @@ your browser does not support the video tag
 <p>重命名解压之后的目录：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mv phpMyAdmin* phpmyadmin</span><br></pre></td></tr></table></figure>
 <p>配置nginx：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;php.conf</span><br><span class="line"></span><br><span class="line">#输入</span><br><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  YOUR_DOMAIN;</span><br><span class="line">    root &#x2F;www&#x2F;web&#x2F;phpmyadmin</span><br><span class="line">    index index.php</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;php.conf</span><br><span class="line"></span><br><span class="line">#输入</span><br><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  YOUR_DOMAIN;</span><br><span class="line">    root &#x2F;www&#x2F;web&#x2F;phpmyadmin;</span><br><span class="line">    index index.php;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>重启nginx：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
 <p>配置用户名密码</p>
