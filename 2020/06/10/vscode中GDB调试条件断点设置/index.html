@@ -49,23 +49,19 @@
 </script>
 
   <meta property="og:type" content="article">
-<meta property="og:title" content="VPS挂载阿里云OSS">
-<meta property="og:url" content="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/index.html">
+<meta property="og:title" content="vscode中GDB调试条件断点设置">
+<meta property="og:url" content="https://xiao5.tk/2020/06/10/vscode%E4%B8%ADGDB%E8%B0%83%E8%AF%95%E6%9D%A1%E4%BB%B6%E6%96%AD%E7%82%B9%E8%AE%BE%E7%BD%AE/index.html">
 <meta property="og:site_name" content="蘑菇熊星球">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ%E6%88%AA%E5%9B%BE20190616174109.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ%E6%88%AA%E5%9B%BE20190616182722.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ%E6%88%AA%E5%9B%BE20190616182917.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/%E6%89%B9%E6%B3%A8-2019-06-16-181429.jpg">
-<meta property="article:published_time" content="2020-03-17T23:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-18T00:14:16.489Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/1200px-Visual_Studio_Code_1.35_icon.svg.png">
+<meta property="article:published_time" content="2020-06-09T22:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-10T17:01:17.069Z">
 <meta property="article:author" content="蘑菇熊">
-<meta property="article:tag" content="OSS">
+<meta property="article:tag" content="fortran">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/1200px-Visual_Studio_Code_1.35_icon.svg.png">
 
-<link rel="canonical" href="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/">
+<link rel="canonical" href="https://xiao5.tk/2020/06/10/vscode%E4%B8%ADGDB%E8%B0%83%E8%AF%95%E6%9D%A1%E4%BB%B6%E6%96%AD%E7%82%B9%E8%AE%BE%E7%BD%AE/">
 
 
 <script id="page-configurations">
@@ -77,7 +73,7 @@
   };
 </script>
 
-  <title>VPS挂载阿里云OSS | 蘑菇熊星球</title>
+  <title>vscode中GDB调试条件断点设置 | 蘑菇熊星球</title>
   
 
 
@@ -215,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2020/06/10/vscode%E4%B8%ADGDB%E8%B0%83%E8%AF%95%E6%9D%A1%E4%BB%B6%E6%96%AD%E7%82%B9%E8%AE%BE%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/img/avatar.jpg">
@@ -228,7 +224,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          VPS挂载阿里云OSS
+          vscode中GDB调试条件断点设置
         </h1>
 
         <div class="post-meta">
@@ -239,7 +235,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-03-18 00:00:00 / 修改时间：01:14:16" itemprop="dateCreated datePublished" datetime="2020-03-18T00:00:00+01:00">2020-03-18</time>
+              <time title="创建时间：2020-06-10 00:00:00 / 修改时间：19:01:17" itemprop="dateCreated datePublished" datetime="2020-06-10T00:00:00+02:00">2020-06-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,8 +243,8 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vps/" itemprop="url" rel="index">
-                    <span itemprop="name">VPS</span>
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
                   </a>
                 </span>
             </span>
@@ -271,121 +267,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/head.jpg" alt=""></p>
+        <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/1200px-Visual_Studio_Code_1.35_icon.svg.png" alt=""></p>
 <a id="more"></a>
-<p>(<a href="https://spmax.top/p-2428/Mmx.html" target="_blank" rel="noopener">转</a>)服务器容量不够用？硬盘一下子就被塞满了？憋担心，阿里云的oss提供了挂载功能，挂载之后就和本地文件一个尿性了，且不占用服务器空间，这不就是扩容吗?。我已经利用这个功能把本站所有图片、视频等文件移到了oss中，而网页文件（js，css，php等）则留在了本地。腾讯云似乎没有提供这种服务。</p>
-<p>你可能会觉得，oss的流量费用特贵，对没错，真的是特贵。因为oss是为自家服务的容器服务，外网流量当然得贵一点。而用阿里云的服务器挂载的话，就只用付储存的钱就够了，储存包年9￥40Gb，不亏，特香。当然，挂载的话流量消耗的是服务器的，也会占用相应的带宽（如果是内网的话仅占用内网带宽）。</p>
-<p>宝塔是有oss挂载插件的，但是特low，我就没用那个插件挂载成功过。</p>
-<h3 id="一、创建Bucket"><a href="#一、创建Bucket" class="headerlink" title="一、创建Bucket"></a><strong>一、创建Bucket</strong></h3><p>首先，你得有一台阿里云的服务器直接挂载或中转，土豪请自便。</p>
-<p>只要你购买了储存包，Bucket是不限数量的，随便创建。购买储存包选择地址的时候最好选择和服务器同一地址的地方。用外网流量的人注意，大陆之外流量贵死 。</p>
-<p>创建时选择私人读写即可，没必要公共读。这里的Bucket的名称后面是要用的，不要乱取。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616174109.png" alt=""></p>
-<h3 id="二、安装ossfs"><a href="#二、安装ossfs" class="headerlink" title="二、安装ossfs"></a><strong>二、安装ossfs</strong></h3><p>阿里云是提供了详细的帮助文档的，一般人都看得懂。</p>
+<p>在vscode环境下调试Fortran代码有时会用到条件断点，其语法和Fortran语法一致，大致归纳如下。</p>
+<p><strong>a等于b</strong></p>
 <blockquote>
-<p><a href="https://help.aliyun.com/document_detail/32196.html" target="_blank" rel="noopener">帮助文档</a></p>
+<p>a.eq.b</p>
 </blockquote>
-<p>我也没什么好补充的，再不会发工单让客服给你装。</p>
-<p>CentOS 7.x 版本：</p>
+<p><strong>a大于b</strong></p>
 <blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://gosspublic.alicdn.com/ossfs/ossfs_1.80.6_centos7.0_x86_64.rpm</span><br><span class="line">sudo yum localinstall ossfs_1.80.6_centos7.0_x86_64.rpm</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>a.gt.b</p>
 </blockquote>
-<p>Debian 9/Ubuntu 16.06+版本：</p>
+<p><strong>a不等于b</strong></p>
 <blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/aliyun/ossfs/releases/download/v1.80.5/ossfs_1.80.5_ubuntu16.04_amd64.deb</span><br><span class="line">sudo dpkg -i ossfs_1.80.5_ubuntu16.04_amd64.deb</span><br></pre></td></tr></table></figure>
+<p>a.ne.b</p>
 </blockquote>
-<p>然后就ok了。</p>
-<h3 id="三、挂载Bucket"><a href="#三、挂载Bucket" class="headerlink" title="三、挂载Bucket"></a><strong>三、挂载Bucket</strong></h3><p>阿里的帮助文档也给出了挂载方法。</p>
-<p>但其中还是有一些小错误，比如缺了参数。</p>
-<p>普通直接挂载后，目录所有者是root且权限是640。这使网站程序无权限写操作，压根用不了。</p>
-<p>解决方法帮助文档也给出了，我总结一下</p>
-<ol>
-<li>能同时挂载多个Bucket多个目录，输出多个账号访问信息到<code>/etc/passwd-ossfs</code>然后挂载即可。</li>
-<li>用<code>-o allow_other</code>参数将目录权限设置为777。</li>
-<li>用<code>sudo -u user</code>或用<code>uid/gid</code>信息即可指定用户。</li>
-</ol>
-<p>下面是详细的说明和举例。</p>
-<p>参数说明：</p>
-<p><code>www</code>：需要更改到的用户。</p>
-<p><code>your_bucket</code>：上面创建Bucket时提到的要用的名称，并已经输出到了<code>/etc/passwd-ossfs</code>文件中。</p>
-<p><code>your_mount_point</code>：你需要挂载到的目录，必须是存在的目录（就是要提前创建好该目录），不以<code>/</code>结尾。</p>
-<p><code>your_endpoint</code>：阿里云oss控制台中Bucket概览中给出的EndPoint，选用[ECS 的经典网络访问（内网）]即可，或者你可以用阿里云的服务器反向代理该链接创建的链接以避免费用，供外网服务器使用。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616182722.png" alt=""></p>
-<p><code>your-access-key-id</code>与<code>your-access-key-secret</code>：阿里云账号的密钥，这个东西很重要，不要遇到什么人说帮你配置你就傻傻交出去了。获取位置如下图。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/QQ截图20190616182917.png" alt=""></p>
-<p>先将Bucket名、密钥等一同输出到<code>/etc/passwd-ossfs</code>中</p>
-<p>示例：</p>
+<p><strong>a等于1且b等于2</strong></p>
 <blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo your_bucket:your-access-key-id:your-access-key-secret &gt;&gt; &#x2F;etc&#x2F;passwd-ossfs</span><br></pre></td></tr></table></figure>
+<p>(a.eq.1).and.(b.eq.2)</p>
 </blockquote>
-<p><code>/etc/passwd-ossfs</code>文件必须是640权限的，不然ossfs会报错<code>credentials file /etc/passwd-ossfs should not have others permissions.</code>所以挂载前还要更改权限。</p>
+<p><strong>a等于1或b等于2</strong></p>
 <blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 640 &#x2F;etc&#x2F;passwd-ossfs</span><br></pre></td></tr></table></figure>
+<p>(a.eq.1).or.(b.eq.2)</p>
 </blockquote>
-<p>然后进行挂载</p>
-<h4 id="1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。"><a href="#1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。" class="headerlink" title="1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。"></a><strong>1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。</strong></h4><blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -u www ossfs your_bucket your_mount_point -ourl&#x3D;your_endpoint -o allow_other</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h4 id="2、-uid-gid信息法。"><a href="#2、-uid-gid信息法。" class="headerlink" title="2、 uid/gid信息法。"></a><strong>2、 uid/gid信息法。</strong></h4><p>先用<code>id www</code>获取<code>uid/gid</code>。</p>
-<blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id www</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-03-18/批注-2019-06-16-181429.jpg" alt=""></p>
-<p>然后用其进行挂载</p>
-<blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ossfs your_bucket your_mountpoint -ourl&#x3D;your_endpoint -ouid&#x3D;your_uid -ogid&#x3D;your_gid -o allow_other</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>此时以图中的返回数值为示例，我的<code>your_uid</code>=<code>your_gid</code>=1001</p>
-<p>如此挂载之后的目录就为www用户的777权限目录了，亲测wp媒体库可以随意使用，只是加载媒体库页面时有点慢，加载其他页面没有明显的延缓。</p>
-<h3 id="四、开机自动挂载"><a href="#四、开机自动挂载" class="headerlink" title="四、开机自动挂载"></a><strong>四、开机自动挂载</strong></h3><ol>
-<li><p>将Bucket名称、AccessKeyID、AccessKeySecret等信息写入/etc/passwd-ossfs文件，并将文件权限修改为640。</p>
-<p>配置步骤请参见<a href="https://help.aliyun.com/document_detail/153892.html#concept-kkp-lmb-wdb" target="_blank" rel="noopener">快速安装</a>。</p>
-</li>
-<li><p>设置开机自动挂载。</p>
-<p>针对不同的系统版本，设置开机自动挂载ossfs的方式有所不同。</p>
-<ul>
-<li><p>Ubuntu14.04和CentOS6.5系统版本通过fstab的方式自动挂载</p>
-<ol>
-<li><p>在/etc/fstab中加入如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ossfs#bucket_name mount_point fuse _netdev,url&#x3D;url,allow_other 0 0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>保存/etc/fstab文件。执行<strong>mount -a</strong>命令，如果没有报错，则说明设置正常。</p>
-</li>
-<li><p>上一步执行完成后，Ubuntu14.04就能自动挂载了。CentOS6.5还需要执行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig netfs on</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-<li><p>CentOS7.0及以上的系统通过开机自动启动脚本进行挂载</p>
-<ol>
-<li><p>在/etc/init.d/目录下建立文件ossfs，将<a href="https://github.com/aliyun/ossfs/blob/master/scripts/automount.template" target="_blank" rel="noopener">模板文件</a>中的内容拷贝到这个新文件中。并将其中的your_xxx内容改成您自己的信息。</p>
-</li>
-<li><p>为新建立的ossfs脚本赋予可执行权限：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod a+x &#x2F;etc&#x2F;init.d&#x2F;ossfs</span><br></pre></td></tr></table></figure>
-<p>命令执行完成后，您可以尝试执行该脚本，如果脚本文件内容无误，那么此时OSS中的Bucket已经挂载到您指定的目录下了。</p>
-</li>
-<li><p>把ossfs启动脚本作为其他服务，开机自动启动：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig ossfs on</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行上述步骤后，ossfs就可以开机自动挂载了。</p>
-</li>
-</ol>
-</li>
-<li><p>Ubuntu 16.06/Debian 9可以参照另一篇设置自动开机脚本的教程，即在/etc/rc.local中添加挂载命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ossfs your_bucket your_mountpoint -ourl&#x3D;your_endpoint -ouid&#x3D;your_uid -ogid&#x3D;your_gid -o allow_other</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="五、取消挂载"><a href="#五、取消挂载" class="headerlink" title="五、取消挂载"></a><strong>五、取消挂载</strong></h3><p>帮助文档中提到，若要取消挂载，输入</p>
-<blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fusermount -u your_mountpoint</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>即可取消挂载，但我输了命令之后却提示<code>-bash: fusermount: command not found</code>。后来发了个工单才知道这玩意要单独装。</p>
-<p>输入</p>
-<blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install fuse</span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>再进行取消挂载即可。</p>
+<p><strong>需要注意符号==, &lt;, &gt;等不识别</strong></p>
 
     </div>
 
@@ -401,7 +306,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/" title="VPS挂载阿里云OSS">https://xiao5.tk/2020/03/18/VPS挂载阿里云OSS/</a>
+    <a href="https://xiao5.tk/2020/06/10/vscode%E4%B8%ADGDB%E8%B0%83%E8%AF%95%E6%9D%A1%E4%BB%B6%E6%96%AD%E7%82%B9%E8%AE%BE%E7%BD%AE/" title="vscode中GDB调试条件断点设置">https://xiao5.tk/2020/06/10/vscode中GDB调试条件断点设置/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -412,7 +317,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/oss/" rel="tag"># OSS</a>
+              <a href="/tags/fortran/" rel="tag"># fortran</a>
           </div>
 
         
@@ -421,13 +326,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/03/04/%E8%B6%85%E9%9F%B3%E9%80%9F%E6%9D%A5%E6%B5%81%E5%8F%B6%E6%A0%85%E8%BF%9B%E5%8F%A3%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6%E8%AE%BE%E7%BD%AE/" rel="prev" title="超音速来流叶栅进口边界条件设置">
-      <i class="fa fa-chevron-left"></i> 超音速来流叶栅进口边界条件设置
+    <a href="/2020/06/04/windows-onedrive%E4%BD%BF%E7%94%A8mklink%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6%E5%A4%B9/" rel="prev" title="windows onedrive使用mklink自动同步其他文件夹">
+      <i class="fa fa-chevron-left"></i> windows onedrive使用mklink自动同步其他文件夹
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/04/10/%E5%A6%82%E4%BD%95%E5%9C%A8-Debian-9-%E4%B8%8A%E6%90%AD%E5%BB%BA-LNMP-%E7%8E%AF%E5%A2%83/" rel="next" title="如何在 Debian 9 上搭建 LNMP 环境">
-      如何在 Debian 9 上搭建 LNMP 环境 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -488,7 +390,6 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、创建Bucket"><span class="nav-number">1.</span> <span class="nav-text">一、创建Bucket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、安装ossfs"><span class="nav-number">2.</span> <span class="nav-text">二、安装ossfs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、挂载Bucket"><span class="nav-number">3.</span> <span class="nav-text">三、挂载Bucket</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、sudo-u法，这个方法我这边行不通，你不妨尝试一下。"><span class="nav-number">3.1.</span> <span class="nav-text">1、sudo -u法，这个方法我这边行不通，你不妨尝试一下。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、-uid-gid信息法。"><span class="nav-number">3.2.</span> <span class="nav-text">2、 uid&#x2F;gid信息法。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、开机自动挂载"><span class="nav-number">4.</span> <span class="nav-text">四、开机自动挂载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、取消挂载"><span class="nav-number">5.</span> <span class="nav-text">五、取消挂载</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -679,7 +580,7 @@
       quicklink({
         timeout: 3000,
         priority: true,
-        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2020/03/18/VPS%E6%8C%82%E8%BD%BD%E9%98%BF%E9%87%8C%E4%BA%91OSS/',]
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2020/06/10/vscode%E4%B8%ADGDB%E8%B0%83%E8%AF%95%E6%9D%A1%E4%BB%B6%E6%96%AD%E7%82%B9%E8%AE%BE%E7%BD%AE/',]
       });
       });
   </script>
@@ -695,7 +596,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo: 'comments',
       owner: 'xxwu1990',
       admin: ['xxwu1990'],
-      id: '99c20491a9ae99b678bb2a34ab269050',
+      id: '9461bcdeccb05133fbf15c647a12bbd8',
         language: '',
       distractionFreeMode: true
     });
