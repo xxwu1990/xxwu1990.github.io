@@ -233,7 +233,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-10-09 00:00:00 / 修改时间：23:11:47" itemprop="dateCreated datePublished" datetime="2020-10-09T00:00:00+08:00">2020-10-09</time>
+              <time title="创建时间：2020-10-09 00:00:00 / 修改时间：23:16:10" itemprop="dateCreated datePublished" datetime="2020-10-09T00:00:00+08:00">2020-10-09</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,109 +259,14 @@
 
       
           <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-10/20201009203718.png" alt=""></p>
-<h4 id="编译环境"><a href="#编译环境" class="headerlink" title="编译环境"></a>编译环境</h4><p>本流线曲率法程序（<a href="https://sourceforge.net/projects/throughflow/" target="_blank" rel="noopener">项目地址</a>）由C++编写，功能为叶轮机械二维设计，编译平台为Linux。这里以Centos 7为例，需要预先安装以下依赖库：</p>
-<p><strong>必备</strong></p>
-<ul>
-<li>automake: <a href="http://www.gnu.org/software/automake/automake.html" target="_blank" rel="noopener">http://www.gnu.org/software/automake/automake.html</a></li>
-<li>libtool: <a href="http://www.gnu.org/software/libtool/libtool.html" target="_blank" rel="noopener">http://www.gnu.org/software/libtool/libtool.html</a></li>
-<li>g++: <a href="http://gcc.gnu.org/" target="_blank" rel="noopener">http://gcc.gnu.org/</a></li>
-<li>cgnslib: <a href="http://cgns.sourceforge.net/download.html" target="_blank" rel="noopener">http://cgns.sourceforge.net/download.html</a></li>
-<li>nurbslib: <a href="http://libnurbs.sourceforge.net/index.shtml" target="_blank" rel="noopener">http://libnurbs.sourceforge.net/index.shtml</a></li>
-</ul>
-<p><strong>可选</strong></p>
-<ul>
-<li>doxgen: <a href="http://www.doxygen.org" target="_blank" rel="noopener">http://www.doxygen.org</a> (optional)</li>
-<li>cgnstools: <a href="http://cgns.sourceforge.net/download.html" target="_blank" rel="noopener">http://cgns.sourceforge.net/download.html</a> (optional)</li>
-<li>hdflib: <a href="http://hdf.ncsa.uiuc.edu/HDF5/release/index.html" target="_blank" rel="noopener">http://hdf.ncsa.uiuc.edu/HDF5/release/index.html</a> (optional)</li>
-<li>paraview: <a href="http://www.paraview.org" target="_blank" rel="noopener">http://www.paraview.org</a> (optional)</li>
-<li>vtk (mit python binding): <a href="http://www.vtk.org" target="_blank" rel="noopener">http://www.vtk.org</a> (optional)</li>
-</ul>
-<h4 id="安装NURBS"><a href="#安装NURBS" class="headerlink" title="安装NURBS++"></a>安装NURBS++</h4><p><a href="http://libnurbs.sourceforge.net/old/index.shtml" target="_blank" rel="noopener">nurbus++</a>为C++编写的非均匀有理B样条函数库，由于年代久远且长期不再维护更新，可用编译器停留在GCC-3.1.0版本，在使用高版本GCC编译时需要打补丁，这里使用的GCC版本为4.8.5。默认<code>automake, libtool, g++</code>已安装。</p>
-<h5 id="方法1：从源代码编译"><a href="#方法1：从源代码编译" class="headerlink" title="方法1：从源代码编译"></a>方法1：从源代码编译</h5><p>首先下载<a href="https://sourceforge.net/projects/libnurbs/files/latest/download" target="_blank" rel="noopener">源代码</a>，选择最新的3.0.11版本</p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-10/20201009210536.png" alt=""></p>
-<p>解压到合适位置，再下载<a href="https://drive.google.com/file/d/0B5c6wR9mB0_pR1RrNlB2Ry1yYm8/view?usp=sharing" target="_blank" rel="noopener">补丁文件</a>（备份<a href="https://github.com/wuxiaoxiong1990/pic/raw/master/2020-10/nurbsAllInOne.patch.gz" target="_blank" rel="noopener">地址</a>），将.patch解压后放到nurbs++源码目录，执行补丁修改源代码。（<a href="https://www.daniweb.com/hardware-and-software/linux-and-unix/threads/480732/nurbs-library-installation-problem#post2105713" target="_blank" rel="noopener">参考链接</a>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patch -p1 &lt; nurbsAllInOne.patch</span><br></pre></td></tr></table></figure>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-10/20201009212842.png" alt=""></p>
-<p>执行编译安装即可，默认安装位置为<code>/usr/local/lib</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">configure ...options...</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
-<p><strong>Configure options</strong></p>
-<p>The most usefull opions are:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>--prefix=/dir</code></td>
-<td>Indicates where the library will be installed</td>
-<td>/usr/local</td>
-</tr>
-<tr>
-<td><code>--enable-column-order</code></td>
-<td>Indicates if a matrix is stored row wise or column wise.</td>
-<td>disabled</td>
-</tr>
-<tr>
-<td><code>--with-magick=/dir</code></td>
-<td>Indicates if the library is compiled with Image Magick support. The dir indicates where is the ImageMagick library’s main directory</td>
-<td>without</td>
-</tr>
-<tr>
-<td><code>--with-opengl=/dir</code></td>
-<td>Indicates if the library is compiled with OpenGL support. The dir indicates where is the OpenGL library’s main directory. For OpenGL to work properly, <code>--enable-column-order</code> will be automatically set. This is because OpenGL has column wise ordering for its matrices.</td>
-<td>without</td>
-</tr>
-<tr>
-<td><code>--enable-exception</code></td>
-<td>Disable this if you don’t want to use exception handling.</td>
-<td>enabled</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h5 id="方法2：从软件源安装"><a href="#方法2：从软件源安装" class="headerlink" title="方法2：从软件源安装"></a>方法2：从软件源安装</h5><p>对于<strong>Centos</strong>系统，可在<a href="http://www.rpm-find.net/linux/RPM/archive.fedoraproject.org/fedora/linux/releases/14/Everything/x86_64/os/Packages/nurbs++-3.0.11-7.fc12.x86_64.html" target="_blank" rel="noopener">Fedora安装包页面</a>下载编译好的rpm<a href="http://ftp.pbone.net/mirror/archive.fedoraproject.org/fedora/linux/releases/14/Everything/x86_64/os/Packages/nurbs++-3.0.11-7.fc12.x86_64.rpm" target="_blank" rel="noopener">安装包</a>进行安装，使用以下命令自动安装缺少的依赖：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install nurbs++-3.0.11-7.fc12.x86_64.rpm</span><br></pre></td></tr></table></figure>
-<p>这将生成以下文件（相比源代码编译缺少.h头文件，未测试是否有影响）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libmatrix.so.1</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libmatrix.so.1.0.0</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libmatrixI.so.1</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libmatrixI.so.1.0.0</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libmatrixN.so.1</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libmatrixN.so.1.0.0</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libnurbsd.so.0</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libnurbsd.so.0.1.0</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libnurbsf.so.0</span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;libnurbsf.so.0.1.0</span><br><span class="line">&#x2F;usr&#x2F;share&#x2F;doc&#x2F;nurbs++-3.0.11</span><br><span class="line">&#x2F;usr&#x2F;share&#x2F;doc&#x2F;nurbs++-3.0.11&#x2F;AUTHORS</span><br><span class="line">&#x2F;usr&#x2F;share&#x2F;doc&#x2F;nurbs++-3.0.11&#x2F;README</span><br></pre></td></tr></table></figure>
-<p>对于<strong>Ubuntu</strong>系统，通过添加<a href="https://launchpad.net/~cae-team/+archive/ubuntu/ppa" target="_blank" rel="noopener">PPA源</a>安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:cae-team&#x2F;ppa</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install nurbs++</span><br></pre></td></tr></table></figure>
-<h4 id="安装cgnslib"><a href="#安装cgnslib" class="headerlink" title="安装cgnslib"></a>安装cgnslib</h4><p>CGNS为CFD计算通用符号系统，项目<a href="http://cgns.sourceforge.net/download.html" target="_blank" rel="noopener">主页链接</a>，可以通过源代码编译方式安装。由于该项目一直有人维护且使用广泛，这里采用更简便的源安装方式。对于Centos系统，通过以下命令安装：（<a href="https://centos.pkgs.org/7/epel-x86_64/cgnslib-3.2.1-2.el7.x86_64.rpm.html" target="_blank" rel="noopener">官方安装包页面</a>）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install cgnslib cgnslib-devel</span><br></pre></td></tr></table></figure>
-<p>对于Ubuntu系统，命令为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libcgns libcgns-dev</span><br></pre></td></tr></table></figure>
-<h4 id="编译源代码"><a href="#编译源代码" class="headerlink" title="编译源代码"></a>编译源代码</h4><p>官方文档INSTALL中给出的安装步骤为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Installation:</span><br><span class="line">.&#x2F;autogen.sh</span><br><span class="line">.&#x2F;configure &lt;Optionen&gt;</span><br><span class="line">make</span><br><span class="line">sudo make install (optional)</span><br></pre></td></tr></table></figure>
-<p>在实际操作中可能会遇到以下问题：</p>
-<h5 id="1-libtool版本不一致问题"><a href="#1-libtool版本不一致问题" class="headerlink" title="1. libtool版本不一致问题"></a>1. libtool版本不一致问题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">libtool: Version mismatch error.  This is libtool 2.4.6, but the</span><br><span class="line">libtool: definition of this LT_INIT comes from libtool 2.4.2.</span><br><span class="line">libtool: You should recreate aclocal.m4 with macros from libtool 2.4.6</span><br><span class="line">libtool: and run autoconf again.</span><br></pre></td></tr></table></figure>
-<p>编译过程中可能会遇到<code>libtool version mismatch error</code>的错误提示，参考网上的<a href="https://stackoverflow.com/questions/3096989/libtool-version-mismatch-error" target="_blank" rel="noopener">解决方案</a>，确定是anaconda与系统自带的libtool和autoconf的版本不同造成的冲突，解决方法为：</p>
-<p>If you are using Anaconda, then this could be due to libtool and autoconf from different sources. You can check this by executing</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">which libtool</span><br><span class="line">which autoconf</span><br></pre></td></tr></table></figure>
-<p>My libtool was from conda and autoconf was a system package. Uninstalled autoconf and installed it again using conda</p>
-<p><code>apt remove -y autoconf</code> (Ubuntu/Debian)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -c anaconda autoconf</span><br></pre></td></tr></table></figure>
-<p>Note: You may need to install automake too.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install -c anaconda automake</span><br></pre></td></tr></table></figure>
-<h5 id="2-函数库链接问题"><a href="#2-函数库链接问题" class="headerlink" title="2.函数库链接问题"></a>2.函数库链接问题</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;PLib::MatrixImage&lt;unsigned char&gt;::drawLine(int, int, int, int, unsigned char)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;PLib::Basic2DArray&lt;PLib::Color&gt;::elem(int, int)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;PLib::SVDMatrix&lt;double&gt;::decompose(PLib::Matrix&lt;double&gt; const&amp;)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;void PLib::intccini&lt;double&gt;(PLib::BasicArray&lt;double&gt;&amp;)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;PLib::SVDMatrix&lt;double&gt;::SVDMatrix(PLib::Matrix&lt;double&gt; const&amp;)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;PLib::SVDMatrix&lt;double&gt;::solve(PLib::Matrix&lt;double&gt; const&amp;, PLib::Matrix&lt;double&gt;&amp;, double)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;PLib::Matrix&lt;double&gt; PLib::inverse&lt;double&gt;(PLib::Matrix&lt;double&gt; const&amp;)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;int PLib::solve&lt;double&gt;(PLib::Matrix&lt;double&gt; const&amp;, PLib::Matrix&lt;double&gt; const&amp;, PLib::Matrix&lt;double&gt;&amp;)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;double PLib::intcc2&lt;double, PLib::ClassPOvoid&lt;double&gt;*&gt;(PLib::ClassPOvoid&lt;double&gt;*, void*, double, double, double, PLib::BasicArray&lt;double&gt;, double&amp;)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;double PLib::intcc&lt;double, PLib::ClassPOvoid&lt;double&gt;*&gt;(PLib::ClassPOvoid&lt;double&gt;*, void*, double, double, double, PLib::BasicArray&lt;double&gt;&amp;, double&amp;)&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;typeinfo for PLib::ClassPOvoid&lt;double&gt;&#39;</span><br><span class="line">&#x2F;&#x2F;usr&#x2F;local&#x2F;lib&#x2F;libnurbsd.so: undefined reference to &#96;PLib::MatrixImage&lt;PLib::Color&gt;::drawLine(int, int, int, int, PLib::Color)&#39;</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br></pre></td></tr></table></figure>
-<p>这是一个Bug，根据原作者的<a href="https://sourceforge.net/p/throughflow/mailman/message/30246659/" target="_blank" rel="noopener">回答</a>，解决方法为在<code>src/Makefile.am</code>文件里面添加两个libraries <code>-lmatrixN.so or -lmatrixI.so</code>，添加后的Makefile.am：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">## Source directory</span><br><span class="line">AUTOMAKE_OPTIONS &#x3D; subdir-objects</span><br><span class="line">bin_PROGRAMS &#x3D; skv</span><br><span class="line">skv_SOURCES &#x3D; ableitung.cpp daten.cpp einlesen.cpp geschwindigkeit.cpp  \</span><br><span class="line">	massenstrom.cpp rothalpie.cpp stromlinie.cpp wirkungsgrad.cpp \</span><br><span class="line">	ausgabe.cpp dichte.cpp epsilon.cpp Knoten.cpp newton.cpp \</span><br><span class="line">	skelettflaeche3d.cpp Stromliniendaten.cpp CGNSformat.cpp druck.cpp \</span><br><span class="line">	geometrie.cpp loeser_expeu.cpp Quasiorthogonalendaten.cpp skv.cpp \</span><br><span class="line">	temperatur.cpp loeser_denton.cpp geschwindigkeit_denton.cpp \</span><br><span class="line">	kennfeld_manager.cpp ableitungshelfer.cpp enthalpie.cpp \</span><br><span class="line">	temperatur_denton.cpp DeviationsModelle&#x2F;deviationsmodell.cpp \</span><br><span class="line">	DeviationsModelle&#x2F;carterdesigndeviation.cpp DeviationsModelle&#x2F;crevelingoffdesigndeviation.cpp \</span><br><span class="line">	VerlustModelle&#x2F;verlustmodell.cpp VerlustModelle&#x2F;liebleinprofilverlust.cpp \</span><br><span class="line">	VerlustModelle&#x2F;griebrandverlust.cpp VerlustModelle&#x2F;crevelingoffdesignverlust.cpp \</span><br><span class="line">	VerlustModelle&#x2F;cetinoffdesignverlust.cpp optimalInzidenzModelle&#x2F;liebleinoptimalinzidenz.cpp</span><br><span class="line">skv_LDADD &#x3D; -lm -lnurbsd -lmatrix -lcgns -lhdf5 -lmatrixN  -lmatrixI</span><br></pre></td></tr></table></figure>
-<h5 id="3-子目录警告"><a href="#3-子目录警告" class="headerlink" title="3.子目录警告"></a>3.子目录警告</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">automake-1.16: of the corresponding sources.</span><br><span class="line">automake-1.16: You are advised to start using &#39;subdir-objects&#39; option throughout your</span><br><span class="line">automake-1.16: project, to avoid future incompatibilities.</span><br><span class="line">src&#x2F;Makefile.am:4: warning: source file &#39;DeviationsModelle&#x2F;carterdesigndeviation.cpp&#39; is in a subdirectory,</span><br><span class="line">src&#x2F;Makefile.am:4: but option &#39;subdir-objects&#39; is disabled</span><br></pre></td></tr></table></figure>
-<p>由于源代码中存在子目录路径，在最后<code>make install</code>过程中会出现如上警告，可以通过如下方法消除（<a href="https://github.com/BitzenyCoreDevelopers/cpuminer/issues/5" target="_blank" rel="noopener">参考链接</a>）:</p>
-<p>there are 2 options to fix</p>
-<ul>
-<li>a) adding <code>subdir-objects</code> to <code>configure.ac</code> like this</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AM_INIT_AUTOMAKE([gnu subdir-objects])</span><br></pre></td></tr></table></figure>
-<ul>
-<li>b) adding <code>AUTOMAKE_OPTIONS = subdir-objects</code> to <code>src/Makefile.am</code></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AUTOMAKE_OPTIONS &#x3D; subdir-objects</span><br></pre></td></tr></table></figure>
-<h4 id="编译完成"><a href="#编译完成" class="headerlink" title="编译完成"></a>编译完成</h4><p>自动生成<code>skv</code>可执行程序并复制到<code>/usr/local/bin</code></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/10/09/%E6%85%95%E5%B0%BC%E9%BB%91%E5%B7%A5%E5%A4%A7%E6%B5%81%E7%BA%BF%E6%9B%B2%E7%8E%87%E6%B3%95%E9%80%9A%E6%B5%81%E7%A8%8B%E5%BA%8Fskv%E7%BC%96%E8%AF%91%E8%AF%B4%E6%98%8E/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

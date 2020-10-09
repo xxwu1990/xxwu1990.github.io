@@ -4,6 +4,7 @@
     <title>慕尼黑工大流线曲率法通流程序skv编译说明</title>
     <url>/2020/10/09/%E6%85%95%E5%B0%BC%E9%BB%91%E5%B7%A5%E5%A4%A7%E6%B5%81%E7%BA%BF%E6%9B%B2%E7%8E%87%E6%B3%95%E9%80%9A%E6%B5%81%E7%A8%8B%E5%BA%8Fskv%E7%BC%96%E8%AF%91%E8%AF%B4%E6%98%8E/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-10/20201009203718.png" alt=""></p>
+<a id="more"></a>
 <h4 id="编译环境"><a href="#编译环境" class="headerlink" title="编译环境"></a>编译环境</h4><p>本流线曲率法程序（<a href="https://sourceforge.net/projects/throughflow/" target="_blank" rel="noopener">项目地址</a>）由C++编写，功能为叶轮机械二维设计，编译平台为Linux。这里以Centos 7为例，需要预先安装以下依赖库：</p>
 <p><strong>必备</strong></p>
 <ul>
