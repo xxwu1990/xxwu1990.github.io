@@ -4,7 +4,6 @@
     <title>慕尼黑工大流线曲率法通流程序skv编译说明</title>
     <url>/2020/10/09/%E6%85%95%E5%B0%BC%E9%BB%91%E5%B7%A5%E5%A4%A7%E6%B5%81%E7%BA%BF%E6%9B%B2%E7%8E%87%E6%B3%95%E9%80%9A%E6%B5%81%E7%A8%8B%E5%BA%8Fskv%E7%BC%96%E8%AF%91%E8%AF%B4%E6%98%8E/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-10/20201009203718.png" alt=""></p>
-<a id="more"></a>
 <h4 id="编译环境"><a href="#编译环境" class="headerlink" title="编译环境"></a>编译环境</h4><p>本流线曲率法程序（<a href="https://sourceforge.net/projects/throughflow/" target="_blank" rel="noopener">项目地址</a>）由C++编写，功能为叶轮机械二维设计，编译平台为Linux。这里以Centos 7为例，需要预先安装以下依赖库：</p>
 <p><strong>必备</strong></p>
 <ul>
@@ -106,6 +105,15 @@
 <li>b) adding <code>AUTOMAKE_OPTIONS = subdir-objects</code> to <code>src/Makefile.am</code></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">AUTOMAKE_OPTIONS &#x3D; subdir-objects</span><br></pre></td></tr></table></figure>
+<p><strong>以下问题Ubuntu可能会遇到</strong></p>
+<h5 id="4-变量HUGE报错"><a href="#4-变量HUGE报错" class="headerlink" title="4.变量HUGE报错"></a>4.变量<code>HUGE</code>报错</h5><p>make过程中可能会出现错误信息：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">daten.h:62:19: error: ‘HUGE’ was not declared in this scope</span><br></pre></td></tr></table></figure>
+<p>找不到变量HUGE的定义，HUGE应该是某个老版本的C++函数库中的极大值常数，新版本的lib中可能改名了导致找不到。解决方法为在daten.h文件中人为添加一个极大值</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#define HUGE 1e6</span><br></pre></td></tr></table></figure>
+<h5 id="5-找不到hdf5库"><a href="#5-找不到hdf5库" class="headerlink" title="5. 找不到hdf5库"></a>5. 找不到hdf5库</h5><p>错误信息为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;bin&#x2F;ld: cannot find -lhdf5</span><br></pre></td></tr></table></figure>
+<p>解决方法<a href="https://github.com/BVLC/caffe/issues/4333#issuecomment-228874430" target="_blank" rel="noopener">参考</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu</span><br><span class="line">sudo ln -s libhdf5_serial.so.8.0.2 libhdf5.so</span><br><span class="line">sudo ln -s libhdf5_serial_hl.so.8.0.2 libhdf5_hl.so</span><br><span class="line">In Ubuntu 16.04, the file versions are different. Visit &#x2F;usr&#x2F;lib&#x2F;x86_64-linux-gnu&#x2F; and list the contents. The versions are 10.1.0 and 10.0.2 respectively.</span><br></pre></td></tr></table></figure>
 <h4 id="编译完成"><a href="#编译完成" class="headerlink" title="编译完成"></a>编译完成</h4><p>自动生成<code>skv</code>可执行程序并复制到<code>/usr/local/bin</code></p>
 ]]></content>
       <categories>
