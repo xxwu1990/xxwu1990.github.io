@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>教研室共享打印机设置</title>
+    <url>/2020/10/29/%E6%95%99%E7%A0%94%E5%AE%A4%E5%85%B1%E4%BA%AB%E6%89%93%E5%8D%B0%E6%9C%BA%E8%AE%BE%E7%BD%AE/</url>
+    <content><![CDATA[<p>远程访问教研室共享打印机设置方法说明，不再需要U盘拷贝，有网即可打印。</p>
+<a id="more"></a>
+<h4 id="步骤1：网络环境设置"><a href="#步骤1：网络环境设置" class="headerlink" title="步骤1：网络环境设置"></a>步骤1：网络环境设置</h4><p>这里采用Zerotier内网穿透方式访问服务端，无需进行复杂的网络配置，需要保持打印机电脑在线。</p>
+<p>下载Zerotier安装包（<a href="https://wws.lanzous.com/id6isht7zmf" target="_blank" rel="noopener">下载地址</a>）并安装。启动Zerotier，右键任务栏图标选择<code>Join Network</code>，输入以下ID并Join。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">d5e5fb6537367533</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/ZeroTier_One_2020-10-28_15-08-14.png" alt=""></p>
+<h4 id="步骤2：配置打印机"><a href="#步骤2：配置打印机" class="headerlink" title="步骤2：配置打印机"></a>步骤2：配置打印机</h4><p>完成上一步后，搜索框搜索<code>打印机和扫描仪</code></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/notepad_2020-10-28_15-10-50.png" alt=""></p>
+<p>点击添加打印机和扫描仪，等待几秒后选择我需要的打印机不在列表中</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/ApplicationFrameHost_2020-10-28_15-13-34.png" alt=""></p>
+<p>勾选<code>按名称选择共享打印机</code>输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\\704-PC\FX DocuPrint M115 b</span><br></pre></td></tr></table></figure>
+<p>点击下一步即可完成。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/printui_2020-10-28_15-15-19.png" alt=""></p>
+<p>遇到安装驱动选择是。</p>
+<h4 id="步骤3（可选）-远程文件访问"><a href="#步骤3（可选）-远程文件访问" class="headerlink" title="步骤3（可选）:远程文件访问"></a>步骤3（可选）:远程文件访问</h4><p>资源管理器地址栏输入<code>\\704-pc</code>即可访问上网机文件夹</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/20201028151813.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>WINDOWS</category>
+      </categories>
+      <tags>
+        <tag>内网穿透</tag>
+        <tag>远程打印</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CFD大牛们的故事</title>
     <url>/2020/10/21/CFD%E5%A4%A7%E7%89%9B%E4%BB%AC%E7%9A%84%E6%95%85%E4%BA%8B/</url>
     <content><![CDATA[<p><strong>每一种具体的理论或数值方法都是暂时的，而对流动本质的理解却是永恒的。</strong></p>
