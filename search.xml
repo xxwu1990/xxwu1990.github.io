@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ppt测试</title>
+    <url>/2021/01/21/ppt%E6%B5%8B%E8%AF%95/</url>
+    <content><![CDATA[<iframe src='https://file.keking.cn/onlinePreview?url=https%3A%2F%2Ffile.keking.cn%2Fdemo%2FCFD2015-%E7%AC%AC10%E8%AE%B2-%E4%B8%8D%E5%8F%AF%E5%8E%8B%E6%B5%81%E5%8A%A8.ppt' width='100%' height='100%' frameborder='1'>
+</iframe>]]></content>
+      <categories>
+        <category>PPT</category>
+      </categories>
+      <tags>
+        <tag>office</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>教研室共享打印机设置</title>
     <url>/2020/10/29/%E6%95%99%E7%A0%94%E5%AE%A4%E5%85%B1%E4%BA%AB%E6%89%93%E5%8D%B0%E6%9C%BA%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<p>远程访问教研室共享打印机设置方法说明，不再需要U盘拷贝，有网即可打印。</p>
@@ -1219,59 +1231,6 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
-    <title>手动安装V2ray并配置ssl</title>
-    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
-    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
-<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
-<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
-<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
-<p>此脚本会自动安装以下文件：</p>
-<ul>
-<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
-<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
-<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
-<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
-<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
-</ul>
-<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
-<p>运行脚本位于系统的以下位置：</p>
-<ul>
-<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
-<li><code>/etc/init.d/v2ray</code>: SysV</li>
-</ul>
-<p>脚本运行完成后，你需要：</p>
-<ol>
-<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
-<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
-<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
-</ol>
-<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启v2ray和nginx</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
-<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
-<p>地址：域名</p>
-<p>端口：443</p>
-<p>用户ID：UUID</p>
-<p>传输协议：ws</p>
-<p>路径：/abc123</p>
-<p>底层传输安全：tls</p>
-</blockquote>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
-<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
-]]></content>
-      <categories>
-        <category>VPS</category>
-      </categories>
-      <tags>
-        <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VPS搭建GPS轨迹记录服务</title>
     <url>/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/Snipaste_2019-03-04_11-22-40-768x424.png" alt=""><br><a id="more"></a></p>
@@ -1334,6 +1293,59 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </categories>
       <tags>
         <tag>traccar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手动安装V2ray并配置ssl</title>
+    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
+    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
+<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
+<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
+<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
+<p>此脚本会自动安装以下文件：</p>
+<ul>
+<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
+<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
+<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
+<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
+<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
+</ul>
+<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
+<p>运行脚本位于系统的以下位置：</p>
+<ul>
+<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
+<li><code>/etc/init.d/v2ray</code>: SysV</li>
+</ul>
+<p>脚本运行完成后，你需要：</p>
+<ol>
+<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
+<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
+<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
+</ol>
+<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启v2ray和nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
+<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
+<p>地址：域名</p>
+<p>端口：443</p>
+<p>用户ID：UUID</p>
+<p>传输协议：ws</p>
+<p>路径：/abc123</p>
+<p>底层传输安全：tls</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
+<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>v2ray</tag>
       </tags>
   </entry>
   <entry>
@@ -2795,6 +2807,32 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
+    <title>关于Teploct处理平面叶栅</title>
+    <url>/2019/05/15/%E5%85%B3%E4%BA%8ETeploct%E5%A4%84%E7%90%86%E5%B9%B3%E9%9D%A2%E5%8F%B6%E6%A0%85%E5%91%A8%E6%9C%9F%E6%80%A7%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<p>本文记录使用Tecplot后处理平面叶栅流场过程中的一些注意事项。<a id="more"></a></p>
+<h4 id="周期性显示"><a href="#周期性显示" class="headerlink" title="周期性显示"></a>周期性显示</h4><p>1) Use duplicate zones for the desired zones to duplicate<br>2) Use Data&gt;alter&gt;specify equations with something like<br>{y} = {y} + offset_value.</p>
+<p> Offset is the solidity and y follows the periodic direction.</p>
+<h4 id="设置Vector分量"><a href="#设置Vector分量" class="headerlink" title="设置Vector分量"></a>设置Vector分量</h4><blockquote>
+<p>Plot =&gt; Vector =&gt; Varaibles </p>
+<p>U =&gt; Momentum_x, V =&gt; Momentum_y</p>
+</blockquote>
+<h4 id="画云图和等高线，并标出等高线值"><a href="#画云图和等高线，并标出等高线值" class="headerlink" title="画云图和等高线，并标出等高线值"></a>画云图和等高线，并标出等高线值</h4><blockquote>
+<p>Zone Style &gt; Contour &gt; Contour Type &gt; Both Lines and Flood</p>
+<p>Plot &gt; Contour &amp; Multi-Coloring &gt; Labels &gt; Show Labels</p>
+</blockquote>
+<h4 id="Linux环境Tecplot出图闪退"><a href="#Linux环境Tecplot出图闪退" class="headerlink" title="Linux环境Tecplot出图闪退"></a>Linux环境Tecplot出图闪退</h4><blockquote>
+<p>Options &gt; Performance &gt; Rendering &gt; Image Export Options 选Fast</p>
+<p>或命令行 tec360 -mesa 启动Tecplot</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>CFD</category>
+      </categories>
+      <tags>
+        <tag>tecplot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>扩大VMware虚拟机中CentOS7的硬盘空间</title>
     <url>/2019/05/15/%E6%89%A9%E5%A4%A7VMware%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADCentOS7%E7%9A%84%E7%A1%AC%E7%9B%98%E7%A9%BA%E9%97%B4/</url>
     <content><![CDATA[<p>初期分配的VMware硬盘空间常常在使用一段时间后捉襟见肘，这时需要扩展虚拟磁盘空间的大小，本文介绍详细步骤。<a id="more"></a></p>
@@ -2828,32 +2866,6 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于Teploct处理平面叶栅</title>
-    <url>/2019/05/15/%E5%85%B3%E4%BA%8ETeploct%E5%A4%84%E7%90%86%E5%B9%B3%E9%9D%A2%E5%8F%B6%E6%A0%85%E5%91%A8%E6%9C%9F%E6%80%A7%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<p>本文记录使用Tecplot后处理平面叶栅流场过程中的一些注意事项。<a id="more"></a></p>
-<h4 id="周期性显示"><a href="#周期性显示" class="headerlink" title="周期性显示"></a>周期性显示</h4><p>1) Use duplicate zones for the desired zones to duplicate<br>2) Use Data&gt;alter&gt;specify equations with something like<br>{y} = {y} + offset_value.</p>
-<p> Offset is the solidity and y follows the periodic direction.</p>
-<h4 id="设置Vector分量"><a href="#设置Vector分量" class="headerlink" title="设置Vector分量"></a>设置Vector分量</h4><blockquote>
-<p>Plot =&gt; Vector =&gt; Varaibles </p>
-<p>U =&gt; Momentum_x, V =&gt; Momentum_y</p>
-</blockquote>
-<h4 id="画云图和等高线，并标出等高线值"><a href="#画云图和等高线，并标出等高线值" class="headerlink" title="画云图和等高线，并标出等高线值"></a>画云图和等高线，并标出等高线值</h4><blockquote>
-<p>Zone Style &gt; Contour &gt; Contour Type &gt; Both Lines and Flood</p>
-<p>Plot &gt; Contour &amp; Multi-Coloring &gt; Labels &gt; Show Labels</p>
-</blockquote>
-<h4 id="Linux环境Tecplot出图闪退"><a href="#Linux环境Tecplot出图闪退" class="headerlink" title="Linux环境Tecplot出图闪退"></a>Linux环境Tecplot出图闪退</h4><blockquote>
-<p>Options &gt; Performance &gt; Rendering &gt; Image Export Options 选Fast</p>
-<p>或命令行 tec360 -mesa 启动Tecplot</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>tecplot</tag>
       </tags>
   </entry>
   <entry>
