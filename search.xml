@@ -8,7 +8,7 @@
 <h4 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h4><p>不需要使用任何第三家扩展，使用 Office 官方提供的 Office Web Viewer 即可.</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;view.officeapps.live.com&#x2F;op&#x2F;view.aspx?src&#x3D;&#123;yourFileOnlinePath&#125;</span><br><span class="line">http:&#x2F;&#x2F;view.officeapps.live.com&#x2F;op&#x2F;view.aspx?src&#x3D;要查看的文档地址</span><br></pre></td></tr></table></figure>
 <p>在src后面填写文档的网络地址即可。</p>
-<p>例子</p>
+<p><strong>例子</strong></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">https:&#x2F;&#x2F;view.officeapps.live.com&#x2F;op&#x2F;view.aspx?src&#x3D;https:&#x2F;&#x2F;cdn.getimg.net&#x2F;npc&#x2F;2020&#x2F;file&#x2F;page&#x2F;1215&#x2F;Npcink.pptx</span><br></pre></td></tr></table></figure>
 <p>这个链接分为了两部分，一部分是<code>http://view.officeapps.live.com/op/view.aspx?src=</code>，后面那个是具体的文档地址，用URLEncode进行处理的链接地址。</p>
 <p>非常酷的效果，使用这个服务唯一的要求就是你的网站是部署在互联网上的，这样服务才可以调用你的文档地址然后进行展示。</p>
