@@ -4,6 +4,7 @@
     <title>Relocation truncated to fit解决办法</title>
     <url>/2021/11/09/Relocation-truncated-to-fit%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<p>这种情况一般出现在汇编代码中。有些跳转指令的跳转范围很小。而当要跳转到的地址超出了范围，那么就会报错！</p>
+<a id="more"></a>
 <p>该错误多由程序中使用过大的数组导致，可采用<code>-mcmodel</code>选项分配内存空间。<strong>注意：</strong>该方法在linux 64位系统上测试有效，windows系统minGW64编译器只支持<a href="https://sourceforge.net/p/mingw-w64/bugs/278/#f75e" target="_blank" rel="noopener"><code>mcmodel=small</code></a></p>
 <p>对于x86：</p>
 <p>最终的原因是使用参数-mcmodel=small，只能使用最高2G最低2G的内存空间，如果想使用更多的大内存空间，应该使用-mcmodel=large。</p>
