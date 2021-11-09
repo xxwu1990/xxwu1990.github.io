@@ -208,6 +208,156 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2021/11/09/Relocation-truncated-to-fit%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/avatar.jpg">
+      <meta itemprop="name" content="蘑菇熊">
+      <meta itemprop="description" content="我们的征途是星辰大海">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蘑菇熊星球">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/09/Relocation-truncated-to-fit%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="post-title-link" itemprop="url">Relocation truncated to fit解决办法</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-09 00:00:00" itemprop="dateCreated datePublished" datetime="2021-11-09T00:00:00+08:00">2021-11-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-11-10 00:02:52" itemprop="dateModified" datetime="2021-11-10T00:02:52+08:00">2021-11-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这种情况一般出现在汇编代码中。有些跳转指令的跳转范围很小。而当要跳转到的地址超出了范围，那么就会报错！</p>
+<p>该错误多由程序中使用过大的数组导致，可采用<code>-mcmodel</code>选项分配内存空间。<strong>注意：</strong>该方法在linux 64位系统上测试有效，windows系统minGW64编译器只支持<a href="https://sourceforge.net/p/mingw-w64/bugs/278/#f75e" target="_blank" rel="noopener"><code>mcmodel=small</code></a></p>
+<p>对于x86：</p>
+<p>最终的原因是使用参数-mcmodel=small，只能使用最高2G最低2G的内存空间，如果想使用更多的大内存空间，应该使用-mcmodel=large。</p>
+<p><strong>mcmodel</strong></p>
+<p>Tells the compiler to use a specific memory model to generate code and store data.</p>
+<p>IDE Equivalent</p>
+<p>None</p>
+<p>Architectures</p>
+<p>Intel 64 architecture</p>
+<p><strong>Syntax</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Linux:</th>
+<th>-mcmodel=<strong>mem_model</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mac OS:</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Windows:</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Arguments</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>mem_model</strong></th>
+<th></th>
+<th>Is the memory model to use. Possible values are:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>small</td>
+<td>Tells the compiler to restrict code and data to the first 2GB of address space. All accesses of code and data can be done with Instruction Pointer (IP)-relative addressing.</td>
+</tr>
+<tr>
+<td></td>
+<td>medium</td>
+<td>Tells the compiler to restrict code to the first 2GB; it places no memory restriction on data. Accesses of code can be done with IP-relative addressing, but accesses of data must be done with absolute addressing.</td>
+</tr>
+<tr>
+<td></td>
+<td>large</td>
+<td>Places no memory restriction on code or data. All accesses of code and data must be done with absolute addressing.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Default</strong></p>
+<p>-mcmodel=small or /Qmcmodel=small</p>
+<p>On systems using Intel 64 architecture, the compiler restricts code and data to the first 2GB of address space. Instruction Pointer (IP)-relative addressing can be used to access code and data. </p>
+<p><strong>Description</strong></p>
+<p>This option tells the compiler to use a specific memory model to generate code and store data. It can affect code size and performance. If your program has COMMON blocks and local data with a total size smaller than 2GB, -mcmodel=small is sufficient. COMMONs larger than 2GB require -mcmodel=medium or -mcmodel=large. Allocation of memory larger than 2GB can be done with any setting of -mcmodel.</p>
+<p>IP-relative addressing requires only 32 bits, whereas absolute addressing requires 64-bits. IP-relative addressing is somewhat faster. So, the small memory model has the least impact on performance.</p>
+<p><strong>NOTE</strong></p>
+<p>When you specify -mcmodel=medium or -mcmodel=large, you must also specify compiler option -shared-intel to ensure that the correct dynamic versions of the Intel run-time libraries are used.</p>
+<p>When shared objects (.so files) are built, position-independent code (PIC) is specified so that a single .so file can support all three memory models. The compiler driver adds compiler option -fpic to implement PIC.</p>
+<p>However, you must specify a memory model for code that is to be placed in a static library or code that will be linked statically.</p>
+<p><strong>Alternate Options</strong></p>
+<p>None</p>
+<p><strong>See Also</strong></p>
+<p><a href="https://www.cita.utoronto.ca/~merz/intel_f10b/main_for/mergedProjects/copts_for/common_options/option_i_dynamic.htm" target="_blank" rel="noopener">shared-intel</a> compiler option</p>
+<p><a href="https://www.cita.utoronto.ca/~merz/intel_f10b/main_for/mergedProjects/copts_for/common_options/option_fpic.htm" target="_blank" rel="noopener">fpic</a> compiler option</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2021/08/22/Xray+VLESS+XTLS+NginxSNI%E5%88%86%E6%B5%81443%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -923,89 +1073,6 @@
   
   
 
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2020/08/24/%E5%88%A9%E7%94%A8V2ray+ssh%E9%9A%A7%E9%81%93%E8%AE%BF%E9%97%AEVUB%E6%9C%BA%E6%88%BF%E8%B5%84%E6%BA%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/img/avatar.jpg">
-      <meta itemprop="name" content="蘑菇熊">
-      <meta itemprop="description" content="我们的征途是星辰大海">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="蘑菇熊星球">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/24/%E5%88%A9%E7%94%A8V2ray+ssh%E9%9A%A7%E9%81%93%E8%AE%BF%E9%97%AEVUB%E6%9C%BA%E6%88%BF%E8%B5%84%E6%BA%90/" class="post-title-link" itemprop="url">利用V2ray+ssh隧道访问VUB机房资源</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-24 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-24T00:00:00+08:00">2020-08-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-26 04:06:55" itemprop="dateModified" datetime="2020-08-26T04:06:55+08:00">2020-08-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-06/SSH-Local-Portforwarding.jpg" alt=""></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/24/%E5%88%A9%E7%94%A8V2ray+ssh%E9%9A%A7%E9%81%93%E8%AE%BF%E9%97%AEVUB%E6%9C%BA%E6%88%BF%E8%B5%84%E6%BA%90/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
   </div>
 
   
@@ -1078,7 +1145,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">74</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

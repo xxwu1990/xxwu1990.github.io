@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Relocation truncated to fit解决办法</title>
+    <url>/2021/11/09/Relocation-truncated-to-fit%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>这种情况一般出现在汇编代码中。有些跳转指令的跳转范围很小。而当要跳转到的地址超出了范围，那么就会报错！</p>
+<p>该错误多由程序中使用过大的数组导致，可采用<code>-mcmodel</code>选项分配内存空间。<strong>注意：</strong>该方法在linux 64位系统上测试有效，windows系统minGW64编译器只支持<a href="https://sourceforge.net/p/mingw-w64/bugs/278/#f75e" target="_blank" rel="noopener"><code>mcmodel=small</code></a></p>
+<p>对于x86：</p>
+<p>最终的原因是使用参数-mcmodel=small，只能使用最高2G最低2G的内存空间，如果想使用更多的大内存空间，应该使用-mcmodel=large。</p>
+<p><strong>mcmodel</strong></p>
+<p>Tells the compiler to use a specific memory model to generate code and store data.</p>
+<p>IDE Equivalent</p>
+<p>None</p>
+<p>Architectures</p>
+<p>Intel 64 architecture</p>
+<p><strong>Syntax</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>Linux:</th>
+<th>-mcmodel=<strong>mem_model</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mac OS:</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Windows:</td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Arguments</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th><strong>mem_model</strong></th>
+<th></th>
+<th>Is the memory model to use. Possible values are:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>small</td>
+<td>Tells the compiler to restrict code and data to the first 2GB of address space. All accesses of code and data can be done with Instruction Pointer (IP)-relative addressing.</td>
+</tr>
+<tr>
+<td></td>
+<td>medium</td>
+<td>Tells the compiler to restrict code to the first 2GB; it places no memory restriction on data. Accesses of code can be done with IP-relative addressing, but accesses of data must be done with absolute addressing.</td>
+</tr>
+<tr>
+<td></td>
+<td>large</td>
+<td>Places no memory restriction on code or data. All accesses of code and data must be done with absolute addressing.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Default</strong></p>
+<p>-mcmodel=small or /Qmcmodel=small</p>
+<p>On systems using Intel 64 architecture, the compiler restricts code and data to the first 2GB of address space. Instruction Pointer (IP)-relative addressing can be used to access code and data. </p>
+<p><strong>Description</strong></p>
+<p>This option tells the compiler to use a specific memory model to generate code and store data. It can affect code size and performance. If your program has COMMON blocks and local data with a total size smaller than 2GB, -mcmodel=small is sufficient. COMMONs larger than 2GB require -mcmodel=medium or -mcmodel=large. Allocation of memory larger than 2GB can be done with any setting of -mcmodel.</p>
+<p>IP-relative addressing requires only 32 bits, whereas absolute addressing requires 64-bits. IP-relative addressing is somewhat faster. So, the small memory model has the least impact on performance.</p>
+<p><strong>NOTE</strong></p>
+<p>When you specify -mcmodel=medium or -mcmodel=large, you must also specify compiler option -shared-intel to ensure that the correct dynamic versions of the Intel run-time libraries are used.</p>
+<p>When shared objects (.so files) are built, position-independent code (PIC) is specified so that a single .so file can support all three memory models. The compiler driver adds compiler option -fpic to implement PIC.</p>
+<p>However, you must specify a memory model for code that is to be placed in a static library or code that will be linked statically.</p>
+<p><strong>Alternate Options</strong></p>
+<p>None</p>
+<p><strong>See Also</strong></p>
+<p><a href="https://www.cita.utoronto.ca/~merz/intel_f10b/main_for/mergedProjects/copts_for/common_options/option_i_dynamic.htm" target="_blank" rel="noopener">shared-intel</a> compiler option</p>
+<p><a href="https://www.cita.utoronto.ca/~merz/intel_f10b/main_for/mergedProjects/copts_for/common_options/option_fpic.htm" target="_blank" rel="noopener">fpic</a> compiler option</p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>fortran</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Xray+VLESS+XTLS+NginxSNI分流/443端口复用</title>
     <url>/2021/08/22/Xray+VLESS+XTLS+NginxSNI%E5%88%86%E6%B5%81443%E7%AB%AF%E5%8F%A3%E5%A4%8D%E7%94%A8/</url>
     <content><![CDATA[<p>本文转自<a href="https://lala.im/7666.html" target="_blank" rel="noopener">荒岛</a><a id="more"></a></p>
@@ -1542,59 +1629,6 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
-    <title>手动安装V2ray并配置ssl</title>
-    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
-    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
-<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
-<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
-<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
-<p>此脚本会自动安装以下文件：</p>
-<ul>
-<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
-<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
-<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
-<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
-<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
-</ul>
-<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
-<p>运行脚本位于系统的以下位置：</p>
-<ul>
-<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
-<li><code>/etc/init.d/v2ray</code>: SysV</li>
-</ul>
-<p>脚本运行完成后，你需要：</p>
-<ol>
-<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
-<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
-<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
-</ol>
-<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启v2ray和nginx</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
-<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
-<p>地址：域名</p>
-<p>端口：443</p>
-<p>用户ID：UUID</p>
-<p>传输协议：ws</p>
-<p>路径：/abc123</p>
-<p>底层传输安全：tls</p>
-</blockquote>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
-<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
-]]></content>
-      <categories>
-        <category>VPS</category>
-      </categories>
-      <tags>
-        <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VPS搭建GPS轨迹记录服务</title>
     <url>/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/Snipaste_2019-03-04_11-22-40-768x424.png" alt=""><br><a id="more"></a></p>
@@ -1657,6 +1691,59 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </categories>
       <tags>
         <tag>traccar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手动安装V2ray并配置ssl</title>
+    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
+    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
+<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
+<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
+<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
+<p>此脚本会自动安装以下文件：</p>
+<ul>
+<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
+<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
+<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
+<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
+<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
+</ul>
+<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
+<p>运行脚本位于系统的以下位置：</p>
+<ul>
+<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
+<li><code>/etc/init.d/v2ray</code>: SysV</li>
+</ul>
+<p>脚本运行完成后，你需要：</p>
+<ol>
+<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
+<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
+<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
+</ol>
+<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启v2ray和nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
+<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
+<p>地址：域名</p>
+<p>端口：443</p>
+<p>用户ID：UUID</p>
+<p>传输协议：ws</p>
+<p>路径：/abc123</p>
+<p>底层传输安全：tls</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
+<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>v2ray</tag>
       </tags>
   </entry>
   <entry>
