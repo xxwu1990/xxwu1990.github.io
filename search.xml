@@ -5,6 +5,7 @@
     <url>/2021/12/31/%E6%B7%B1%E6%BE%9C-PPPoE-IPv6-NAT-OpenWrt-%E8%B0%83%E6%A0%A1%E4%B8%80%E6%9C%AC%E9%80%9A/</url>
     <content><![CDATA[<p>转自<a href="https://www.luu.moe/107" target="_blank" rel="noopener">博客</a></p>
 <p>提前感谢 陈学长的非常具有可操作性的 <a href="https://www.right.com.cn/FORUM/thread-328533-1-1.html" target="_blank" rel="noopener">论坛帖子</a> ，lwz322 的 <a href="https://lwz322.github.io/2018/10/07/IPv6_NAT.html" target="_blank" rel="noopener">OpenWrt 配置 IPv6 NAT</a> 博文，以及 hiirachan 的 <a href="https://blog.hiirachan.moe/archives/1598021438.html" target="_blank" rel="noopener">OpenWRT 校园网 NAT 方式配置 IPv6</a> 博文。同时我在找资料时也找到了以下几个发布日期较近的资源介绍：<a href="https://ibrights.github.io/post/blog20210413/" target="_blank" rel="noopener">Luci 可视化 vpn 服务器</a> 以及 SuLingGG/OpenWrt-Mini <a href="https://github.com/SuLingGG/OpenWrt-Mini" target="_blank" rel="noopener">项目</a> 以及其对应编译的 <a href="https://openwrt.cc/snapshots/packages/x86_64/luci/" target="_blank" rel="noopener">ipk 软件包</a>。</p>
+<a id="more"></a>
 <h3 id="说在前面"><a href="#说在前面" class="headerlink" title="说在前面"></a>说在前面</h3><ol>
 <li>本校园网属于 PPPoE 验证通过后才会下发 IPv4、IPv6 地址，因此<strong>或许</strong>没有办法使用桥接等模式来让子网通过 DHCPv6 来获取 IPv6 地址。此外，下发的 IPv6 地址为 <code>/128</code> 无法再分，因此需要内部 NAT6。</li>
 <li>基于 <a href="https://firmware-selector.openwrt.org/" target="_blank" rel="noopener">官方正式版</a> OpenWrt 21.02.1(Kernel: 5.4.154)</li>
