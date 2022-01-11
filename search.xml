@@ -202,7 +202,7 @@
 <p>接下来安装xray，由于我的机器内之前装过旧版的v2ray，所以我先把旧版的这些文件删了：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rm -rf &#x2F;usr&#x2F;bin&#x2F;v2ray &#x2F;var&#x2F;log&#x2F;v2ray &#x2F;etc&#x2F;v2ray &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;v2ray.service</span><br><span class="line">systemctl daemon-reload</span><br></pre></td></tr></table></figure>
 <p>如果你是全新的机器那就直接执行下面这个脚本即可：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;XTLS&#x2F;Xray-install&#x2F;main&#x2F;install-release.sh) @ install -u root</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">bash -c &quot;$(curl -L https:&#x2F;&#x2F;github.com&#x2F;XTLS&#x2F;Xray-install&#x2F;raw&#x2F;main&#x2F;install-release.sh)&quot; @ install -u root</span><br></pre></td></tr></table></figure>
 <p>接下来我们首先编辑nginx的主配置文件：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nano &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
 <p>在http块的外部加入如下配置（也就是下面的这个配置独立出来：）</p>
