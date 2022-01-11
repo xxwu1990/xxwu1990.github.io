@@ -8,7 +8,7 @@
 <p><strong>问题描述</strong></p>
 <p>新开的VPS，已在网络安全组内放行所有端口。通过网页控制面板添加ipv6后重启，安装nginx服务后无法通过ipv4地址访问nginx示例页面，但通过ipv6地址访问正常，具体原因不明。</p>
 <p><strong>解决方法</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ufw disable</span><br><span class="line">iptables -F</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ufw disable</span><br><span class="line">iptables -F</span><br><span class="line">iptables -Z</span><br></pre></td></tr></table></figure>
 <p>第一句为禁用防火墙，ubuntu默认禁用；第二行表示清空规则链的的管理权限，目测应该是这句话起主要作用。</p>
 ]]></content>
       <categories>
