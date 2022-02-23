@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Optimal Latin Hypercube Technique</title>
+    <url>/2022/02/23/Optimal-Latin-Hypercube-Technique/</url>
+    <content><![CDATA[<p>The Optimal Latin Hypercube technique is a modified Latin Hypercube where the combination of factor levels for each factor is optimized, rather than randomly combined.</p>
+<a id="more"></a>
+<p>In the Optimal Latin Hypercube technique the design space for each factor is divided uniformly (the same number of divisions, nn, for all factors). These levels are randomly combined to generate a random Latin Hypercube as the initial DOE design matrix with nn points (each level of a factor studies only once). An optimization process is applied to the initial random Latin Hypercube design matrix. By swapping the order of two factor levels in a column of the matrix, a new matrix is generated and the new overall spacing of points is evaluated. The goal of this optimization process is to design a matrix where the points are spread as evenly as possible within the design space defined by the lower and upper level of each factor.</p>
+<p>Note: This type of matrix is not reproducible (unless the same random seed is reused) because the Optimal Latin Hypercube begins as a random Latin Hypercube and is optimized using a stochastic optimization process.</p>
+<p>The Optimal Latin Hypercube concept is illustrated in the following figure for a configuration with two factors (X1,X2X1,X2) and nine design points. In the first graph, a standard three level Orthogonal Array is shown. While this matrix has nine design points, there are only three levels for each factor. Consequently, a quadratic model could be fit to this data, but it is not possible to determine if the actual functional relationship between the response and these two factors is more nonlinear than quadratic. The second graph shows a random Latin Hypercube.This matrix also includes nine design points for the two factors, but there are nine levels for each factor as well, allowing higher-order polynomial models to be fit to the data and greater assessment of nonlinearity. However, the design points in the second graph are not spread evenly within the design space. For example, there is little data in the upper-right and lower-left corners of the design space. An Optimal Latin Hypercube matrix is displayed in the third graph. With this matrix, the nine design points cover nine levels of each factor and are spread evenly within the design space. For cases where one purpose of executing the design experiment is to fit an approximation to the resulting data, the Optimal Latin Hypercube gives the best opportunity to model the true function, or true behavior, of the response across the range of the factors.</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2022.2/olh_figure.png" alt=""></p>
+<p>A number of different optimality criteria can be used to achieve an even spread of points. Isight uses one widely used optimality criterion in this implementation: the $\phi_{p}$ criterion based on the maximin distance criterion. As described in (Jin et al., 2005):</p>
+<p>A design is called a maximin distance design (Johnson et al., 1990) if it maximizes the minimum inter-site distance:</p>
+<script type="math/tex; mode=display">
+\min _{1 \leq i, j \leq n, i \neq j} d\left(\mathbf{x}_{i}, \mathbf{x}_{j}\right)</script><p>where d($x_i$,$x_j$)d($x_i$,$x_j$), is the distance between two sample points $x_i$ and $x_j$:</p>
+<script type="math/tex; mode=display">
+d\left(\mathbf{x}_{i}, \mathbf{x}_{j}\right)=d_{i j}=\left[\sum_{k=1}^{m}\left|x_{i k}-x_{j k}\right|^{t}\right]^{1 / t}, \quad t=1 \text { or } 2</script><p>Morris and Mitchell (1995) proposed an intuitively appealing extension of the maximin distance criterion. For a given design, by sorting all the inter-sited distance $d_{i j}(1 \leq i, j \leq n, i \neq j)$, a distance list $(d_1,d_2,…,d_s)$ and an index list$ (J_1,J_2,…,J_s)$can be obtained, where $d_{i}$ ‘s are distinct distance values with $d_1&lt;d_2&lt;⋯&lt;d_s$,$J_i$ is the number of pairs of sites in the design separated by $d_i$, and $s$ is the number of distinct distance values. A design is called a $\phi_{p}$-optimal design if it minimizes:</p>
+<script type="math/tex; mode=display">
+\phi_{p}=\left[\sum_{i=1}^{s} J_{i} d_{i}-p\right]^{1 / p}</script><p>where $p$ is a positive integer. With a very large $p$, the $\phi_{p}$ criterion is equivalent to the maximin distance criterion.</p>
+<p>The Optimal Latin Hypercube code implemented in Isight was developed by:</p>
+<ul>
+<li>Professor Wei Chen, Northwestern University,</li>
+<li>Dr. Ruichen Jin, Ford Motor Company (formerly a student of Professor Chen), and</li>
+<li>Dr. Agus Sudjianto, formerly with Ford Motor Company.</li>
+</ul>
+<p>There are two major advances of this algorithm, compared to other optimal design of experiments algorithms, which increase both the efficiency and robustness of the algorithm:</p>
+<ul>
+<li>Development of an efficient global optimal search algorithm, “enhanced stochastic evolutionary (ESE) algorithm”</li>
+<li>Efficient algorithms for evaluating optimality criteria (significant reduction in matrix calculations to evaluate new/modified designs during search)</li>
+</ul>
+]]></content>
+      <categories>
+        <category>实验设计</category>
+      </categories>
+      <tags>
+        <tag>采样</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>甲骨文服务器Oracle Cloud 免费VPS Ubuntu 系统防火墙配置</title>
     <url>/2022/01/12/%E7%94%B2%E9%AA%A8%E6%96%87%E6%9C%8D%E5%8A%A1%E5%99%A8Oracle-Cloud-%E5%85%8D%E8%B4%B9VPS-Ubuntu-%E7%B3%BB%E7%BB%9F%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>因为自己在甲骨文注册了一台Oracle Cloud 免费VPS使用的是Ubuntu系统，配置好服务后发现无法访问最发现是系统的防火墙拦截了。最后使用以下方法才把端口开启服务能正常访问。</p>
@@ -1746,59 +1782,6 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </tags>
   </entry>
   <entry>
-    <title>手动安装V2ray并配置ssl</title>
-    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
-    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
-<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
-<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
-<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
-<p>此脚本会自动安装以下文件：</p>
-<ul>
-<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
-<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
-<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
-<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
-<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
-</ul>
-<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
-<p>运行脚本位于系统的以下位置：</p>
-<ul>
-<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
-<li><code>/etc/init.d/v2ray</code>: SysV</li>
-</ul>
-<p>脚本运行完成后，你需要：</p>
-<ol>
-<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
-<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
-<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
-</ol>
-<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>重启v2ray和nginx</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
-<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
-<p>地址：域名</p>
-<p>端口：443</p>
-<p>用户ID：UUID</p>
-<p>传输协议：ws</p>
-<p>路径：/abc123</p>
-<p>底层传输安全：tls</p>
-</blockquote>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
-<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
-<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
-]]></content>
-      <categories>
-        <category>VPS</category>
-      </categories>
-      <tags>
-        <tag>v2ray</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>VPS搭建GPS轨迹记录服务</title>
     <url>/2020/01/12/VPS%E6%90%AD%E5%BB%BAGPS%E8%BD%A8%E8%BF%B9%E8%AE%B0%E5%BD%95%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/Snipaste_2019-03-04_11-22-40-768x424.png" alt=""><br><a id="more"></a></p>
@@ -1861,6 +1844,59 @@ Sl(\psi)=\sum_{i=1}^n Al_i S_i(\psi) \\
       </categories>
       <tags>
         <tag>traccar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手动安装V2ray并配置ssl</title>
+    <url>/2020/01/12/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85V2ray%E5%B9%B6%E9%85%8D%E7%BD%AEssl/</url>
+    <content><![CDATA[<p>V2ray作为继小飞机后又一科学上网利器，在小飞机频繁被封的情况下运行良好。但是V2ray的配置相对小飞机稍微复杂一些，之前的博文里使用了大神的一键安装脚本简化了安装，本文参考官方给出的安装方法进行手动安装和配置。<a id="more"></a></p>
+<h4 id="官方脚本安装V2ray"><a href="#官方脚本安装V2ray" class="headerlink" title="官方脚本安装V2ray"></a>官方脚本安装V2ray</h4><p><a href="https://www.v2ray.com/chapter_00/install.html" target="_blank" rel="noopener">参考官方安装说明</a>，V2Ray 提供了一个在 Linux 中的自动化安装脚本。这个脚本会自动检测有没有安装过 V2Ray，如果没有，则进行完整的安装和配置；如果之前安装过 V2Ray，则只更新 V2Ray 二进制程序而不更新配置。</p>
+<p>以下指令假设已在 su 环境下，如果不是，请先运行 sudo su。</p>
+<p>运行下面的指令下载并安装 V2Ray。当 yum 或 apt-get 可用的情况下，此脚本会自动安装 unzip 和 daemon。这两个组件是安装 V2Ray 的必要组件。如果你使用的系统不支持 yum 或 apt-get，请自行安装 unzip 和 daemon</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash &lt;(curl -L -s https://install.direct/go.sh)</span><br></pre></td></tr></table></figure>
+<p>此脚本会自动安装以下文件：</p>
+<ul>
+<li><code>/usr/bin/v2ray/v2ray</code>：V2Ray 程序；</li>
+<li><code>/usr/bin/v2ray/v2ctl</code>：V2Ray 工具；</li>
+<li><code>/etc/v2ray/config.json</code>：配置文件；</li>
+<li><code>/usr/bin/v2ray/geoip.dat</code>：IP 数据文件</li>
+<li><code>/usr/bin/v2ray/geosite.dat</code>：域名数据文件</li>
+</ul>
+<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
+<p>运行脚本位于系统的以下位置：</p>
+<ul>
+<li><code>/etc/systemd/system/v2ray.service</code>: Systemd</li>
+<li><code>/etc/init.d/v2ray</code>: SysV</li>
+</ul>
+<p>脚本运行完成后，你需要：</p>
+<ol>
+<li>编辑 /etc/v2ray/config.json 文件来配置你需要的代理方式；</li>
+<li>运行 service v2ray start 来启动 V2Ray 进程；</li>
+<li>之后可以使用 service v2ray start|stop|status|reload|restart|force-reload 控制 V2Ray 的运行。</li>
+</ol>
+<h4 id="配置V2ray-config文件"><a href="#配置V2ray-config文件" class="headerlink" title="配置V2ray config文件"></a>配置V2ray config文件</h4><p>编辑config.json文件，修改后删除注释。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"inbounds"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">    "port":12345,  #v2ray端口</span><br><span class="line">      "listen": "127.0.0.1", </span><br><span class="line">      "tag": "vmess-in", </span><br><span class="line">      "protocol": "vmess", </span><br><span class="line">      "settings": &#123;</span><br><span class="line">        "clients": [</span><br><span class="line">          &#123;</span><br><span class="line">	  "id":"f56c3faf-08b3-65e2-d6b8-8bff8d292ba9",  #/usr/bin/v2ray/v2ctl uuid生成</span><br><span class="line">	  "alterId":187  #修改为任意数字(&lt;255)</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;, </span><br><span class="line">      "streamSettings": &#123;</span><br><span class="line">        "network": "ws", </span><br><span class="line">        "wsSettings": &#123;</span><br><span class="line">	  "path":"/abc123" #路径，随便填，后面要用</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "outbounds": [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"freedom"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"direct"</span></span><br><span class="line">    &#125;, </span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"protocol"</span>: <span class="string">"blackhole"</span>, </span><br><span class="line">      <span class="attr">"settings"</span>: &#123; &#125;, </span><br><span class="line">      <span class="attr">"tag"</span>: <span class="string">"blocked"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ], </span><br><span class="line">  "routing": &#123;</span><br><span class="line">    "domainStrategy": "AsIs", </span><br><span class="line">    "rules": [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"field"</span>, </span><br><span class="line">        <span class="attr">"inboundTag"</span>: [</span><br><span class="line">          <span class="string">"vmess-in"</span></span><br><span class="line">        ], </span><br><span class="line">        <span class="attr">"outboundTag"</span>: <span class="string">"direct"</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置SSL"><a href="#配置SSL" class="headerlink" title="配置SSL"></a>配置SSL</h4><p>宝塔面板新建网站，域名<code>test.domain</code>解析到VPS，开启SSL，在网站ngnix配置文件中添加</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">location /abc123 #上面的路径</span><br><span class="line">        &#123;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">	    proxy_pass http://127.0.0.1:12345;  #v2ray端口</span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">        proxy_set_header Connection "upgrade";</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重启v2ray和nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl restart v2ray.service</span><br><span class="line">systemctl restart nginx.service</span><br></pre></td></tr></table></figure>
+<h4 id="配置v2ray客户端"><a href="#配置v2ray客户端" class="headerlink" title="配置v2ray客户端"></a>配置v2ray客户端</h4><blockquote>
+<p>地址：域名</p>
+<p>端口：443</p>
+<p>用户ID：UUID</p>
+<p>传输协议：ws</p>
+<p>路径：/abc123</p>
+<p>底层传输安全：tls</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/20200112172718.png" alt=""></p>
+<h4 id="主页配置（可选）"><a href="#主页配置（可选）" class="headerlink" title="主页配置（可选）"></a>主页配置（可选）</h4><p>可在网站根目录下上传有趣的静态主页，例如<a href="https://github.com/xifanu/3DCEList" target="_blank" rel="noopener">元素周期表</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/img/chrome_2020-01-12_17-32-27.png" alt=""></p>
+]]></content>
+      <categories>
+        <category>VPS</category>
+      </categories>
+      <tags>
+        <tag>v2ray</tag>
       </tags>
   </entry>
   <entry>
@@ -3220,6 +3256,44 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
+    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
+    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
+    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
+<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
+<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
+<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
+<p>查看可用内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
+<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
+<p>先检查有什么已经下载过的内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
+<p>选择合适的内核安装</p>
+<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
+<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
+<p>查看内核安装情况：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
+<p>卸载内核：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
+<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
+<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<p>如果要重新启用内核更新：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考：</p>
+<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Use Gmsh and SU2 to simulate 2D compressor cascade</title>
     <url>/2019/05/22/Use-Gmsh-and-SU2-to-simulate-2D-compressor-cascade/</url>
     <content><![CDATA[<p>This article describle simulation of 2D compressor cascade with Gmsh for grid generation and SU2 for flowfield. <a id="more"></a></p>
@@ -3284,41 +3358,29 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
-    <title>关于Ubuntu内核(更新和卸载内核、取消自动更新)</title>
-    <url>/2019/05/22/%E5%85%B3%E4%BA%8EUbuntu%E5%86%85%E6%A0%B8(%E6%9B%B4%E6%96%B0%E5%92%8C%E5%8D%B8%E8%BD%BD%E5%86%85%E6%A0%B8%E3%80%81%E5%8F%96%E6%B6%88%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0)/</url>
-    <content><![CDATA[<p>Linux最新的内核通常具有更好的安全性和更丰富的功能，通常在升级完后旧的内核依旧存在，本文介绍如何手动升级内核以及删除不需要的旧内核以节省空间。<a id="more"></a></p>
-<h2 id="Ubuntu升级新内核和卸载旧内核"><a href="#Ubuntu升级新内核和卸载旧内核" class="headerlink" title="Ubuntu升级新内核和卸载旧内核"></a>Ubuntu升级新内核和卸载旧内核</h2><p>先查看当前的内核版本：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
-<h3 id="升级内核"><a href="#升级内核" class="headerlink" title="升级内核"></a>升级内核</h3><p>以下方法默认开启了内核自动更新</p>
-<h4 id="1-如果要升级最新的内核-假设你很久没有update了"><a href="#1-如果要升级最新的内核-假设你很久没有update了" class="headerlink" title="1.如果要升级最新的内核(假设你很久没有update了)"></a>1.如果要升级最新的内核(假设你很久没有update了)</h4><p>升级软件包：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
-<p>查看可用内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-cache search linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核后，<code>sudo apt-get install</code>安装相应内核</p>
-<h4 id="2-如果不需要更新最新内核"><a href="#2-如果不需要更新最新内核" class="headerlink" title="2.如果不需要更新最新内核"></a>2.如果不需要更新最新内核</h4><p>假设以前已经执行过<code>sudo apt update</code>，内核已经下载好，并且就用已经下载好的内核</p>
-<p>先检查有什么已经下载过的内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br></pre></td></tr></table></figure>
-<p>选择合适的内核安装</p>
-<p>另外，用户也可以上 <a href="http://kernel.ubuntu.com/~kernel-ppa/mainline/" target="_blank" rel="noopener">http://kernel.ubuntu.com/~kernel-ppa/mainline/</a> 来下载自己需要的内核，然后<code>sudo dpkg -i *.deb</code>安装</p>
-<h3 id="卸载内核"><a href="#卸载内核" class="headerlink" title="卸载内核"></a>卸载内核</h3><p>注意：不要先盲目地卸载内核，起码要安装一个新的才可以卸载</p>
-<p>查看内核安装情况：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br></pre></td></tr></table></figure>
-<p>卸载内核：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo ap purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
-<p>在上述操作都完成之后，执行<code>sudo update-grub</code>更新grub</p>
-<h2 id="Ubuntu如何关闭内核的自动更新"><a href="#Ubuntu如何关闭内核的自动更新" class="headerlink" title="Ubuntu如何关闭内核的自动更新"></a>Ubuntu如何关闭内核的自动更新</h2><p>执行：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<p>如果要重新启用内核更新：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考：</p>
-<p><a href="https://askubuntu.com/questions/678630/how-can-i-avoid-kernel-updates" target="_blank" rel="noopener">How can I avoid kernel updates?</a><br><a href="https://juejin.im/entry/5a9c9449f265da2384400e67" target="_blank" rel="noopener">ubuntu升级软件但是禁用内核升级</a></p>
+    <title>关于Teploct处理平面叶栅</title>
+    <url>/2019/05/15/%E5%85%B3%E4%BA%8ETeploct%E5%A4%84%E7%90%86%E5%B9%B3%E9%9D%A2%E5%8F%B6%E6%A0%85%E5%91%A8%E6%9C%9F%E6%80%A7%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<p>本文记录使用Tecplot后处理平面叶栅流场过程中的一些注意事项。<a id="more"></a></p>
+<h4 id="周期性显示"><a href="#周期性显示" class="headerlink" title="周期性显示"></a>周期性显示</h4><p>1) Use duplicate zones for the desired zones to duplicate<br>2) Use Data&gt;alter&gt;specify equations with something like<br>{y} = {y} + offset_value.</p>
+<p> Offset is the solidity and y follows the periodic direction.</p>
+<h4 id="设置Vector分量"><a href="#设置Vector分量" class="headerlink" title="设置Vector分量"></a>设置Vector分量</h4><blockquote>
+<p>Plot =&gt; Vector =&gt; Varaibles </p>
+<p>U =&gt; Momentum_x, V =&gt; Momentum_y</p>
+</blockquote>
+<h4 id="画云图和等高线，并标出等高线值"><a href="#画云图和等高线，并标出等高线值" class="headerlink" title="画云图和等高线，并标出等高线值"></a>画云图和等高线，并标出等高线值</h4><blockquote>
+<p>Zone Style &gt; Contour &gt; Contour Type &gt; Both Lines and Flood</p>
+<p>Plot &gt; Contour &amp; Multi-Coloring &gt; Labels &gt; Show Labels</p>
+</blockquote>
+<h4 id="Linux环境Tecplot出图闪退"><a href="#Linux环境Tecplot出图闪退" class="headerlink" title="Linux环境Tecplot出图闪退"></a>Linux环境Tecplot出图闪退</h4><blockquote>
+<p>Options &gt; Performance &gt; Rendering &gt; Image Export Options 选Fast</p>
+<p>或命令行 tec360 -mesa 启动Tecplot</p>
+</blockquote>
 ]]></content>
       <categories>
-        <category>linux</category>
+        <category>CFD</category>
       </categories>
       <tags>
-        <tag>linux</tag>
+        <tag>tecplot</tag>
       </tags>
   </entry>
   <entry>
@@ -3355,46 +3417,6 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </categories>
       <tags>
         <tag>linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于Teploct处理平面叶栅</title>
-    <url>/2019/05/15/%E5%85%B3%E4%BA%8ETeploct%E5%A4%84%E7%90%86%E5%B9%B3%E9%9D%A2%E5%8F%B6%E6%A0%85%E5%91%A8%E6%9C%9F%E6%80%A7%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<p>本文记录使用Tecplot后处理平面叶栅流场过程中的一些注意事项。<a id="more"></a></p>
-<h4 id="周期性显示"><a href="#周期性显示" class="headerlink" title="周期性显示"></a>周期性显示</h4><p>1) Use duplicate zones for the desired zones to duplicate<br>2) Use Data&gt;alter&gt;specify equations with something like<br>{y} = {y} + offset_value.</p>
-<p> Offset is the solidity and y follows the periodic direction.</p>
-<h4 id="设置Vector分量"><a href="#设置Vector分量" class="headerlink" title="设置Vector分量"></a>设置Vector分量</h4><blockquote>
-<p>Plot =&gt; Vector =&gt; Varaibles </p>
-<p>U =&gt; Momentum_x, V =&gt; Momentum_y</p>
-</blockquote>
-<h4 id="画云图和等高线，并标出等高线值"><a href="#画云图和等高线，并标出等高线值" class="headerlink" title="画云图和等高线，并标出等高线值"></a>画云图和等高线，并标出等高线值</h4><blockquote>
-<p>Zone Style &gt; Contour &gt; Contour Type &gt; Both Lines and Flood</p>
-<p>Plot &gt; Contour &amp; Multi-Coloring &gt; Labels &gt; Show Labels</p>
-</blockquote>
-<h4 id="Linux环境Tecplot出图闪退"><a href="#Linux环境Tecplot出图闪退" class="headerlink" title="Linux环境Tecplot出图闪退"></a>Linux环境Tecplot出图闪退</h4><blockquote>
-<p>Options &gt; Performance &gt; Rendering &gt; Image Export Options 选Fast</p>
-<p>或命令行 tec360 -mesa 启动Tecplot</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>CFD</category>
-      </categories>
-      <tags>
-        <tag>tecplot</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Release“无法找到“xxx.exe”的调试信息……“解决方案</title>
-    <url>/2019/05/14/Release%E2%80%9C%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E2%80%9Cxxx.exe%E2%80%9D%E7%9A%84%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%E2%80%A6%E2%80%A6%E2%80%9C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
-    <content><![CDATA[<p>Windows平台采用Microsoft Visual Studio在Release模式下调试代码遇到的问题<a id="more"></a></p>
-<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>VS2012环境中调试FORTRAN项目，debug模式下一切正常，调整为release模式则出现“无法找到“xxx.exe”的调试信息，或者调试信息不匹配。未使用调试信息生成二进制文件。”</p>
-<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>首先打开菜单 项目-&gt;项目属性页<br>1。选择 配置属性-&gt;链接器-&gt;调试-&gt;生成调试信息 改为 是<br>2。选择 配置属性-&gt;Fortran -&gt;常规-&gt;调试信息格式 改为 Line Numbers Only或者Full<br>3。选择 配置属性-&gt;Fortran-&gt;优化-&gt;优化 改为 禁用(/Od) </p>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>fortran</tag>
       </tags>
   </entry>
   <entry>
@@ -3446,6 +3468,20 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </categories>
       <tags>
         <tag>命令行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Release“无法找到“xxx.exe”的调试信息……“解决方案</title>
+    <url>/2019/05/14/Release%E2%80%9C%E6%97%A0%E6%B3%95%E6%89%BE%E5%88%B0%E2%80%9Cxxx.exe%E2%80%9D%E7%9A%84%E8%B0%83%E8%AF%95%E4%BF%A1%E6%81%AF%E2%80%A6%E2%80%A6%E2%80%9C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+    <content><![CDATA[<p>Windows平台采用Microsoft Visual Studio在Release模式下调试代码遇到的问题<a id="more"></a></p>
+<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>VS2012环境中调试FORTRAN项目，debug模式下一切正常，调整为release模式则出现“无法找到“xxx.exe”的调试信息，或者调试信息不匹配。未使用调试信息生成二进制文件。”</p>
+<h4 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h4><p>首先打开菜单 项目-&gt;项目属性页<br>1。选择 配置属性-&gt;链接器-&gt;调试-&gt;生成调试信息 改为 是<br>2。选择 配置属性-&gt;Fortran -&gt;常规-&gt;调试信息格式 改为 Line Numbers Only或者Full<br>3。选择 配置属性-&gt;Fortran-&gt;优化-&gt;优化 改为 禁用(/Od) </p>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>fortran</tag>
       </tags>
   </entry>
   <entry>
@@ -4072,6 +4108,35 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       </tags>
   </entry>
   <entry>
+    <title>Ctypes调用FORTRAN DLL实现python调用fortran函数</title>
+    <url>/2018/12/12/Ctypes%E8%B0%83%E7%94%A8FORTRAN-DLL%E7%A4%BA%E4%BE%8B/</url>
+    <content><![CDATA[<p>在使用Python做大量科学计算时，可能会调用执行效率更高或者早期编好的Fortran函数，此时需要将两种语言混编。采用Ctypes模块可以高效地在两种语言之间传递数据。<a id="more"></a></p>
+<h3 id="生成动态链接库"><a href="#生成动态链接库" class="headerlink" title="生成动态链接库"></a>生成动态链接库</h3><p>Fortran文件内的函数格式改为</p>
+<figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> xxx</span><br><span class="line">    <span class="keyword">use</span> <span class="keyword">iso_c_binding</span>   <span class="comment">!注意引用该模组</span></span><br><span class="line">    <span class="keyword">implicit</span> <span class="keyword">none</span></span><br><span class="line"><span class="keyword">contains</span></span><br><span class="line">    <span class="function"><span class="keyword">subroutine</span></span> func(p1,p2,...pn) <span class="keyword">BIND</span>(C,<span class="keyword">name</span>=<span class="string">'func'</span>) <span class="comment">!绑定名称</span></span><br><span class="line">    <span class="comment">!DEC$ ATTRIBUTES DLLEXPORT :: my_exam  !ifort编译器读取，具体查ifort手册</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">end</span> <span class="function"><span class="keyword">subroutine</span></span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">module</span></span><br></pre></td></tr></table></figure>
+<p>打开Intel Visual Studio命令行模式，输入以下命令生成xxx.dll</p>
+<blockquote>
+<p>cd /d path (待编译.f90文件路径)</p>
+<p>ifort /dll file.f90 (.f90文件名，比如xxx.f90)</p>
+</blockquote>
+<h3 id="在py文件中按Ctypes指针对象传递参数"><a href="#在py文件中按Ctypes指针对象传递参数" class="headerlink" title="在py文件中按Ctypes指针对象传递参数"></a>在py文件中按Ctypes指针对象传递参数</h3><p>比如xxx.dll种有一函数exam(m,n,val)，其中m,n为整数，val为数组（实数），则python文件调用函数exam如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> ctypes <span class="keyword">as</span> ct</span><br><span class="line"><span class="comment"># 比如有一个np.array类型的数组</span></span><br><span class="line">flib = ct.CDLL(<span class="string">'xxx.dll'</span>) <span class="comment"># 导入dll文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numpy_pointer</span><span class="params">(array)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> array.ctypes.data_as(ct.POINTER(ct.c_double))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exam</span><span class="params">(m,n,val)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> flib.exam(ct.byref(ct.c_int(m)),ct.byref(ct.c_int(n)),numpy_pointer(val))</span><br><span class="line">val = np.asfortranarray(val) <span class="comment">#按Fortran列主序方式储存数组</span></span><br><span class="line">result = exam(m,n,val)</span><br></pre></td></tr></table></figure>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><h4 id="FORTRAN函数-示例my-exam-f90"><a href="#FORTRAN函数-示例my-exam-f90" class="headerlink" title="FORTRAN函数 示例my_exam.f90"></a>FORTRAN函数 示例my_exam.f90</h4><figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> example</span><br><span class="line">    <span class="keyword">use</span> <span class="keyword">iso_c_binding</span></span><br><span class="line">    <span class="keyword">implicit</span> <span class="keyword">none</span></span><br><span class="line"><span class="keyword">contains</span></span><br><span class="line">    <span class="function"><span class="keyword">subroutine</span></span> my_exam(m,n,val) <span class="keyword">BIND</span>(C,<span class="keyword">name</span>=<span class="string">'my_exam'</span>)</span><br><span class="line">    <span class="comment">!DEC$ ATTRIBUTES DLLEXPORT :: my_exam </span></span><br><span class="line">    <span class="keyword">integer</span>,<span class="keyword">intent</span>(<span class="keyword">in</span>) :: m,n</span><br><span class="line">    <span class="keyword">real</span>(<span class="number">8</span>),<span class="keyword">dimension</span>(m,n),<span class="keyword">intent</span>(inout) :: val</span><br><span class="line">    <span class="keyword">integer</span> :: i,j</span><br><span class="line">    open(<span class="number">1</span>,<span class="keyword">file</span> = <span class="string">'fortran_output.dat'</span>)</span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="string">'(a)'</span>) <span class="string">'input arrary'</span></span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="number">100</span>) ((val(i,j),j=<span class="number">1</span>,n),i = <span class="number">1</span>,m)</span><br><span class="line">    <span class="keyword">do</span> i = <span class="number">1</span>,m</span><br><span class="line">        <span class="keyword">do</span> j = <span class="number">1</span>,n</span><br><span class="line">            val(i,j) = val(i,j) * (i+j)</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="string">'(a)'</span>) <span class="string">'output arrary'</span></span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="number">100</span>) ((val(i,j),j=<span class="number">1</span>,n),i = <span class="number">1</span>,m)</span><br><span class="line">    close(<span class="number">1</span>)</span><br><span class="line"><span class="number">100</span> <span class="keyword">format</span>(&lt;n&gt;F10<span class="number">.3</span>)    </span><br><span class="line">    <span class="keyword">end</span> <span class="function"><span class="keyword">subroutine</span></span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">module</span></span><br></pre></td></tr></table></figure>
+<h4 id="ifort生成DLL"><a href="#ifort生成DLL" class="headerlink" title="ifort生成DLL"></a>ifort生成DLL</h4><p>打开命令行形式的intel 64 visual studio 2012 mode<br><code>&gt;ifort /dll my_exam.f90</code></p>
+<h4 id="my-exam-py"><a href="#my-exam-py" class="headerlink" title="my_exam.py"></a>my_exam.py</h4><p>通过ctypes模块调用，注意ndarray数组按照FORTRAN列主序方式储存<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> ctypes <span class="keyword">as</span> ct</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#导入dll</span></span><br><span class="line">flib = ct.CDLL(<span class="string">'my_exam.dll'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建矩阵</span></span><br><span class="line">m = <span class="number">10</span></span><br><span class="line">n = <span class="number">5</span></span><br><span class="line">rng = np.random.RandomState()</span><br><span class="line">val = rng.random_sample(size=(m, n)) * <span class="number">10</span></span><br><span class="line">f = open(<span class="string">'expample_output.dat'</span>,<span class="string">'w'</span>)</span><br><span class="line">f.write(<span class="string">'input array\n'</span>)</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> val:</span><br><span class="line">    <span class="keyword">for</span> ele <span class="keyword">in</span> line:</span><br><span class="line">        f.write(<span class="string">"&#123;0:10.3f&#125;"</span>.format(ele))</span><br><span class="line">    f.write( <span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式1：</span></span><br><span class="line"><span class="comment"># m_p = ct.pointer(ct.c_int(m))</span></span><br><span class="line"><span class="comment"># n_p = ct.pointer(ct.c_int(n))</span></span><br><span class="line"><span class="comment"># val = np.asfortranarray(val).T  #若不转置将面临fortran和C数组在内存中储存顺序不同的问题</span></span><br><span class="line"><span class="comment"># result = flib.my_exam(m_p, n_p, np.ctypeslib.as_ctypes(val))</span></span><br><span class="line"><span class="comment"># val = val.T</span></span><br><span class="line"><span class="comment"># print(val)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式2：</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numpy_pointer</span><span class="params">(array)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> array.ctypes.data_as(ct.POINTER(ct.c_double))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_exam</span><span class="params">(m, n, val)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> flib.my_exam(ct.byref(ct.c_int(m)), ct.byref(ct.c_int(n)), numpy_pointer(val))</span><br><span class="line">val = np.asfortranarray(val)   <span class="comment">#按照Fortran方式储存(fortran列主序，C行主序)</span></span><br><span class="line">result = my_exam(m, n, val)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">f.write(<span class="string">'output array\n'</span>)</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> val:</span><br><span class="line">    <span class="keyword">for</span> ele <span class="keyword">in</span> line:</span><br><span class="line">        f.write(<span class="string">"&#123;0:10.3f&#125;"</span>.format(ele))</span><br><span class="line">    f.write( <span class="string">'\n'</span>)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><p>若example_output.dat与fortran_output.dat数组不同，且前者input array行主序正好与后者的列主序相同，则说明数组按C语言格式传递至子程序中。</p>
+<blockquote>
+<p>example_output.dat<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">input array</span><br><span class="line">     8.341     9.982     7.849     8.082     0.940</span><br><span class="line">     2.061     0.185     9.257     5.831     5.491</span><br><span class="line">     1.552     4.727     5.735     7.451     5.760</span><br><span class="line">     3.789     6.828     8.692     2.715     5.318</span><br><span class="line">     3.828     4.005     0.733     6.159     8.166</span><br><span class="line">     0.123     7.252     9.402     0.256     2.003</span><br><span class="line">     1.227     9.711     9.069     7.987     3.315</span><br><span class="line">     5.775     0.614     9.754     4.249     4.201</span><br><span class="line">     5.845     0.219     0.986     2.124     9.224</span><br><span class="line">     9.579     2.791     1.573     4.914     8.677</span><br><span class="line">output array</span><br><span class="line">    16.682    29.947    31.394    40.408     5.639</span><br><span class="line">     6.182     0.740    46.284    34.988    38.434</span><br><span class="line">     6.209    23.635    34.408    52.155    46.080</span><br><span class="line">    18.946    40.970    60.842    21.724    47.864</span><br><span class="line">    22.969    28.036     5.865    55.427    81.663</span><br><span class="line">     0.858    58.014    84.620     2.555    22.028</span><br><span class="line">     9.815    87.398    90.688    87.858    39.778</span><br><span class="line">    51.975     6.142   107.290    50.993    54.614</span><br><span class="line">    58.450     2.409    11.833    27.614   129.131</span><br><span class="line">   105.364    33.494    20.448    68.790   130.148</span><br></pre></td></tr></table></figure><br>fortran_output.dat<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">input arrary</span><br><span class="line">     8.341     9.982     7.849     8.082     0.940</span><br><span class="line">     2.061     0.185     9.257     5.831     5.491</span><br><span class="line">     1.552     4.727     5.735     7.451     5.760</span><br><span class="line">     3.789     6.828     8.692     2.715     5.318</span><br><span class="line">     3.828     4.005     0.733     6.159     8.166</span><br><span class="line">     0.123     7.252     9.402     0.256     2.003</span><br><span class="line">     1.227     9.711     9.069     7.987     3.315</span><br><span class="line">     5.775     0.614     9.754     4.249     4.201</span><br><span class="line">     5.845     0.219     0.986     2.124     9.224</span><br><span class="line">     9.579     2.791     1.573     4.914     8.677</span><br><span class="line">output arrary</span><br><span class="line">    16.682    29.947    31.394    40.408     5.639</span><br><span class="line">     6.182     0.740    46.284    34.988    38.434</span><br><span class="line">     6.209    23.635    34.408    52.155    46.080</span><br><span class="line">    18.946    40.970    60.842    21.724    47.864</span><br><span class="line">    22.969    28.036     5.865    55.427    81.663</span><br><span class="line">     0.858    58.014    84.620     2.555    22.028</span><br><span class="line">     9.815    87.398    90.688    87.858    39.778</span><br><span class="line">    51.975     6.142   107.290    50.993    54.614</span><br><span class="line">    58.450     2.409    11.833    27.614   129.131</span><br><span class="line">   105.364    33.494    20.448    68.790   130.148</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>编程</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>fortran</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>为博客设置一个自定义域名</title>
     <url>/2018/12/12/%E4%B8%BA%E5%8D%9A%E5%AE%A2%E8%AE%BE%E7%BD%AE%E4%B8%80%E4%B8%AA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F%E5%90%8D/</url>
     <content><![CDATA[<p><a href="https://www.jianshu.com/p/4763fa689d19" target="_blank" rel="noopener">转自</a></p>
@@ -4117,35 +4182,6 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       <tags>
         <tag>博客</tag>
         <tag>域名</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ctypes调用FORTRAN DLL实现python调用fortran函数</title>
-    <url>/2018/12/12/Ctypes%E8%B0%83%E7%94%A8FORTRAN-DLL%E7%A4%BA%E4%BE%8B/</url>
-    <content><![CDATA[<p>在使用Python做大量科学计算时，可能会调用执行效率更高或者早期编好的Fortran函数，此时需要将两种语言混编。采用Ctypes模块可以高效地在两种语言之间传递数据。<a id="more"></a></p>
-<h3 id="生成动态链接库"><a href="#生成动态链接库" class="headerlink" title="生成动态链接库"></a>生成动态链接库</h3><p>Fortran文件内的函数格式改为</p>
-<figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> xxx</span><br><span class="line">    <span class="keyword">use</span> <span class="keyword">iso_c_binding</span>   <span class="comment">!注意引用该模组</span></span><br><span class="line">    <span class="keyword">implicit</span> <span class="keyword">none</span></span><br><span class="line"><span class="keyword">contains</span></span><br><span class="line">    <span class="function"><span class="keyword">subroutine</span></span> func(p1,p2,...pn) <span class="keyword">BIND</span>(C,<span class="keyword">name</span>=<span class="string">'func'</span>) <span class="comment">!绑定名称</span></span><br><span class="line">    <span class="comment">!DEC$ ATTRIBUTES DLLEXPORT :: my_exam  !ifort编译器读取，具体查ifort手册</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">end</span> <span class="function"><span class="keyword">subroutine</span></span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">module</span></span><br></pre></td></tr></table></figure>
-<p>打开Intel Visual Studio命令行模式，输入以下命令生成xxx.dll</p>
-<blockquote>
-<p>cd /d path (待编译.f90文件路径)</p>
-<p>ifort /dll file.f90 (.f90文件名，比如xxx.f90)</p>
-</blockquote>
-<h3 id="在py文件中按Ctypes指针对象传递参数"><a href="#在py文件中按Ctypes指针对象传递参数" class="headerlink" title="在py文件中按Ctypes指针对象传递参数"></a>在py文件中按Ctypes指针对象传递参数</h3><p>比如xxx.dll种有一函数exam(m,n,val)，其中m,n为整数，val为数组（实数），则python文件调用函数exam如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> ctypes <span class="keyword">as</span> ct</span><br><span class="line"><span class="comment"># 比如有一个np.array类型的数组</span></span><br><span class="line">flib = ct.CDLL(<span class="string">'xxx.dll'</span>) <span class="comment"># 导入dll文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numpy_pointer</span><span class="params">(array)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> array.ctypes.data_as(ct.POINTER(ct.c_double))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exam</span><span class="params">(m,n,val)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> flib.exam(ct.byref(ct.c_int(m)),ct.byref(ct.c_int(n)),numpy_pointer(val))</span><br><span class="line">val = np.asfortranarray(val) <span class="comment">#按Fortran列主序方式储存数组</span></span><br><span class="line">result = exam(m,n,val)</span><br></pre></td></tr></table></figure>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><h4 id="FORTRAN函数-示例my-exam-f90"><a href="#FORTRAN函数-示例my-exam-f90" class="headerlink" title="FORTRAN函数 示例my_exam.f90"></a>FORTRAN函数 示例my_exam.f90</h4><figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> example</span><br><span class="line">    <span class="keyword">use</span> <span class="keyword">iso_c_binding</span></span><br><span class="line">    <span class="keyword">implicit</span> <span class="keyword">none</span></span><br><span class="line"><span class="keyword">contains</span></span><br><span class="line">    <span class="function"><span class="keyword">subroutine</span></span> my_exam(m,n,val) <span class="keyword">BIND</span>(C,<span class="keyword">name</span>=<span class="string">'my_exam'</span>)</span><br><span class="line">    <span class="comment">!DEC$ ATTRIBUTES DLLEXPORT :: my_exam </span></span><br><span class="line">    <span class="keyword">integer</span>,<span class="keyword">intent</span>(<span class="keyword">in</span>) :: m,n</span><br><span class="line">    <span class="keyword">real</span>(<span class="number">8</span>),<span class="keyword">dimension</span>(m,n),<span class="keyword">intent</span>(inout) :: val</span><br><span class="line">    <span class="keyword">integer</span> :: i,j</span><br><span class="line">    open(<span class="number">1</span>,<span class="keyword">file</span> = <span class="string">'fortran_output.dat'</span>)</span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="string">'(a)'</span>) <span class="string">'input arrary'</span></span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="number">100</span>) ((val(i,j),j=<span class="number">1</span>,n),i = <span class="number">1</span>,m)</span><br><span class="line">    <span class="keyword">do</span> i = <span class="number">1</span>,m</span><br><span class="line">        <span class="keyword">do</span> j = <span class="number">1</span>,n</span><br><span class="line">            val(i,j) = val(i,j) * (i+j)</span><br><span class="line">        <span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line">    <span class="keyword">end</span> <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="string">'(a)'</span>) <span class="string">'output arrary'</span></span><br><span class="line">    <span class="built_in">write</span>(<span class="number">1</span>,<span class="number">100</span>) ((val(i,j),j=<span class="number">1</span>,n),i = <span class="number">1</span>,m)</span><br><span class="line">    close(<span class="number">1</span>)</span><br><span class="line"><span class="number">100</span> <span class="keyword">format</span>(&lt;n&gt;F10<span class="number">.3</span>)    </span><br><span class="line">    <span class="keyword">end</span> <span class="function"><span class="keyword">subroutine</span></span></span><br><span class="line"><span class="keyword">end</span> <span class="keyword">module</span></span><br></pre></td></tr></table></figure>
-<h4 id="ifort生成DLL"><a href="#ifort生成DLL" class="headerlink" title="ifort生成DLL"></a>ifort生成DLL</h4><p>打开命令行形式的intel 64 visual studio 2012 mode<br><code>&gt;ifort /dll my_exam.f90</code></p>
-<h4 id="my-exam-py"><a href="#my-exam-py" class="headerlink" title="my_exam.py"></a>my_exam.py</h4><p>通过ctypes模块调用，注意ndarray数组按照FORTRAN列主序方式储存<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> ctypes <span class="keyword">as</span> ct</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment">#导入dll</span></span><br><span class="line">flib = ct.CDLL(<span class="string">'my_exam.dll'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建矩阵</span></span><br><span class="line">m = <span class="number">10</span></span><br><span class="line">n = <span class="number">5</span></span><br><span class="line">rng = np.random.RandomState()</span><br><span class="line">val = rng.random_sample(size=(m, n)) * <span class="number">10</span></span><br><span class="line">f = open(<span class="string">'expample_output.dat'</span>,<span class="string">'w'</span>)</span><br><span class="line">f.write(<span class="string">'input array\n'</span>)</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> val:</span><br><span class="line">    <span class="keyword">for</span> ele <span class="keyword">in</span> line:</span><br><span class="line">        f.write(<span class="string">"&#123;0:10.3f&#125;"</span>.format(ele))</span><br><span class="line">    f.write( <span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式1：</span></span><br><span class="line"><span class="comment"># m_p = ct.pointer(ct.c_int(m))</span></span><br><span class="line"><span class="comment"># n_p = ct.pointer(ct.c_int(n))</span></span><br><span class="line"><span class="comment"># val = np.asfortranarray(val).T  #若不转置将面临fortran和C数组在内存中储存顺序不同的问题</span></span><br><span class="line"><span class="comment"># result = flib.my_exam(m_p, n_p, np.ctypeslib.as_ctypes(val))</span></span><br><span class="line"><span class="comment"># val = val.T</span></span><br><span class="line"><span class="comment"># print(val)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式2：</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">numpy_pointer</span><span class="params">(array)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> array.ctypes.data_as(ct.POINTER(ct.c_double))</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_exam</span><span class="params">(m, n, val)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> flib.my_exam(ct.byref(ct.c_int(m)), ct.byref(ct.c_int(n)), numpy_pointer(val))</span><br><span class="line">val = np.asfortranarray(val)   <span class="comment">#按照Fortran方式储存(fortran列主序，C行主序)</span></span><br><span class="line">result = my_exam(m, n, val)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">f.write(<span class="string">'output array\n'</span>)</span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> val:</span><br><span class="line">    <span class="keyword">for</span> ele <span class="keyword">in</span> line:</span><br><span class="line">        f.write(<span class="string">"&#123;0:10.3f&#125;"</span>.format(ele))</span><br><span class="line">    f.write( <span class="string">'\n'</span>)</span><br><span class="line">f.close()</span><br></pre></td></tr></table></figure></p>
-<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><p>若example_output.dat与fortran_output.dat数组不同，且前者input array行主序正好与后者的列主序相同，则说明数组按C语言格式传递至子程序中。</p>
-<blockquote>
-<p>example_output.dat<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">input array</span><br><span class="line">     8.341     9.982     7.849     8.082     0.940</span><br><span class="line">     2.061     0.185     9.257     5.831     5.491</span><br><span class="line">     1.552     4.727     5.735     7.451     5.760</span><br><span class="line">     3.789     6.828     8.692     2.715     5.318</span><br><span class="line">     3.828     4.005     0.733     6.159     8.166</span><br><span class="line">     0.123     7.252     9.402     0.256     2.003</span><br><span class="line">     1.227     9.711     9.069     7.987     3.315</span><br><span class="line">     5.775     0.614     9.754     4.249     4.201</span><br><span class="line">     5.845     0.219     0.986     2.124     9.224</span><br><span class="line">     9.579     2.791     1.573     4.914     8.677</span><br><span class="line">output array</span><br><span class="line">    16.682    29.947    31.394    40.408     5.639</span><br><span class="line">     6.182     0.740    46.284    34.988    38.434</span><br><span class="line">     6.209    23.635    34.408    52.155    46.080</span><br><span class="line">    18.946    40.970    60.842    21.724    47.864</span><br><span class="line">    22.969    28.036     5.865    55.427    81.663</span><br><span class="line">     0.858    58.014    84.620     2.555    22.028</span><br><span class="line">     9.815    87.398    90.688    87.858    39.778</span><br><span class="line">    51.975     6.142   107.290    50.993    54.614</span><br><span class="line">    58.450     2.409    11.833    27.614   129.131</span><br><span class="line">   105.364    33.494    20.448    68.790   130.148</span><br></pre></td></tr></table></figure><br>fortran_output.dat<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">input arrary</span><br><span class="line">     8.341     9.982     7.849     8.082     0.940</span><br><span class="line">     2.061     0.185     9.257     5.831     5.491</span><br><span class="line">     1.552     4.727     5.735     7.451     5.760</span><br><span class="line">     3.789     6.828     8.692     2.715     5.318</span><br><span class="line">     3.828     4.005     0.733     6.159     8.166</span><br><span class="line">     0.123     7.252     9.402     0.256     2.003</span><br><span class="line">     1.227     9.711     9.069     7.987     3.315</span><br><span class="line">     5.775     0.614     9.754     4.249     4.201</span><br><span class="line">     5.845     0.219     0.986     2.124     9.224</span><br><span class="line">     9.579     2.791     1.573     4.914     8.677</span><br><span class="line">output arrary</span><br><span class="line">    16.682    29.947    31.394    40.408     5.639</span><br><span class="line">     6.182     0.740    46.284    34.988    38.434</span><br><span class="line">     6.209    23.635    34.408    52.155    46.080</span><br><span class="line">    18.946    40.970    60.842    21.724    47.864</span><br><span class="line">    22.969    28.036     5.865    55.427    81.663</span><br><span class="line">     0.858    58.014    84.620     2.555    22.028</span><br><span class="line">     9.815    87.398    90.688    87.858    39.778</span><br><span class="line">    51.975     6.142   107.290    50.993    54.614</span><br><span class="line">    58.450     2.409    11.833    27.614   129.131</span><br><span class="line">   105.364    33.494    20.448    68.790   130.148</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>编程</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>fortran</tag>
       </tags>
   </entry>
   <entry>
