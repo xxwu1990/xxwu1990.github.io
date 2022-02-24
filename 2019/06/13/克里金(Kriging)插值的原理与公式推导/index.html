@@ -21,7 +21,7 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('https://xiao5.tk').hostname,
+    hostname: new URL('https://blog.xiao5.live').hostname,
     root: '/',
     scheme: 'Gemini',
     version: '7.7.0',
@@ -51,7 +51,7 @@
   <meta name="description" content="转自xg1990 学过空间插值的人都知道克里金插值，但是它的变种繁多、公式复杂，还有个半方差函数让人不知所云。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="克里金(Kriging)插值的原理与公式推导">
-<meta property="og:url" content="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/index.html">
+<meta property="og:url" content="https://blog.xiao5.live/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/index.html">
 <meta property="og:site_name" content="蘑菇熊星球">
 <meta property="og:description" content="转自xg1990 学过空间插值的人都知道克里金插值，但是它的变种繁多、公式复杂，还有个半方差函数让人不知所云。">
 <meta property="og:locale" content="zh_CN">
@@ -61,7 +61,7 @@
 <meta property="article:tag" content="kriging">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+<link rel="canonical" href="https://blog.xiao5.live/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
 
 
 <script id="page-configurations">
@@ -211,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+    <link itemprop="mainEntityOfPage" href="https://blog.xiao5.live/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/img/avatar.jpg">
@@ -404,7 +404,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" title="克里金(Kriging)插值的原理与公式推导">https://xiao5.tk/2019/06/13/克里金(Kriging)插值的原理与公式推导/</a>
+    <a href="https://blog.xiao5.live/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" title="克里金(Kriging)插值的原理与公式推导">https://blog.xiao5.live/2019/06/13/克里金(Kriging)插值的原理与公式推导/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -732,7 +732,7 @@ r = r(d)</script><p>那么对于任意两点$(x_i,y_i), (x_j,y_j)$，先计算�
       quicklink({
         timeout: 3000,
         priority: true,
-        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/',]
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://blog.xiao5.live/2019/06/13/%E5%85%8B%E9%87%8C%E9%87%91(Kriging)%E6%8F%92%E5%80%BC%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/',]
       });
       });
   </script>

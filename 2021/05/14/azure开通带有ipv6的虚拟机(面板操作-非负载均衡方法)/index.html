@@ -21,7 +21,7 @@
 <script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
-    hostname: new URL('https://xiao5.tk').hostname,
+    hostname: new URL('https://blog.xiao5.live').hostname,
     root: '/',
     scheme: 'Gemini',
     version: '7.7.0',
@@ -51,7 +51,7 @@
   <meta name="description" content="最近想刷刷pt, 刚好手里有几个闲置的azure100账号, 美滋滋的开通服务器, 配置环境开始刷, 可是发现pt站点把azure标记成盒子了. 突然想到了azure好像已经可以用ipv6了, ipv6应该就没有被标记了盒子了. 不过, azure的的操作太反人性化了~~, 加上现在azure的ipv6还在内测阶段, 各种提示还不完善, 折腾了两天, 终于成功的使用面板开通了ipv6. pt开刷!">
 <meta property="og:type" content="article">
 <meta property="og:title" content="azure开通带有ipv6的虚拟机(面板操作 非负载均衡方法)">
-<meta property="og:url" content="https://xiao5.tk/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/index.html">
+<meta property="og:url" content="https://blog.xiao5.live/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/index.html">
 <meta property="og:site_name" content="蘑菇熊星球">
 <meta property="og:description" content="最近想刷刷pt, 刚好手里有几个闲置的azure100账号, 美滋滋的开通服务器, 配置环境开始刷, 可是发现pt站点把azure标记成盒子了. 突然想到了azure好像已经可以用ipv6了, ipv6应该就没有被标记了盒子了. 不过, azure的的操作太反人性化了~~, 加上现在azure的ipv6还在内测阶段, 各种提示还不完善, 折腾了两天, 终于成功的使用面板开通了ipv6. pt开刷!">
 <meta property="og:locale" content="zh_CN">
@@ -69,7 +69,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/wuxiaoxiong1990/pic/2020-12/20210514143432.png">
 
-<link rel="canonical" href="https://xiao5.tk/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/">
+<link rel="canonical" href="https://blog.xiao5.live/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/">
 
 
 <script id="page-configurations">
@@ -219,7 +219,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://xiao5.tk/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/">
+    <link itemprop="mainEntityOfPage" href="https://blog.xiao5.live/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/img/avatar.jpg">
@@ -383,7 +383,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://xiao5.tk/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/" title="azure开通带有ipv6的虚拟机(面板操作 非负载均衡方法)">https://xiao5.tk/2021/05/14/azure开通带有ipv6的虚拟机(面板操作-非负载均衡方法)/</a>
+    <a href="https://blog.xiao5.live/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/" title="azure开通带有ipv6的虚拟机(面板操作 非负载均衡方法)">https://blog.xiao5.live/2021/05/14/azure开通带有ipv6的虚拟机(面板操作-非负载均衡方法)/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -661,7 +661,7 @@
       quicklink({
         timeout: 3000,
         priority: true,
-        ignores: [uri => uri.includes('#'),uri => uri == 'https://xiao5.tk/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/',]
+        ignores: [uri => uri.includes('#'),uri => uri == 'https://blog.xiao5.live/2021/05/14/azure%E5%BC%80%E9%80%9A%E5%B8%A6%E6%9C%89ipv6%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA(%E9%9D%A2%E6%9D%BF%E6%93%8D%E4%BD%9C-%E9%9D%9E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E6%96%B9%E6%B3%95)/',]
       });
       });
   </script>
